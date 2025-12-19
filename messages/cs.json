@@ -1,0 +1,482 @@
+{
+  "LocaleSwitcher": {
+    "switchLocale": "Čeština"
+  },
+  "navbar": {
+    "title": "FyzioQuest",
+    "home": "Domů",
+    "support": "Podpora",
+    "about": "O nás",
+    "courses": "Kurzy",
+    "pages": "Stránky",
+    "Log-in": "Přihlásit se",
+    "account": "Účet",
+    "register": "Registrovat",
+    "my-cart": "Košík",
+    "wishlist": "Seznam přání",
+    "become-instructor": "Staňte se lektorem",
+    "my-learning": "Moje kurzy",
+    "publicProfile": "Veřejný profil"
+  },
+  "footer": {
+    "description": "Poskytujeme profesionální vzdělávání v oblasti fyzioterapie a rehabilitace s důrazem na praktické dovednosti a moderní metody léčby.",
+    "Quick_Links": {
+      "title": "Rychlé odkazy",
+      "Instructors": "Lektoři",
+      "Services": "Služby",
+      "FAQ": "Časté dotazy"
+    },
+    "our_services": {
+      "title": "Naše služby",
+      "Web-Development": "Manuální terapie",
+      "Ui/Ux": "Sportovní rehabilitace",
+      "Digital-Marketing": "Neurologická fyzioterapie",
+      "Content-Writing": "Pediatrická fyzioterapie",
+      "Management": "Geriatrická péče"
+    }
+  },
+  "HeroSection": {
+    "welcome": "Vítejte ve FyzioQuest Online Kurzech",
+    "title": "Rozvíjejte své dovednosti v oblasti fyzioterapie",
+    "description": "Jsme specialisté na vzdělávání fyzioterapeutů se zaměřením na praktické techniky a evidence-based přístupy pro úspěšnou praxi.",
+    "button": "Najít kurzy",
+    "instructor": "Lektor",
+    "instructorCount": "200+"
+  },
+  "CategoriesSection": {
+    "title": "Procházet podle kategorií",
+    "categories": {
+      "business": "Manuální terapie",
+      "arts": "Sportovní fyzioterapie",
+      "personalDevelopment": "Neurologická rehabilitace",
+      "uiux": "Ortopedická fyzioterapie",
+      "graphic": "Pediatrická fyzioterapie",
+      "marketing": "Geriatrická fyzioterapie",
+      "exclusive": "Respirační fyzioterapie",
+      "productDesign": "Kardiovaskulární rehabilitace",
+      "video": "Poúrazová rehabilitace"
+    }
+  },
+  "CoursesSection": {
+    "sectionTitle": "Nejoblíbenější kurzy",
+    "headline": "FyzioQuest kurzy",
+    "highlight": "Studenti",
+    "subheadline": "se mohou připojit.",
+    "button": "Načíst více kurzů",
+    "course": {
+      "_id": "ID kurzu",
+      "title": "Manuální terapie páteře a kloubů",
+      "category": "Ortopedická fyzioterapie",
+      "price": "1250 Kč",
+      "rating": "4.5K",
+      "lessons": "10 lekcí",
+      "duration": "19h 30m",
+      "students": "20+ studentů",
+      "instructor": "MUDr. Novák"
+    },
+    "hoverTitle": "Název",
+    "hoverDetails": "Podrobnosti →",
+    "freeCourse": "Zdarma"
+  },
+  "coursesPage": {
+    "title_part1": "Všechny",
+    "title_part2": "kurzy",
+    "description": "Prozkoumejte naši širokou nabídku kurzů pro rozvoj vašich fyzioterapeutických dovedností.",
+    "results_showing": "Zobrazeno",
+    "results_of": "z",
+    "results_suffix": "výsledků",
+    "noCourses_title": "Nebyly nalezeny žádné kurzy",
+    "noCourses_description": "Zkuste upravit filtry pro nalezení toho, co hledáte.",
+    "pagination_page": "Stránka",
+    "pagination_of": "z"
+  },
+  "coursesData": [
+    { "id": "1", "title": "Základy manuální terapie", "category": "Manuální terapie" },
+    { "id": "2", "title": "Pokročilá sportovní rehabilitace", "category": "Sportovní fyzioterapie" },
+    { "id": "3", "title": "Úvod do neurologické fyzioterapie", "category": "Neurologie" },
+    { "id": "4", "title": "Komplexní ortopedická rehabilitace", "category": "Ortopedická fyzioterapie" },
+    { "id": "5", "title": "Masterclass pediatrické fyzioterapie", "category": "Pediatrie" },
+    { "id": "6", "title": "Základy geriatrické péče", "category": "Geriatrie" },
+    { "id": "7", "title": "Respirační fyzioterapie", "category": "Respirační terapie" },
+    { "id": "8", "title": "Expertní kardiovaskulární rehabilitace", "category": "Kardiologie" },
+    { "id": "9", "title": "Poúrazová rehabilitace", "category": "Traumatologie" },
+    { "id": "10", "title": "Krátký kurz terapeutické masáže", "category": "Manuální terapie" },
+    { "id": "11", "title": "Rozšířený kurz kinesiotapingu", "category": "Sportovní fyzioterapie" },
+    { "id": "12", "title": "Agile přístupy v rehabilitaci", "category": "Management" }
+  ],
+  "filters": {
+    "title": "Filtr",
+    "sortBy_options": {
+      "highest_rated": "Nejlépe hodnocené",
+      "newest": "Nejnovější"
+    },
+    "ratings_title": "Hodnocení",
+    "ratings_and_up": "{rate} a výše",
+    "duration_title": "Délka kurzu",
+    "price_title": "Cena",
+    "language_title": "Jazyk",
+    "level_title": "Úroveň",
+    "category_title": "Kategorie",
+    "show_more": "Zobrazit více",
+    "show_less": "Zobrazit méně",
+    "price_options": [
+      { "value": "Paid", "label": "Placené" },
+      { "value": "Free", "label": "Zdarma" }
+    ],
+    "duration_options": [
+      { "value": "0-1 Hour", "label": "0-1 hodina" },
+      { "value": "1-3 Hours", "label": "1-3 hodiny" },
+      { "value": "3-6 Hours", "label": "3-6 hodin" },
+      { "value": "6-17 Hours", "label": "6-17 hodin" }
+    ],
+    "language_options": [
+      { "value": "English", "label": "Angličtina" },
+      { "value": "Arabic", "label": "Arabština" },
+      { "value": "French", "label": "Francouzština" }
+    ],
+    "level_options": [
+      { "value": "All Levels", "label": "Všechny úrovně" },
+      { "value": "Beginner", "label": "Začátečník" },
+      { "value": "Intermediate", "label": "Středně pokročilý" },
+      { "value": "Expert", "label": "Expert" }
+    ],
+    "category_options": [
+      { "value": "Development", "label": "Manuální terapie" },
+      { "value": "Business", "label": "Management" },
+      { "value": "IT & Software", "label": "Ortopedická fyzioterapie" },
+      { "value": "Design", "label": "Sportovní fyzioterapie" },
+      { "value": "Marketing", "label": "Neurologická fyzioterapie" },
+      { "value": "Photography", "label": "Pediatrická fyzioterapie" }
+    ]
+  },
+  "courseDetails": {
+    "addToCart": "Přidat do košíku",
+    "addToWishlist": "Přidat do seznamu přání",
+    "enroll": "Zapsat se",
+    "sections": "{count} sekcí",
+    "quizzes": "{count} testů",
+    "courseDescription": "Popis kurzu",
+    "courseContent": "Naučte se základy manuální terapie v tomto kurzu pro začátečníky.",
+    "whatYouWillLearn": "Co se naučíte",
+    "learningPlaceholder": "Podrobné cíle učení pro tento kurz budou brzy uvedeny. Pracujeme na aktualizaci této sekce.",
+    "instructor": "Lektor",
+    "instructorRole": "Lektor",
+    "relatedCourses": "Související kurzy",
+    "signInToast": {
+      "message": "Musíte se přihlásit!",
+      "link": "Přihlásit se"
+    },
+    "notFound": {
+      "title": "Kurz s tímto názvem nebo ID neexistuje",
+      "description": "Zkontrolujte prosím ID kurzu a zkuste to znovu.",
+      "homeButton": "Zpět na domovskou stránku",
+      "coursesButton": "Kurzy"
+    }
+  },
+  "AboutUsSection": {
+    "sectionTitle": "O nás",
+    "headline": "Učte se a rozvíjejte své",
+    "highlight": "dovednosti",
+    "subheadline": "odkudkoliv",
+    "description": "Pomáháme fyzioterapeutům a rehabilitačním pracovníkům všech typů a velikostí připravit se na budoucnost - ať už vede kamkoliv. Naše pečlivě vybraná sbírka odborných kurzů pomáhá profesionálům posunout se dále tím, že vzdělávání staví do centra jejich strategií.",
+    "features": {
+      "feature1Title": "Flexibilní výuka",
+      "feature1Description": "Učte se flexibilně podle vlastního rozvrhu.",
+      "feature2Title": "Odborní lektoři",
+      "feature2Description": "Učte se od předních odborníků a získejte praktické zkušenosti prostřednictvím interaktivních kurzů."
+    },
+    "button": "Zjistit více"
+  },
+  "WhyChooseUs": {
+    "title": "Proč si vybrat nás?",
+    "heading": "Vytváříme komunitu celoživotních studentů fyzioterapie.",
+    "description": "Poskytujeme jedinečné vzdělávací prostředí, které vám pomůže rozvíjet vaše dovednosti a dosáhnout vašich profesních cílů prostřednictvím vysoce kvalitního obsahu a profesionálních školitelů.",
+    "features": {
+      "worldClassTrainers": {
+        "title": "Odborníci světové úrovně",
+        "desc": "Profesionální vedení a pokročilé dovednosti v různých oborech"
+      },
+      "easyLearning": {
+        "title": "Snadné učení",
+        "desc": "Zjednodušený vzdělávací systém vhodný pro všechny úrovně"
+      },
+      "flexible": {
+        "title": "Flexibilní",
+        "desc": "Učte se kdykoliv, kdekoliv"
+      },
+      "affordablePrice": {
+        "title": "Dostupná cena",
+        "desc": "Kurzy za dostupné ceny pro každého"
+      }
+    }
+  },
+  "SkillsSection": {
+    "skills": {
+      "successfullyTrained": {
+        "number": "3K+",
+        "text": "Úspěšně vyškolených"
+      },
+      "classesCompleted": { "number": "15K+", "text": "Dokončených lekcí" },
+      "satisfactionRate": { "number": "97K+", "text": "Míra spokojenosti" },
+      "studentsCommunity": { "number": "102K+", "text": "Studentská komunita" }
+    }
+  },
+  "TestimonialSection": {
+    "title": "Reference",
+    "headline": "Připojte se ke komunitě \nnadšených studentů.",
+    "testimonials": {
+      "testimonial1": {
+        "name": "Jana Nováková",
+        "position": "Hlavní fyzioterapeutka, Rehabilitační centrum",
+        "text": "Tato platforma zcela změnila způsob, jakým se vzdělávám. Kurzy jsou poutavé a lektoři jsou skutečnými odborníky ve svých oborech."
+      },
+      "testimonial2": {
+        "name": "Petr Dvořák",
+        "position": "Sportovní fyzioterapeut",
+        "text": "Mohl jsem rychle rozšířit své dovednosti a aplikovat znalosti přímo v mé praxi. Zážitek z učení je hladký, flexibilní a vysoce efektivní."
+      },
+      "testimonial3": {
+        "name": "Marie Svobodová",
+        "position": "Rehabilitační specialista",
+        "text": "Interaktivní lekce a praktické projekty udělaly učení příjemným a přínosným. Tuto platformu vřele doporučuji všem, kteří chtějí rozvíjet své dovednosti."
+      }
+    }
+  },
+  "InstructorsSection": {
+    "title": "Naši lektoři",
+    "headline": "Seznamte se s našimi \nodborníky lektory",
+    "description": "Naši zkušení lektoři se věnují poskytování vysoce kvalitního vzdělávání a praktických poznatků, které vám pomohou dosáhnout vašich vzdělávacích cílů.",
+    "contactUs": "Kontaktujte nás",
+    "findInstructor": "Najít lektora"
+  },
+  "courses": {
+    "title": "FyzioQuest kurzy",
+    "subtitle": "Studenti se mohou připojit.",
+    "category": "Ortopedická fyzioterapie",
+    "price": "1250 Kč",
+    "enrolled": "Zapsáno",
+    "lectures": "Přednášky",
+    "skill-level": "Úroveň dovedností",
+    "language": "Jazyk",
+    "rating": "4.5K",
+    "lessons": "10 lekcí",
+    "duration": "19h 30m",
+    "students": "20+ studentů",
+    "instructor": "MUDr. Novák",
+    "description": "Naučte se pokročilé techniky fyzioterapie a rehabilitace pro práci s pacienty všech věkových kategorií.",
+    "wulftc": "Co se naučíte z tohoto kurzu",
+    "Course-Description": "Popis kurzu",
+    "instructor-name": "Lektor",
+    "related": "Související kurzy",
+    "results": "Výsledky"
+  },
+  "faq": {
+    "title": "Často kladené otázky",
+    "questions": [
+      {
+        "question": "Proč fyzioterapeuti preferují online vzdělávání?",
+        "answer": "Online vzdělávání nabízí flexibilitu a dostupnost, což fyzioterapeutům umožňuje učit se vlastním tempem a kombinovat vzdělávání s praxí."
+      },
+      {
+        "question": "Kde bych měl/a studovat fyzioterapii?",
+        "answer": "Nejlepší místo pro studium fyzioterapie závisí na vašem oboru specializace, rozpočtu a jazykových preferencích."
+      },
+      {
+        "question": "Jak mohu přímo kontaktovat školu?",
+        "answer": "Školy můžete kontaktovat přímo prostřednictvím jejich oficiálních webových stránek nebo přijímacích kanceláří."
+      },
+      {
+        "question": "Jak najdu školu, kde chci studovat?",
+        "answer": "Vyhledávejte školy na základě hodnocení, učebních osnov, školného a hodnocení studentů."
+      }
+    ]
+  },
+  "profileSection": {
+    "title": "Můj profil",
+    "account": "Můj účet",
+    "courses": "Moje kurzy",
+    "certificates": "Certifikáty",
+    "edit-profile": "Upravit profil",
+    "featured": "Doporučené kurzy",
+    "favorites": "Oblíbené kurzy",
+    "list": "Seznam kurzů",
+    "resume": "Životopis",
+    "settings": "Nastavení",
+    "logout": "Odhlásit se",
+    "contact": "Pokud narazíte na nějaký problém, neváhejte nás kontaktovat.",
+    "certified": "Certifikované certifikáty",
+    "training": "Školicí kurzy",
+    "user_id": "Vaše ID",
+    "join-date": "připojili jste se k nám",
+    "support_note": "Použijte toto ID při kontaktování podpory.",
+    "change-Theme": "Změnit téma",
+    "change-language": "Změnit jazyk"
+  },
+  "EventsPage": {
+    "title": "Dostupné akce",
+    "eventText": "Objevte nejnovější trendy v online vzdělávání fyzioterapeutů a jak formují budoucnost rehabilitační péče.",
+    "altImage": "Obrázek akce"
+  },
+  "supportPage": {
+    "title": "Stránka podpory",
+    "description": "Vyplňte prosím formulář níže pro odeslání vašeho problému s webem.",
+    "inpName": "Celé jméno",
+    "inpEmail": "E-mail",
+    "inpMessage": "Vaše zpráva",
+    "inpSubmit": "Odeslat zprávu",
+    "inpNameError": "Celé jméno je povinné",
+    "inpEmailError": "E-mail je povinný",
+    "inpMessageError": "Zpráva je povinná",
+    "successSend": "Úspěch. Zpráva byla úspěšně odeslána",
+    "FeildSend": "Něco se pokazilo. Zkuste to prosím později"
+  },
+  "addCoursePage": {
+    "title": "Přidat nový kurz",
+    "courseTitle": "Název kurzu",
+    "courseDescription": "Popis kurzu",
+    "courseCategory": "Kategorie kurzu",
+    "catOptions": "Vyberte kategorii",
+    "webOption": "Manuální terapie",
+    "mobOption": "Sportovní rehabilitace",
+    "uiOption": "Ortopedická fyzioterapie",
+    "aiOption": "Neurologická rehabilitace",
+    "marktOption": "Geriatrická péče",
+    "bussinessOption": "Management",
+    "coursePrice": "Cena kurzu",
+    "courseTime": "Délka kurzu",
+    "coursePhoto": "Fotografie kurzu",
+    "courseLanguage": "Jazyk kurzu",
+    "chooseLanguage": "Vyberte jazyk",
+    "araicLanguage": "Arabština",
+    "englishLanguage": "Angličtina",
+    "frenchLanguage": "Francouzština",
+    "courseRequirements": "Požadavky kurzu",
+    "addBtn": "Přidat kurz",
+    "successMessage": "Kurz byl úspěšně přidán!",
+    "errorMessage": "Přidání kurzu se nezdařilo. Zkuste to prosím znovu."
+  },
+  "wishlistPage": {
+    "title": "Můj seznam přání",
+    "emptyWishlist": "Váš seznam přání je prázdný.",
+    "discoverCourse": "Objevte nové kurzy.",
+    "noCoursesFound": "Ve vašem seznamu přání nebyly nalezeny žádné kurzy."
+  },
+  "cartPage": {
+    "title": "Nákupní košík",
+    "total": "Celkem:",
+    "checkoutButton": "Pokračovat k platbě",
+    "item": {
+      "author": "Autor: MUDr. Novák, fyzioterapeut",
+      "bestseller": "Bestseller",
+      "ratingsText": "{rating} ({count} hodnocení)",
+      "detailsText": "{hours} celkových hodin • {lectures} přednášek • Všechny úrovně",
+      "remove": "Odstranit",
+      "moveToWishlist": "Přesunout do seznamu přání"
+    },
+    "itemsData": [
+      {
+        "id": 1,
+        "name": "Kompletní kurz manuální terapie"
+      }
+    ],
+    "emptyCart": {
+      "title": "Váš košík je prázdný",
+      "description": "Zdá se, že jste do košíku zatím nic nepřidali.",
+      "button": "Procházet kurzy"
+    }
+  },
+  "checkoutPage": {
+    "title": "Pokladna",
+    "countryLabel": "Země",
+    "countryPlaceholder": "Vyberte zemi",
+    "paymentMethod": "Způsob platby",
+    "cardsLabel": "Karty",
+    "saveCardLabel": "Bezpečně uložit tuto kartu pro pozdější nákupy",
+    "orderDetails": "Detaily objednávky",
+    "orderSummaryTitle": "Shrnutí objednávky",
+    "originalPrice": "Původní cena:",
+    "discounts": "Slevy (83% sleva):",
+    "total": "Celkem (1 kurz):",
+    "payButton": "Zaplatit {amount}",
+    "terms": {
+      "prefix": "Dokončením nákupu souhlasíte s těmito",
+      "link": "Podmínkami použití"
+    },
+    "guarantee": {
+      "title": "30denní záruka vrácení peněz",
+      "description": "Nejste spokojeni? Získejte plnou náhradu do 30 dnů. Jednoduché a přímočaré!"
+    },
+    "placeholders": {
+      "cardNumber": "1234 5678 9012 3456",
+      "expiry": "MM/RR",
+      "cvc": "CVC",
+      "nameOnCard": "Jméno na kartě"
+    }
+  },
+  "instructorsPage": {
+    "title": "Naši odborní lektoři"
+  },
+  "instructorDetails": {
+    "label": "LEKTOR",
+    "role": "UČITEL",
+    "stats": {
+      "totalLearners": "Celkem studentů",
+      "reviews": "Recenze"
+    },
+    "aboutMeTitle": "O mně:",
+    "aboutMeContent": "Miluji fyzioterapii a miluji vyučování ostatních. Vždy jsem miloval práci s pacienty a stále si myslím, že je to opravdu úžasný pocit vidět pacienta, kterému jste pomohli, jak se vrací k normálnímu životu.\n\nMožná si myslíte, že jsem studoval fyzioterapii a že mám diplom - a máte pravdu! Byla to skvělá doba a užil jsem si všechny věci, které nás tam učili. A brzy po prvních krocích v typických fyzioterapeutických praxích bylo pro mě velmi jasné, že chci předávat své znalosti dalším. A to je to, co dělám.",
+    "showMore": "Zobrazit více",
+    "showLess": "Zobrazit méně",
+    "myCoursesTitle": "Moje kurzy",
+    "notFound": {
+      "title": "Lektor nebyl nalezen",
+      "description": "Zkontrolujte prosím ID lektora a zkuste to znovu.",
+      "homeButton": "Zpět domů",
+      "instructorsButton": "Lektoři"
+    }
+  },
+  "servicesPage": {
+    "header": {
+      "title": "Naše služby",
+      "description": "Nabízíme vysoce kvalitní kurzy fyzioterapie, ke kterým máte přístup kdykoliv, odkudkoliv. <br/> Jako lektor můžete sdílet své znalosti a inspirovat studenty po celém světě."
+    },
+    "instructorSection": {
+      "mainFeature": {
+        "title": "Staňte se lektorem",
+        "description": "Ať už učíte roky nebo poprvé, můžete vytvořit poutavý kurz. Sestavili jsme zdroje a osvědčené postupy, které vám pomohou dostat se na další úroveň, bez ohledu na to, kde začínáte.",
+        "imageAlt": "Lektor plánující kurz na tabuli"
+      },
+      "videoFeature": {
+        "title": "Začněte s videem",
+        "description": "Kvalitní video přednášky mohou odlišit váš kurz. Využijte naše zdroje k naučení základů.",
+        "link": "Začít",
+        "imageAlt": "Žena nahrávající video přednášku"
+      },
+      "connectFeature": {
+        "title": "Spojte se s lektory",
+        "description": "Získejte inspiraci, sdílejte nápady a rostěte společně",
+        "link": "Objevit lektory",
+        "imageAlt": "Žena budující online publikum"
+      }
+    },
+    "studentSection": {
+      "title": "Jste připraveni začít se učit?",
+      "description": "Přístup ke světu znalostí. Naše platforma nabízí vše, co potřebujete k dosažení vašich vzdělávacích cílů.",
+      "features": [
+        {
+          "title": "Kurzy vedené odborníky",
+          "description": "Učte se od profesionálů z oboru a vášnivých odborníků o tisících témat."
+        },
+        {
+          "title": "Učte se vlastním tempem",
+          "description": "Užijte si doživotní přístup ke kurzům na webu a mobilu. Učte se kdykoliv, kdekoliv."
+        },
+        {
+          "title": "Praktické učení",
+          "description": "Aplikujte to, co jste se naučili pomocí kvízů, úkolů a praktických projektů."
+        }
+      ],
+      "browseButton": "Procházet všechny kurzy"
+    }
+  }
+}

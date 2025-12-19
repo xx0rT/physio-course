@@ -1,8 +1,9 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import CourseCard from "@/components/ui/CourseCard";
 import FilterCourses, { FilterState } from "@/components/courses/FilterCourses";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Pagination,
@@ -11,6 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useAuth } from "@/context/authProvider";
 
 interface Course {
   id: string;
@@ -47,8 +49,17 @@ const COURSES_PER_PAGE = 20;
 const CoursesPage = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<FilterState | null>(null);
+
+  useEffect(() => {
+    if (!user) {
+      toast.error("Musíte se přihlásit pro zobrazení kurzů!");
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   const handleFilterChange = useCallback((newFilters: FilterState) => {
     setActiveFilters(newFilters);
@@ -109,6 +120,10 @@ const CoursesPage = () => {
       setCurrentPage(page);
     }
   };
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <section className="container mx-auto px-5 py-10 mt-20">
