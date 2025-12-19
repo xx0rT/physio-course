@@ -1,13 +1,10 @@
-"use client";
-
 import React from "react";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import CustomButton from "../ui/CustomButton";
 
 const HeroSection = () => {
-  const t = useTranslations("HeroSection");
+  const { t } = useTranslation();
 
   return (
     <section className="max-w-7xl mx-auto w-full min-h-screen bg-cover bg-center flex items-center px-5 md:px-10 pt-32 md:py-20">
@@ -26,7 +23,7 @@ const HeroSection = () => {
             viewport={{ once: true, amount: 0.3 }}
             className="uppercase text-purple-400"
           >
-            {t("welcome")}
+            {t("HeroSection.welcome")}
           </motion.p>
 
           <motion.h1
@@ -36,7 +33,7 @@ const HeroSection = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="text-4xl font-bold text-neutral-800 dark:text-white"
           >
-            {t("title")}
+            {t("HeroSection.title")}
           </motion.h1>
 
           <motion.p
@@ -46,11 +43,11 @@ const HeroSection = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="capitalize  text-neutral-500 dark:text-neutral-400 mt-4"
           >
-            {t("description")}
+            {t("HeroSection.description")}
           </motion.p>
 
 
-            <CustomButton title={t("button")} href="/courses" bg={true} />
+            <CustomButton title={t("HeroSection.button")} href="/courses" bg={true} />
 
           
         </motion.div>
@@ -62,11 +59,10 @@ const HeroSection = () => {
           viewport={{ once: true, amount: 0.2 }}
           className="relative flex justify-end select-none"
         >
-          <Image
+          <img
             src="/home/hero.png"
             alt="Students in library"
-            width={500}
-            height={700}
+            className="w-full h-auto"
             draggable={false}
           />
 
@@ -79,15 +75,13 @@ const HeroSection = () => {
           >
             <p className="text-lg font-medium text-black mb-2 ">
               <span className="text-xl font-bold text-purple-500">
-                {t("instructorCount")}
+                {t("HeroSection.instructorCount")}
               </span>
-              {t("instructor")}
+              {t("HeroSection.instructor")}
             </p>
-            <Image
+            <img
               src="/home/heros.png"
               alt="Instructors"
-              width={170}
-              height={170}
               draggable={false}
               className="w-[170px] h-auto"
             />

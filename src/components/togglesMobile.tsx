@@ -1,8 +1,6 @@
-"use client";
 import React from "react";
 import { useTheme } from "next-themes";
-import {useLocale, useTranslations} from 'next-intl';
-import {Link, usePathname} from '@/i18n/navigation';
+import { useTranslation } from 'react-i18next';
 
 const TogglesMobile = () => {
     const { theme, setTheme } = useTheme();
@@ -10,10 +8,13 @@ const TogglesMobile = () => {
         setTheme(theme === "dark" ? "light" : "dark");
       };
 
-   const t = useTranslations('LocaleSwitcher');
-    const locale = useLocale();
-    const otherLocale = locale === 'en' ? 'ar' : 'en';
-    const pathname = usePathname();
+   const { t, i18n } = useTranslation();
+
+   const toggleLanguage = () => {
+     const newLang = i18n.language === "en" ? "ar" : "en";
+     i18n.changeLanguage(newLang);
+   };
+
   return (
     <div className="flex gap-2 items-center">
       <button
@@ -22,9 +23,9 @@ const TogglesMobile = () => {
       >
           {theme === "dark" ? "Light" : "Dark"} Mode
       </button>
-      <Link href={pathname} locale={otherLocale} className='  bg-purple-500  text-white rounded-2xl p-3 px-5'>
-     {t('switchLocale')}
-    </Link>
+      <button onClick={toggleLanguage} className='  bg-purple-500  text-white rounded-2xl p-3 px-5'>
+     {t('LocaleSwitcher.switchLocale')}
+    </button>
     </div>
   );
 };

@@ -1,5 +1,4 @@
-"use client";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 
 //icons
 import { SiDatabricks } from "react-icons/si";
@@ -11,22 +10,22 @@ import { TiSocialYoutube } from "react-icons/ti";
 
 //data
 import data from "@/Data/Links.json";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const t = useTranslations("footer");
+  const { t } = useTranslation();
   const socialStyle =
     "w-10 border border-purple-400 p-3 rounded-full text-white bg-purple-400 hover:text-purple-400 hover:bg-transparent duration-150 cursor-pointer";
 
   return (
     <section className="p-10 bg-neutral-950 flex flex-col text-center justify-center items-center md:text-start md:flex-row md:justify-evenly md:items-start gap-20 lg:gap-5 ">
       <div className="flex flex-col gap-5">
-        <Link href="/" className="flex items-center ">
+        <Link to="/" className="flex items-center ">
           <SiDatabricks className="w-15 text-purple-400" size="100%" />
           <h1 className="text-white text-2xl">EduQuest</h1>
         </Link>
         <p className="text-neutral-300 w-60 pl-5">
-      {t("description")}
+      {t("footer.description")}
         </p>
         <div className="flex items-center gap-2">
           <FaFacebook className={socialStyle} size="100%" />
@@ -42,10 +41,10 @@ const Footer = () => {
           {data.footer.our_services.map((item, index) => (
             <Link
               className="text-neutral-400 hover:text-purple-400"
-              href={item.url}
+              to={item.url}
               key={index}
             >
-              {t(`our_services.${item.title}`)}
+              {t(`footer.our_services.${item.title}`)}
             </Link>
           ))}
         </div>
@@ -56,10 +55,10 @@ const Footer = () => {
           {data.footer.Quick_Links.map((item, index) => (
             <Link
               className="text-neutral-400 hover:text-purple-400"
-              href={item.url}
+              to={item.url}
               key={index}
             >
-              {t(`Quick_Links.${item.title}`)}
+              {t(`footer.Quick_Links.${item.title}`)}
             </Link>
           ))}
         </div>

@@ -1,8 +1,5 @@
-"use client";
-
 import React, { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { Star, Play } from 'lucide-react';
 
 export type EnrolledCourse = {
@@ -26,18 +23,16 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardProps> = ({ course }) => {
     <div className="w-full max-w-sm lg:max-w-[280px] flex-shrink-0">
       {/* *** MODIFIED: Image container is now a group for hover effects *** */}
       <div className="relative group">
-        <Link href={`/courses/player/${course.id}`} aria-label={`Play course: ${course.title}`}>
+        <Link to={`/courses/player/${course.id}`} aria-label={`Play course: ${course.title}`}>
             {/* *** NEW: Hover Overlay and Play Icon *** */}
             <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-md">
                 <div className="bg-white rounded-full p-4">
                     <Play size={28} className="text-black fill-black" />
                 </div>
             </div>
-            <Image
+            <img
               src={course.thumbnailUrl}
               alt={course.title}
-              width={700}
-              height={400}
               className="w-full h-auto object-cover rounded-t-md"
             />
         </Link>

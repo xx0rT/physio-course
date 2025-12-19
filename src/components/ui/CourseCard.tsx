@@ -1,9 +1,7 @@
-"use client";
 import React from "react";
-import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { Link } from "@/i18n/navigation";
+import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LiaPoundSignSolid } from "react-icons/lia";
@@ -32,10 +30,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
   instructor,
   description,
 }) => {
-  const t = useTranslations("CoursesSection");
+  const { t } = useTranslation();
 
   return (
-    <Link href={`/courses/${id}`}>
+    <Link to={`/courses/${id}`}>
       <motion.div
         initial="rest"
         whileHover={"hover"}
@@ -48,12 +46,10 @@ const CourseCard: React.FC<CourseCardProps> = ({
               <FaStar className="text-yellow-300" />
               {rating}
             </p>
-            <Image
+            <img
               src={image}
               alt={title}
               draggable={false}
-              height={1000}
-              width={1000}
               className="w-full h-2/4 object-cover"
             />
           </div>
@@ -74,7 +70,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
               )}
               <p className="text-lg text-purple-500 flex items-center">
                 {price == 0 ? (
-                  t("freeCourse")
+                  t("CoursesSection.freeCourse")
                 ) : (
                   <>
                     <LiaPoundSignSolid size={20} />
@@ -96,7 +92,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
         >
           <div className="my-4">
             <h1 className="text-purple-500 dark:text-purple-500 font-semibold uppercase ">
-              {t("hoverTitle")}
+              {t("CoursesSection.hoverTitle")}
             </h1>
             <h1 className="ml-2  text-neutral-900">{title}</h1>
           </div>

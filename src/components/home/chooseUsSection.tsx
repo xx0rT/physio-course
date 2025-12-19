@@ -1,12 +1,9 @@
-"use client";
-
-import Image from "next/image";
 import { FaCheckCircle } from "react-icons/fa";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
 const WhyChooseUsSection = () => {
-  const t = useTranslations("WhyChooseUs");
+  const { t } = useTranslation();
 
   const features = [
     { key: "worldClassTrainers" },
@@ -25,16 +22,16 @@ const WhyChooseUsSection = () => {
         className="w-full lg:w-4/6 flex flex-col items-center lg:items-start gap-10"
       >
         <div className=" text-purple-500 text-xs sm:text-sm font-bold uppercase px-4 py-2 rounded-md">
-          {t("title")}
+          {t("WhyChooseUs.title")}
         </div>
 
         <div>
           <h1 className="mb-4 text-neutral-800 dark:text-white text-2xl sm:text-3xl text-center sm:text-start  font-bold leading-tight mt-3">
-            {t("heading")}
+            {t("WhyChooseUs.heading")}
           </h1>
 
           <p className="px-10 text-neutral-500 dark:text-neutral-400  text-base sm:text-lg text-center lg:text-start">
-            {t("description")}
+            {t("WhyChooseUs.description")}
           </p>
         </div>
 
@@ -51,11 +48,11 @@ const WhyChooseUsSection = () => {
               <div className="flex items-center gap-4">
                 <FaCheckCircle className="text-purple-500 text-xl" />
                 <h6 className="text-gray-950 font-bold text-lg">
-                  {t(`features.${key}.title`)}
+                  {t(`WhyChooseUs.features.${key}.title`)}
                 </h6>
               </div>
               <p className="text-gray-500 text-sm mt-2">
-                {t(`features.${key}.desc`)}
+                {t(`WhyChooseUs.features.${key}.desc`)}
               </p>
             </motion.div>
           ))}
@@ -69,11 +66,10 @@ const WhyChooseUsSection = () => {
         viewport={{ once: true, amount: 0.3 }}
         className="w-fit m-auto lg:w-2/6 select-none "
       >
-        <Image
+        <img
           src="/home/group.png"
           alt="group of students"
-          width={400}
-          height={600}
+          className="w-full h-auto"
           draggable={false}
         />
       </motion.div>

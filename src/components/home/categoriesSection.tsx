@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import {
@@ -13,11 +11,11 @@ import {
   MdDevices,
   MdMovie,
 } from "react-icons/md";
-import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const CategoriesSection: React.FC = () => {
-  const t = useTranslations("CategoriesSection");
+  const { t } = useTranslation();
   const sectionRef = useRef(null);
 
   const categories = [
@@ -101,7 +99,7 @@ const CategoriesSection: React.FC = () => {
         viewport={{ once: true, amount: 0.3 }}
         className="text-neutral-800 dark:text-white text-3xl font-bold"
       >
-        {t("title")}
+        {t("CategoriesSection.title")}
       </motion.h1>
 
       <motion.div
@@ -130,7 +128,7 @@ const CategoriesSection: React.FC = () => {
             style={{ backgroundColor: category.bgColor }}
           >
             <Link
-              href={category.url}
+              to={category.url}
               className="flex items-center w-full h-full"
             >
               <div
@@ -143,7 +141,7 @@ const CategoriesSection: React.FC = () => {
                 })}
               </div>
               <h2 className="ml-4 text-xl font-bold text-neutral-800">
-                {t(`categories.${category.key}`)}
+                {t(`CategoriesSection.categories.${category.key}`)}
               </h2>
             </Link>
           </motion.div>

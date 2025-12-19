@@ -1,8 +1,6 @@
-"use client";
-
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation"; 
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { FaChalkboardTeacher, FaBook, FaLayerGroup, FaArrowRight } from 'react-icons/fa';
 
@@ -79,7 +77,7 @@ const SearchBar = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useOnClickOutside(searchContainerRef, () => setIsDropdownVisible(false));
 
@@ -125,8 +123,8 @@ const SearchBar = () => {
     if (query.trim()) {
       setIsDropdownVisible(false);
       // Navigate to the search page, passing the query in the URL
-      router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-      
+      navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+
       setQuery("");
     }
   }
@@ -172,7 +170,7 @@ const SearchBar = () => {
                   <ul>
                     {results.courses.slice(0, 5).map((course) => ( // Show top 5
                       <li key={course.id}>
-                        <Link href={`/courses/${course.id}`} onClick={handleLinkClick} className="flex justify-between items-center w-full text-left px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-md transition-colors duration-200">
+                        <Link to={`/courses/${course.id}`} onClick={handleLinkClick} className="flex justify-between items-center w-full text-left px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-md transition-colors duration-200">
                           <div>
                             <p className="text-neutral-800 dark:text-white font-medium">{course.title}</p>
                             <p className="text-sm text-gray-500">{course.category}</p>
@@ -192,7 +190,7 @@ const SearchBar = () => {
                   <ul>
                     {results.instructors.map((instructor) => (
                       <li key={instructor.id}>
-                        <Link href={`/instructors/${instructor.id}`} onClick={handleLinkClick} className="flex justify-between items-center w-full text-left px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-md transition-colors duration-200">
+                        <Link to={`/instructors/${instructor.id}`} onClick={handleLinkClick} className="flex justify-between items-center w-full text-left px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-md transition-colors duration-200">
                             <div>
                               <p className="text-neutral-800 dark:text-white font-medium">{instructor.name}</p>
                             </div>
@@ -211,7 +209,7 @@ const SearchBar = () => {
                     <ul>
                         {results.categories.map((category) => (
                             <li key={category.id}>
-                                <Link href={`/courses?category=${category.id}`} onClick={handleLinkClick} className="flex justify-between items-center w-full text-left px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-md transition-colors duration-200">
+                                <Link to={`/courses?category=${category.id}`} onClick={handleLinkClick} className="flex justify-between items-center w-full text-left px-3 py-2.5 hover:bg-gray-100 dark:hover:bg-neutral-700 rounded-md transition-colors duration-200">
                                     <p className="text-neutral-800 dark:text-white font-medium">{category.name}</p>
                                     <FaArrowRight className="text-gray-400 ml-4 flex-shrink-0" />
                                 </Link>

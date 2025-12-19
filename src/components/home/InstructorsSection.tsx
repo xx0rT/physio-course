@@ -1,8 +1,5 @@
-"use client";
-
-import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import ShareButton from "@/components/shareButton";
 import { motion } from "framer-motion";
 import CustomButton from "../ui/CustomButton";
@@ -31,7 +28,7 @@ const instructors = [
 ];
 
 const InstructorsSection = () => {
-  const t = useTranslations("InstructorsSection");
+  const { t } = useTranslation();
 
   return (
     <section className="max-w-7xl mx-auto relative my-15 px-5 md:px-10 py-32 overflow-x-hidden">
@@ -44,13 +41,13 @@ const InstructorsSection = () => {
       >
         <div className="p-6">
           <p className=" text-purple-500 px-4 py-2 font-medium inline-block uppercase">
-            {t("title")}
+            {t("InstructorsSection.title")}
           </p>
-          <h1 className="text-neutral-800 dark:text-white text-4xl">{t("headline")}</h1>
-          <p className="text-neutral-800 dark:text-slate-300 mt-8 leading-7">{t("description")}</p>
+          <h1 className="text-neutral-800 dark:text-white text-4xl">{t("InstructorsSection.headline")}</h1>
+          <p className="text-neutral-800 dark:text-slate-300 mt-8 leading-7">{t("InstructorsSection.description")}</p>
           <div className="flex gap-[7px] m-[5px] mt-6 ">
-            <CustomButton title={t("contactUs")} href="/support"/>
-            <CustomButton title={t("findInstructor")} href="/instructors" bg={true}/>
+            <CustomButton title={t("InstructorsSection.contactUs")} href="/support"/>
+            <CustomButton title={t("InstructorsSection.findInstructor")} href="/instructors" bg={true}/>
           </div>
         </div>
 
@@ -64,11 +61,9 @@ const InstructorsSection = () => {
             viewport={{ once: true, amount: 0.3 }}
               className="relative"
             >
-              <Image
+              <img
                 src={instructor.image}
                 alt={instructor.name}
-                width={600}
-                height={600}
                 className="relative w-full rounded-lg border-4 border-purple-500"
               />
               <div className="absolute top-5 right-5">

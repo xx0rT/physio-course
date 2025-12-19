@@ -1,6 +1,5 @@
-"use client";
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 
 // icons
@@ -10,7 +9,7 @@ import { MdOutlineGroups } from "react-icons/md";
 import { FaAddressBook } from "react-icons/fa";
 const SkillsSection = () => {
 
-  const t = useTranslations("SkillsSection.skills");
+  const { t } = useTranslation();
 
   const skills = [
     { key: "successfullyTrained", icon: IoIosPerson },
@@ -40,9 +39,9 @@ const SkillsSection = () => {
             })}
             <div className="md:ml-3 text-center md:text-left mt-2 md:mt-0">
               <h6 className="text-neutral-900 font-bold text-xl">
-                {t(`${item.key}.number`)}
+                {t(`SkillsSection.skills.${item.key}.number`)}
               </h6>
-              <p className="text-neutral-900 text-sm">{t(`${item.key}.text`)}</p>
+              <p className="text-neutral-900 text-sm">{t(`SkillsSection.skills.${item.key}.text`)}</p>
             </div>
           </motion.div>
         ))}

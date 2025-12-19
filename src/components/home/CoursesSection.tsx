@@ -1,7 +1,5 @@
-"use client";
-
 import React from "react";
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,7 +7,7 @@ import CourseCard from "../ui/CourseCard";
 import CustomButton from "../ui/CustomButton";
 import { useAuth } from "@/context/authProvider";
 const CoursesSection = () => {
-  const t = useTranslations("CoursesSection");
+  const { t } = useTranslation();
   const { courses ,loading } = useAuth();
   
   return (
@@ -27,7 +25,7 @@ const CoursesSection = () => {
         viewport={{ once: true, amount: 0.3 }}
         className="bg-gray-50 text-purple-500 px-4 py-2 rounded-md font-medium text-left inline-block"
       >
-        {t("sectionTitle")}
+        {t("CoursesSection.sectionTitle")}
       </motion.p>
 
       {/* Header section */}
@@ -39,8 +37,8 @@ const CoursesSection = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="capitalize text-neutral-800 dark:text-white text-3xl font-bold text-center md:text-left"
         >
-          {t("headline")} <span className="circle">{t("highlight")}</span>{" "}
-          {t("subheadline")}
+          {t("CoursesSection.headline")} <span className="circle">{t("CoursesSection.highlight")}</span>{" "}
+          {t("CoursesSection.subheadline")}
         </motion.h1>
 
         <motion.div
@@ -51,7 +49,7 @@ const CoursesSection = () => {
           className="mt-4 md:mt-0"
         ></motion.div>
         <CustomButton
-          title={t("button")}
+          title={t("CoursesSection.button")}
           href="/courses"
           bg={true}
           width={true}

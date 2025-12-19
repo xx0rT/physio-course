@@ -1,12 +1,10 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 import { FaQuoteRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useRef } from "react";
 
 const TestimonialSection = () => {
-  const t = useTranslations("TestimonialSection");
+  const { t } = useTranslation();
   const ref = useRef(null);
 
 
@@ -23,10 +21,10 @@ const TestimonialSection = () => {
     >
       <div className="w-full max-w-4xl flex flex-col gap-10 items-center justify-center">
         <p className="text-purple-500 px-4 py-2 font-medium inline-block uppercase">
-          {t("title")}
+          {t("TestimonialSection.title")}
         </p>
         <h1 className="text-center text-neutral-800 dark:text-white">
-          {t("headline")}
+          {t("TestimonialSection.headline")}
         </h1>
 
         <div className="flex flex-col justify-center items-center gap-10">
@@ -39,18 +37,18 @@ const TestimonialSection = () => {
             viewport={{once: true, amount: 0.2 }}
             className="bg-slate-100 dark:bg-neutral-800 shadow-lg border text-start border-neutral-700 rounded-xl relative p-5 flex flex-col gap-3 w-full max-w-4xl"
           >
-          
+
               <span className="absolute -top-[20px] -left-[5px] z-10 text-neutral-800 dark:text-slate-300">
                 <FaQuoteRight size={50} />
               </span>
               <p className="text-neutral-500 dark:text-slate-300 mt-6 text-lg leading-relaxed">
-                {t(`testimonials.${key}.text`)}
+                {t(`TestimonialSection.testimonials.${key}.text`)}
               </p>
               <h2 className="text-neutral-800 dark:text-white">
-                {t(`testimonials.${key}.name`)}
+                {t(`TestimonialSection.testimonials.${key}.name`)}
               </h2>
               <p  className="text-purple-500 text-sm font-medium">
-                {t(`testimonials.${key}.position`)}
+                {t(`TestimonialSection.testimonials.${key}.position`)}
               </p>
             </motion.div>
           ))}

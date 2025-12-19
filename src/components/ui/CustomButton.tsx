@@ -1,7 +1,6 @@
-"use client";
 import React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 interface Props {
   Icon?: boolean;
@@ -39,7 +38,7 @@ const CustomButton: React.FC<Props> = ({
   }
 
   return (
-    <Link href={href}>
+    <Link to={href}>
       <motion.button
         {...animation}
         initial={{ y: y, x: x, scale: scale ? 0 : 1, opacity: 0 }}
