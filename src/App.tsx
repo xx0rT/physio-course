@@ -26,6 +26,7 @@ import CheckoutPage from '@/pages/Checkout';
 import MyLearningPage from '@/pages/MyLearning';
 import WishlistPage from '@/pages/Wishlist';
 import LoginPage from '@/pages/Login';
+import RegisterPage from '@/pages/Register';
 import BecomeInstructorPage from '@/pages/BecomeInstructor';
 import AddCoursesPage from '@/pages/AddCourses';
 import UpdateProfilePage from '@/pages/UpdateProfile';
@@ -69,6 +70,7 @@ function App() {
                 <Route path="/dashboard/my-learning" element={<MyLearningPage />} />
                 <Route path="/dashboard/wishlist" element={<WishlistPage />} />
                 <Route path="/auth/login" element={<LoginPage />} />
+                <Route path="/auth/register" element={<RegisterPage />} />
                 <Route path="/auth/becomeInstructor" element={<BecomeInstructorPage />} />
                 <Route path="/auth/addCourses" element={<AddCoursesPage />} />
                 <Route path="/auth/update-profile" element={<UpdateProfilePage />} />

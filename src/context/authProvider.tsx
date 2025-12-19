@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import { Courses as defaultCourses } from "@/defaultData";
+import { supabase } from "@/lib/supabase";
 
 interface User {
   profile: string;
@@ -121,16 +122,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const checkUser = useCallback(async () => {
     try {
-      const res = await axios.get(`${api}/users/profile`, {
-        withCredentials: true,
-      });
-      setUser(res.data.user);
+      const { data: { user: supabaseUser }, error } = await supabase.auth.getUser();
+
+      if (error) throw error;
+
+      if (supabaseUser) {
+        const userData: User = {
+          profile: "",
+          firstName: supabaseUser.user_metadata?.firstName || "",
+          lastName: supabaseUser.user_metadata?.lastName || "",
+          _id: supabaseUser.id,
+          email: supabaseUser.email || "",
+          createdAt: supabaseUser.created_at,
+          isActive: true,
+          fullName: `${supabaseUser.user_metadata?.firstName || ""} ${supabaseUser.user_metadata?.lastName || ""}`.trim(),
+          myCourses: [],
+          enrolledCourses: [],
+          bio: supabaseUser.user_metadata?.bio || "",
+          title: supabaseUser.user_metadata?.title || "",
+          role: supabaseUser.user_metadata?.role || "student",
+          socialLinks: supabaseUser.user_metadata?.socialLinks || {},
+        };
+        setUser(userData);
+      }
       setApiAvailable(true);
     } catch (error) {
-      console.error("API unavailable, using fallback user.", error);
-    
+      console.error("Auth check failed:", error);
+      setUser(null);
     }
-  }, [api]);
+  }, []);
 
   const deactivateAccount = async () => {
     try {
@@ -155,25 +175,73 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     password: string
   ) => {
     try {
-      const res = await apiClient.post("/auth/register", {
-        firstName,
-        lastName,
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            firstName,
+            lastName,
+            role: "student",
+          },
+        },
       });
-      setUser(res.data.user);
+
+      if (error) throw error;
+
+      if (data.user) {
+        const userData: User = {
+          profile: "",
+          firstName,
+          lastName,
+          _id: data.user.id,
+          email: data.user.email || "",
+          createdAt: data.user.created_at,
+          isActive: true,
+          fullName: `${firstName} ${lastName}`.trim(),
+          myCourses: [],
+          enrolledCourses: [],
+          bio: "",
+          title: "",
+          role: "student",
+          socialLinks: {},
+        };
+        setUser(userData);
+      }
     } catch (error) {
       console.error("Register failed:", error);
-      checkUser();
       throw new Error("Registration failed");
     }
   };
 
   const login = async (email: string, password: string) => {
     try {
-      const res = await apiClient.post(`/auth/login`, { email, password });
-      setUser(res.data.user);
-      checkUser();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        const userData: User = {
+          profile: "",
+          firstName: data.user.user_metadata?.firstName || "",
+          lastName: data.user.user_metadata?.lastName || "",
+          _id: data.user.id,
+          email: data.user.email || "",
+          createdAt: data.user.created_at,
+          isActive: true,
+          fullName: `${data.user.user_metadata?.firstName || ""} ${data.user.user_metadata?.lastName || ""}`.trim(),
+          myCourses: [],
+          enrolledCourses: [],
+          bio: data.user.user_metadata?.bio || "",
+          title: data.user.user_metadata?.title || "",
+          role: data.user.user_metadata?.role || "student",
+          socialLinks: data.user.user_metadata?.socialLinks || {},
+        };
+        setUser(userData);
+      }
     } catch (error) {
       console.error("Login failed:", error);
       throw new Error("Login failed");
@@ -182,7 +250,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.post(`${api}/auth/logout`);
+      await supabase.auth.signOut();
       setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
