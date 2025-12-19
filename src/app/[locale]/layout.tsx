@@ -4,7 +4,6 @@ import "./globals.css";
 
 //translation
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
@@ -37,7 +36,7 @@ export default async function RootLayout({
     notFound();
   }
 
-  const messages = await getMessages({ locale });
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
     <html lang={locale} dir={locale ==="en"? "ltr":"rtl"} suppressHydrationWarning>
