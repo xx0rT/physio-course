@@ -37,14 +37,14 @@ export default async function RootLayout({
     notFound();
   }
 
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
 
   return (
     <html lang={locale} dir={locale ==="en"? "ltr":"rtl"} suppressHydrationWarning>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <body>
         <AuthProvider>
-          <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={messages} locale={locale}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
