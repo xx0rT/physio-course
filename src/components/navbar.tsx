@@ -1,9 +1,8 @@
-"use client";
 import { useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link } from "react-router-dom";
 import SearchButton from "./searchbar";
 
-import { useTranslations } from "next-intl";
+import { useTranslation } from "react-i18next";
 
 // Icons
 import { SiDatabricks } from "react-icons/si";
@@ -27,9 +26,7 @@ import {
 import LinksData from "@/Data/Links.json";
 
 const Navbar = () => {
-  const t = useTranslations("navbar");
-  const c = useTranslations("CategoriesSection");
-  const r = useTranslations("footer");
+  const { t } = useTranslation();
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
@@ -44,9 +41,9 @@ const Navbar = () => {
         <SiDatabricks className="w-9   text-purple-400" size="100%" />
         <Link
           className=" md:text-xl font-bold text-neutral-800 dark:text-white"
-          href="/"
+          to="/"
         >
-          {t("title")}
+          {t("navbar.title")}
         </Link>
       </div>
 
@@ -60,10 +57,10 @@ const Navbar = () => {
         {LinksData.navbar.slice(0, 3).map((item, index) => (
           <Link
             key={index}
-            href={item.url}
+            to={item.url}
             className="border border-transparent hover:text-purple-400 hover:border-purple-400 p-2 rounded-xl duration-150"
           >
-            {t(item.title)}
+            {t(`navbar.${item.title}`)}
           </Link>
         ))}
 
@@ -71,17 +68,17 @@ const Navbar = () => {
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger className=" border border-transparent hover:text-purple-400 hover:border-purple-400 p-2 rounded-xl duration-150">
-                {t("pages")}
+                {t("navbar.pages")}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="grid gap-3 p-4 lg:w-[600px] 2xl:w-[700px] lg:grid-cols-[1fr_1fr]">
                 {LinksData.footer.Quick_Links.map((item, index) => (
                   <NavigationMenuLink key={index} asChild>
                     <Link
                       className="p-2 w-full hover:text-purple-400 cursor-pointer"
-                      href={item.url}
+                      to={item.url}
                     >
                       <p className="text-[15px]">
-                        {r(`Quick_Links.${item.title}`)}
+                        {t(`footer.Quick_Links.${item.title}`)}
                       </p>
                       <p className="text-xs opacity-45">{item.description}</p>
                     </Link>
@@ -94,7 +91,7 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent hover:bg-transparent focus:bg-transparent">
                   <Link
-                    href="/dashboard"
+                    to="/dashboard"
                     className="relative w-9 h-9  bg-gradient-to-r from-blue-400   via-purple-600 to-purple-600 text-white  lg:flex items-center justify-center rounded-full"
                   >
                     {user?.isActive && (
@@ -108,9 +105,9 @@ const Navbar = () => {
                     <NavigationMenuLink key={index} asChild>
                       <Link
                         className="p-2 w-full hover:text-purple-400 cursor-pointer"
-                        href={item.url}
+                        to={item.url}
                       >
-                        <p className="text-[15px]">{t(item.title)}</p>
+                        <p className="text-[15px]">{t(`navbar.${item.title}`)}</p>
                         <p className="text-xs opacity-45">{item.description}</p>
                       </Link>
                     </NavigationMenuLink>
@@ -119,9 +116,9 @@ const Navbar = () => {
                     <NavigationMenuLink>
                     <Link
                       className="p-2 w-full hover:text-purple-400 cursor-pointer"
-                      href="/auth/becomeInstructor"
+                      to="/auth/becomeInstructor"
                     >
-                      <p className="text-[15px]">become-instructor</p>
+                      <p className="text-[15px]">{t("navbar.become-instructor")}</p>
                       <p className="text-xs opacity-45">View and edit your public instructor or student profile</p>
                     </Link>
                   </NavigationMenuLink>
@@ -130,10 +127,10 @@ const Navbar = () => {
               </NavigationMenuItem>
             ) : (
               <Link
-                href="/auth/login"
+                to="/auth/login"
                 className="hidden lg:inline bg-purple-400 text-white rounded-xl p-3 border border-purple-400 hover:bg-transparent hover:text-purple-400  duration-150"
               >
-                {t("Log-in")}
+                {t("navbar.Log-in")}
               </Link>
             )}
           </NavigationMenuList>
@@ -173,26 +170,26 @@ const Navbar = () => {
         {user ? (
           <Link
             onClick={toggleSidebar}
-            href="/dashboard"
+            to="/dashboard"
             className="my-6 bg-purple-500  text-white rounded-2xl p-3 px-5 "
           >
-            {t("account")}
+            {t("navbar.account")}
           </Link>
         ) : (
           <div className="flex  gap-2 items-center mt-5 mb-3">
             <Link
               onClick={toggleSidebar}
-              href="/auth/login"
+              to="/auth/login"
               className=" bg-purple-500  text-white rounded-2xl p-3 px-5"
             >
-              {t("Log-in")}
+              {t("navbar.Log-in")}
             </Link>
             <Link
               onClick={toggleSidebar}
-              href="/auth/register"
+              to="/auth/register"
               className="border border-purple-500 text-purple-500 rounded-2xl p-3 px-5"
             >
-              {t("register")}
+              {t("navbar.register")}
             </Link>
           </div>
         )}
@@ -202,11 +199,11 @@ const Navbar = () => {
             <Link
               className="text-neutral-700 dark:text-white text-xl w-full flex  justify-between items-center"
               key={index}
-              href={item.url}
+              to={item.url}
               onClick={toggleSidebar}
             >
               <MdKeyboardDoubleArrowLeft />
-              {c(`categories.${item.title}`)}
+              {t(`CategoriesSection.categories.${item.title}`)}
             </Link>
           ))}
         </div>
@@ -216,11 +213,11 @@ const Navbar = () => {
             <Link
               className="text-neutral-700 dark:text-white text-xl w-full flex  justify-between items-center"
               key={index}
-              href={item.url}
+              to={item.url}
               onClick={toggleSidebar}
             >
               <MdKeyboardDoubleArrowLeft />
-              {t(item.title)}
+              {t(`navbar.${item.title}`)}
             </Link>
           ))}
         </div>
