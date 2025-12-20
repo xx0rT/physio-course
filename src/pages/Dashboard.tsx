@@ -618,41 +618,6 @@ export default function Dashboard() {
         return (
           <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
             <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
-              Informace o profilu
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
-                  Jméno
-                </label>
-                <p className="text-neutral-800 dark:text-white">{user?.firstName || 'Nenastaveno'}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
-                  Příjmení
-                </label>
-                <p className="text-neutral-800 dark:text-white">{user?.lastName || 'Nenastaveno'}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
-                  Email
-                </label>
-                <p className="text-neutral-800 dark:text-white">{user?.email}</p>
-              </div>
-              <button
-                onClick={() => navigate('/auth/update-profile')}
-                className="button1 px-6 py-2 rounded-lg"
-              >
-                Upravit profil
-              </button>
-            </div>
-          </div>
-        );
-
-      case 'settings':
-        return (
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
               Nastavení účtu
             </h2>
 
