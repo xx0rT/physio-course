@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/authProvider";
 import { supabase } from "@/lib/supabase";
-import { FaStar, FaRegStar, FaUsers, FaClock, FaLanguage, FaCheckCircle, FaShoppingCart, FaHeart, FaRegHeart, FaPlay } from "react-icons/fa";
+import { FaStar, FaRegStar, FaUsers, FaClock, FaLanguage, FaCheckCircle, FaPlay, FaCrown } from "react-icons/fa";
 import { MdSignalCellularAlt } from "react-icons/md";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SubscriptionPrompt from "@/components/courses/SubscriptionPrompt";
 
 interface CourseSection {
   id: string;
@@ -20,9 +21,7 @@ export default function CourseDetails() {
   const { selectedCourse, fetchCourseById, user } = useAuth();
   const navigate = useNavigate();
   const [sections, setSections] = useState<CourseSection[]>([]);
-  const [isInCart, setIsInCart] = useState(false);
-  const [isInWishlist, setIsInWishlist] = useState(false);
-  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [hasSubscription, setHasSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function CourseDetails() {
       fetchCourseById(id);
       loadCourseSections();
       if (user) {
-        checkUserRelations();
+        checkSubscription();
       }
     }
   }, [id, user]);
@@ -54,125 +53,44 @@ export default function CourseDetails() {
     }
   };
 
-  const checkUserRelations = async () => {
-    if (!user || !id) return;
+  const checkSubscription = async () => {
+    if (!user) return;
 
     try {
-      const [cartResult, wishlistResult, enrollmentResult] = await Promise.all([
-        supabase.from('cart_items').select('id').eq('user_id', user._id).eq('course_id', id).maybeSingle(),
-        supabase.from('wishlist').select('id').eq('user_id', user._id).eq('course_id', id).maybeSingle(),
-        supabase.from('enrollments').select('id').eq('user_id', user._id).eq('course_id', id).maybeSingle(),
-      ]);
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user._id)
+        .eq('status', 'active')
+        .maybeSingle();
 
-      setIsInCart(!!cartResult.data);
-      setIsInWishlist(!!wishlistResult.data);
-      setIsEnrolled(!!enrollmentResult.data);
+      if (error) throw error;
+
+      if (data) {
+        if (data.plan_type === 'lifetime') {
+          setHasSubscription(true);
+        } else if (data.end_date && new Date(data.end_date) > new Date()) {
+          setHasSubscription(true);
+        }
+      }
     } catch (error) {
-      console.error('Failed to check user relations:', error);
+      console.error('Failed to check subscription:', error);
     }
   };
 
-  const handleAddToCart = async () => {
+  const handleStartLearning = () => {
     if (!user) {
-      toast.error("Please login to add to cart");
-      navigate('/auth/login');
+      toast.error("Please login to start learning");
+      navigate('/login');
       return;
     }
 
-    try {
-      if (isInCart) {
-        const { error } = await supabase
-          .from('cart_items')
-          .delete()
-          .eq('user_id', user._id)
-          .eq('course_id', id);
-
-        if (error) throw error;
-        setIsInCart(false);
-        toast.success("Removed from cart");
-      } else {
-        const { error } = await supabase
-          .from('cart_items')
-          .insert({ user_id: user._id, course_id: id });
-
-        if (error) throw error;
-        setIsInCart(true);
-        toast.success("Added to cart");
-      }
-    } catch (error) {
-      console.error('Cart operation failed:', error);
-      toast.error("Operation failed");
-    }
-  };
-
-  const handleToggleWishlist = async () => {
-    if (!user) {
-      toast.error("Please login to add to wishlist");
-      navigate('/auth/login');
+    if (!hasSubscription) {
+      toast.info("Subscribe to access this course");
       return;
     }
 
-    try {
-      if (isInWishlist) {
-        const { error } = await supabase
-          .from('wishlist')
-          .delete()
-          .eq('user_id', user._id)
-          .eq('course_id', id);
-
-        if (error) throw error;
-        setIsInWishlist(false);
-        toast.success("Removed from wishlist");
-      } else {
-        const { error } = await supabase
-          .from('wishlist')
-          .insert({ user_id: user._id, course_id: id });
-
-        if (error) throw error;
-        setIsInWishlist(true);
-        toast.success("Added to wishlist");
-      }
-    } catch (error) {
-      console.error('Wishlist operation failed:', error);
-      toast.error("Operation failed");
-    }
-  };
-
-  const handleEnroll = async () => {
-    if (!user) {
-      toast.error("Please login to enroll");
-      navigate('/auth/login');
-      return;
-    }
-
-    if (selectedCourse?.price === 0) {
-      try {
-        const { error } = await supabase
-          .from('enrollments')
-          .insert({ user_id: user._id, course_id: id });
-
-        if (error) throw error;
-
-        const { error: updateError } = await supabase
-          .from('courses')
-          .update({ total_students: (selectedCourse?.totalStudents || 0) + 1 })
-          .eq('id', id);
-
-        if (updateError) console.error('Failed to update student count:', updateError);
-
-        setIsEnrolled(true);
-        toast.success("Successfully enrolled!");
-        navigate('/my-learning');
-      } catch (error) {
-        console.error('Enrollment failed:', error);
-        toast.error("Enrollment failed");
-      }
-    } else {
-      if (!isInCart) {
-        await handleAddToCart();
-      }
-      navigate('/cart');
-    }
+    navigate(`/course-player/${id}`);
   };
 
   const renderStars = (rating: number) => {
@@ -205,40 +123,40 @@ export default function CourseDetails() {
     <div className="min-h-screen bg-gray-50 dark:bg-neutral-900">
       <ToastContainer position="top-right" autoClose={3000} />
 
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-20 mt-16">
+      <div style={{ background: 'linear-gradient(135deg, #704FE6 0%, #1e2a47 100%)' }} className="text-white py-20 mt-16">
         <div className="container mx-auto px-5">
           <div className="grid md:grid-cols-3 gap-8">
             <div className="md:col-span-2">
               <h1 className="text-4xl font-bold mb-4">{selectedCourse.title}</h1>
-              <p className="text-lg mb-6">{selectedCourse.description}</p>
+              <p className="text-lg mb-6 opacity-90">{selectedCourse.description}</p>
 
               <div className="flex items-center gap-2 mb-4">
                 <div className="flex">{renderStars(Math.round(selectedCourse.averageRating))}</div>
                 <span className="font-semibold">{selectedCourse.averageRating.toFixed(1)}</span>
-                <span>({selectedCourse.totalReviews} reviews)</span>
+                <span className="opacity-90">({selectedCourse.totalReviews} reviews)</span>
               </div>
 
               <div className="flex flex-wrap gap-4 text-sm">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                   <FaUsers />
                   <span>{selectedCourse.totalStudents} students</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                   <FaClock />
                   <span>{totalDuration} min</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                   <MdSignalCellularAlt />
                   <span>{selectedCourse.level}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
                   <FaLanguage />
                   <span>{selectedCourse.language.join(', ')}</span>
                 </div>
               </div>
 
               <div className="mt-6">
-                <p className="text-sm">Created by <span className="font-semibold">{selectedCourse.instructor.fullName}</span></p>
+                <p className="text-sm opacity-90">Created by <span className="font-semibold">{selectedCourse.instructor.fullName}</span></p>
               </div>
             </div>
 
@@ -250,39 +168,41 @@ export default function CourseDetails() {
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">
-                  <div className="text-3xl font-bold text-neutral-800 dark:text-white mb-4">
-                    {selectedCourse.price === 0 ? 'Free' : `$${selectedCourse.price}`}
-                  </div>
-
-                  {isEnrolled ? (
-                    <button
-                      onClick={() => navigate(`/course-player/${id}`)}
-                      className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 mb-3"
-                    >
-                      <FaPlay /> Continue Learning
-                    </button>
+                  {hasSubscription ? (
+                    <>
+                      <div className="flex items-center justify-center gap-2 mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <FaCheckCircle className="text-green-600 dark:text-green-400" />
+                        <span className="text-green-700 dark:text-green-300 font-semibold">
+                          You have access
+                        </span>
+                      </div>
+                      <button
+                        onClick={handleStartLearning}
+                        className="w-full button1 font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+                      >
+                        <FaPlay /> Start Learning
+                      </button>
+                    </>
                   ) : (
                     <>
-                      <button
-                        onClick={handleEnroll}
-                        className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-lg mb-3"
-                      >
-                        {selectedCourse.price === 0 ? 'Enroll Now' : 'Buy Now'}
-                      </button>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={handleAddToCart}
-                          className={`flex-1 ${isInCart ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2`}
-                        >
-                          <FaShoppingCart /> {isInCart ? 'In Cart' : 'Add to Cart'}
-                        </button>
-                        <button
-                          onClick={handleToggleWishlist}
-                          className="px-4 py-3 border-2 border-purple-600 text-purple-600 dark:text-purple-400 rounded-lg hover:bg-purple-50 dark:hover:bg-neutral-700"
-                        >
-                          {isInWishlist ? <FaHeart className="text-xl" /> : <FaRegHeart className="text-xl" />}
-                        </button>
+                      <div className="flex items-center justify-center gap-2 mb-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                        <FaCrown className="text-purple-600 dark:text-purple-400" />
+                        <span className="text-purple-700 dark:text-purple-300 font-semibold text-sm">
+                          Subscription Required
+                        </span>
                       </div>
+                      <p className="text-center text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+                        Get unlimited access to this and all courses
+                      </p>
+                      <button
+                        onClick={() => {
+                          const element = document.getElementById('subscription-section');
+                          element?.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        className="w-full button1 font-semibold py-3 rounded-lg"
+                      >
+                        View Subscription Plans
+                      </button>
                     </>
                   )}
                 </div>
@@ -394,6 +314,12 @@ export default function CourseDetails() {
             )}
           </div>
         </div>
+
+        {!hasSubscription && (
+          <div id="subscription-section" className="mt-12">
+            <SubscriptionPrompt courseTitle={selectedCourse.title} />
+          </div>
+        )}
       </div>
     </div>
   );
