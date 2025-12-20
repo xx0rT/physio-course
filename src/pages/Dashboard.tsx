@@ -16,10 +16,23 @@ import {
   FaCheckCircle,
   FaPlay,
   FaStar,
-  FaBars
+  FaBars,
+  FaEnvelope,
+  FaUsers,
+  FaCalendar,
+  FaCertificate,
+  FaBell,
+  FaHeadset,
+  FaStickyNote,
+  FaBook
 } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProfileOverview from "@/components/dashboard/ProfileOverview";
+import CertificatesSection from "@/components/dashboard/CertificatesSection";
+import MessagesSection from "@/components/dashboard/MessagesSection";
+import CommunitySection from "@/components/dashboard/CommunitySection";
+import PersonalNotesSection from "@/components/dashboard/PersonalNotesSection";
 
 interface UserStats {
   level: number;
@@ -47,7 +60,7 @@ interface EnrolledCourse {
   last_accessed: string;
 }
 
-type SidebarTab = 'dashboard' | 'profile' | 'settings' | 'privacy' | 'subscription' | 'payment';
+type SidebarTab = 'dashboard' | 'my-courses' | 'progress' | 'certificates' | 'schedule' | 'messages' | 'community' | 'notes' | 'settings' | 'support';
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -195,6 +208,8 @@ export default function Dashboard() {
       case 'dashboard':
         return (
           <div className="space-y-6">
+            <ProfileOverview />
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
                 <div className="flex items-center justify-between mb-4">
@@ -404,7 +419,202 @@ export default function Dashboard() {
           </div>
         );
 
-      case 'profile':
+      case 'my-courses':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+              Moje kurzy
+            </h2>
+            <div className="space-y-4">
+              {enrolledCourses.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+                    Ještě jste nezačali žádný kurz
+                  </p>
+                  <button
+                    onClick={() => navigate('/courses')}
+                    className="button1 px-6 py-2 rounded-lg"
+                  >
+                    Procházet kurzy
+                  </button>
+                </div>
+              ) : (
+                enrolledCourses.map((course) => (
+                  <div
+                    key={course.id}
+                    onClick={() => navigate(`/course-player/${course.id}`)}
+                    className="flex items-center gap-4 p-4 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer transition-all group border border-neutral-200 dark:border-neutral-700"
+                  >
+                    <img
+                      src={course.thumbnail}
+                      alt={course.title}
+                      className="w-32 h-20 object-cover rounded-lg"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold text-neutral-800 dark:text-white mb-2 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                        {course.title}
+                      </h3>
+                      <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-3 mb-1">
+                        <div
+                          className="bg-blue-500 h-3 rounded-full transition-all"
+                          style={{ width: `${course.progress_percentage}%` }}
+                        />
+                      </div>
+                      <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                        {course.progress_percentage}% dokončeno
+                      </p>
+                    </div>
+                    <FaPlay className="text-blue-600 dark:text-blue-400 text-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        );
+
+      case 'progress':
+        return (
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+              <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+                Pokrok a statistiky
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+                  <div className="flex items-center justify-between mb-4">
+                    <FaTrophy className="text-3xl text-blue-600 dark:text-blue-400" />
+                    <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                      {stats?.level || 1}
+                    </span>
+                  </div>
+                  <p className="text-neutral-700 dark:text-neutral-300 font-semibold">Úroveň</p>
+                  <div className="w-full bg-blue-200 dark:bg-blue-900 rounded-full h-2 mt-2">
+                    <div
+                      className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full transition-all"
+                      style={{ width: `${getLevelProgress()}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl p-6 border border-orange-200 dark:border-orange-800">
+                  <div className="flex items-center justify-between mb-4">
+                    <FaFire className="text-3xl text-orange-600 dark:text-orange-400" />
+                    <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+                      {stats?.current_streak || 0}
+                    </span>
+                  </div>
+                  <p className="text-neutral-700 dark:text-neutral-300 font-semibold">Denní série</p>
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+                    Nejdelší: {stats?.longest_streak || 0} dní
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+                  <div className="flex items-center justify-between mb-4">
+                    <FaGraduationCap className="text-3xl text-green-600 dark:text-green-400" />
+                    <span className="text-3xl font-bold text-green-600 dark:text-green-400">
+                      {stats?.total_courses_completed || 0}
+                    </span>
+                  </div>
+                  <p className="text-neutral-700 dark:text-neutral-300 font-semibold">Kurzy dokončeny</p>
+                </div>
+
+                <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl p-6 border border-purple-200 dark:border-purple-800">
+                  <div className="flex items-center justify-between mb-4">
+                    <FaChartLine className="text-3xl text-purple-600 dark:text-purple-400" />
+                    <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                      {stats?.total_lessons_completed || 0}
+                    </span>
+                  </div>
+                  <p className="text-neutral-700 dark:text-neutral-300 font-semibold">Lekce dokončeny</p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 border border-neutral-200 dark:border-neutral-700">
+                <h3 className="text-xl font-bold text-neutral-800 dark:text-white mb-4">
+                  Úspěchy
+                </h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {achievements.map((achievement) => (
+                    <div
+                      key={achievement.id}
+                      className={`p-4 rounded-xl text-center transition-all ${
+                        achievement.unlocked
+                          ? 'bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-400 dark:border-yellow-600'
+                          : 'bg-neutral-50 dark:bg-neutral-700/50 opacity-50'
+                      }`}
+                    >
+                      <div className="text-4xl mb-2">
+                        {achievement.unlocked ? achievement.icon : '🔒'}
+                      </div>
+                      <h4 className="font-semibold text-sm text-neutral-800 dark:text-white">
+                        {achievement.name}
+                      </h4>
+                      <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-1">
+                        {achievement.description}
+                      </p>
+                      {achievement.unlocked && achievement.unlocked_at && (
+                        <p className="text-xs text-green-600 dark:text-green-400 mt-2">
+                          ✓ Odemčeno
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'certificates':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <CertificatesSection />
+          </div>
+        );
+
+      case 'schedule':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <div className="flex items-center gap-3 mb-6">
+              <FaCalendar className="text-3xl text-blue-600 dark:text-blue-400" />
+              <div>
+                <h2 className="text-2xl font-bold text-neutral-800 dark:text-white">
+                  Plán lekcí
+                </h2>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                  Naplánujte si konzultace a živá sezení
+                </p>
+              </div>
+            </div>
+            <div className="text-center py-12 text-neutral-600 dark:text-neutral-400">
+              <FaCalendar className="text-6xl mx-auto mb-4 opacity-50" />
+              <p>Žádné naplánované lekce</p>
+              <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors">
+                Naplánovat konzultaci
+              </button>
+            </div>
+          </div>
+        );
+
+      case 'messages':
+        return <MessagesSection />;
+
+      case 'community':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <CommunitySection />
+          </div>
+        );
+
+      case 'notes':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <PersonalNotesSection />
+          </div>
+        );
+
+      case 'settings':
         return (
           <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
             <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
@@ -443,11 +653,48 @@ export default function Dashboard() {
         return (
           <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
             <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
-              Nastavení
+              Nastavení účtu
             </h2>
+
             <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Notifikace</h3>
+              <div className="pb-6 border-b border-neutral-200 dark:border-neutral-700">
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-4 flex items-center gap-2">
+                  <FaUser />
+                  Informace o profilu
+                </h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                      Jméno
+                    </label>
+                    <p className="text-neutral-800 dark:text-white">{user?.firstName || 'Nenastaveno'}</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                      Příjmení
+                    </label>
+                    <p className="text-neutral-800 dark:text-white">{user?.lastName || 'Nenastaveno'}</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                      Email
+                    </label>
+                    <p className="text-neutral-800 dark:text-white">{user?.email}</p>
+                  </div>
+                  <button
+                    onClick={() => navigate('/auth/update-profile')}
+                    className="button1 px-6 py-2 rounded-lg"
+                  >
+                    Upravit profil
+                  </button>
+                </div>
+              </div>
+
+              <div className="pb-6 border-b border-neutral-200 dark:border-neutral-700">
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-4 flex items-center gap-2">
+                  <FaBell />
+                  Notifikace
+                </h3>
                 <div className="space-y-2">
                   <label className="flex items-center gap-3">
                     <input type="checkbox" className="w-5 h-5" defaultChecked />
@@ -457,93 +704,140 @@ export default function Dashboard() {
                     <input type="checkbox" className="w-5 h-5" defaultChecked />
                     <span className="text-neutral-700 dark:text-neutral-300">Připomínky pro dokončení kurzů</span>
                   </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-5 h-5" />
+                    <span className="text-neutral-700 dark:text-neutral-300">Notifikace o nových zprávách</span>
+                  </label>
                 </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Jazyk</h3>
-                <select className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700">
-                  <option>Čeština</option>
-                  <option>English</option>
-                  <option>العربية</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        );
 
-      case 'privacy':
-        return (
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
-              Soukromí a bezpečnost
-            </h2>
-            <div className="space-y-6">
-              <div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Viditelnost profilu</h3>
-                <select className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700">
-                  <option>Veřejný</option>
-                  <option>Soukromý</option>
-                </select>
-              </div>
-              <div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Změna hesla</h3>
-                <button className="button1 px-6 py-2 rounded-lg">
-                  Změnit heslo
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'subscription':
-        return (
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
-              Předplatné
-            </h2>
-            {hasSubscription ? (
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                  <FaCrown className="text-3xl text-yellow-500" />
+              <div className="pb-6 border-b border-neutral-200 dark:border-neutral-700">
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-4 flex items-center gap-2">
+                  <FaLock />
+                  Soukromí a bezpečnost
+                </h3>
+                <div className="space-y-4">
                   <div>
-                    <h3 className="font-bold text-neutral-800 dark:text-white">Prémiový člen</h3>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                      Máte neomezený přístup ke všem kurzům
-                    </p>
+                    <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                      Viditelnost profilu
+                    </label>
+                    <select className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700">
+                      <option>Veřejný</option>
+                      <option>Soukromý</option>
+                    </select>
+                  </div>
+                  <div>
+                    <button className="button1 px-6 py-2 rounded-lg">
+                      Změnit heslo
+                    </button>
                   </div>
                 </div>
-                <button className="text-red-600 hover:underline">
-                  Zrušit předplatné
-                </button>
               </div>
-            ) : (
+
               <div>
-                <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-                  Momentálně nemáte aktivní předplatné
-                </p>
-                <button
-                  onClick={() => navigate('/courses')}
-                  className="button1 px-6 py-2 rounded-lg"
-                >
-                  Získat prémiový přístup
-                </button>
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-4 flex items-center gap-2">
+                  <FaCrown />
+                  Předplatné
+                </h3>
+                {hasSubscription ? (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                      <FaCrown className="text-3xl text-yellow-500" />
+                      <div>
+                        <h3 className="font-bold text-neutral-800 dark:text-white">Prémiový člen</h3>
+                        <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                          Máte neomezený přístup ke všem kurzům
+                        </p>
+                      </div>
+                    </div>
+                    <button className="text-red-600 hover:underline">
+                      Zrušit předplatné
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+                      Momentálně nemáte aktivní předplatné
+                    </p>
+                    <button
+                      onClick={() => navigate('/courses')}
+                      className="button1 px-6 py-2 rounded-lg"
+                    >
+                      Získat prémiový přístup
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         );
 
-      case 'payment':
+      case 'support':
         return (
           <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
-              Platební metody
-            </h2>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-              Spravujte své platební metody
-            </p>
-            <button className="button1 px-6 py-2 rounded-lg">
-              Přidat platební metodu
-            </button>
+            <div className="flex items-center gap-3 mb-6">
+              <FaHeadset className="text-3xl text-blue-600 dark:text-blue-400" />
+              <div>
+                <h2 className="text-2xl font-bold text-neutral-800 dark:text-white">
+                  Podpora
+                </h2>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                  Potřebujete pomoc? Jsme tu pro vás
+                </p>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6 mb-8">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+                <h3 className="font-bold text-neutral-800 dark:text-white mb-2">
+                  Často kladené otázky
+                </h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+                  Najděte odpovědi na běžné otázky
+                </p>
+                <button
+                  onClick={() => navigate('/faq')}
+                  className="text-blue-600 dark:text-blue-400 hover:underline font-semibold"
+                >
+                  Zobrazit FAQ →
+                </button>
+              </div>
+
+              <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-6 border border-green-200 dark:border-green-800">
+                <h3 className="font-bold text-neutral-800 dark:text-white mb-2">
+                  Kontaktujte podporu
+                </h3>
+                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+                  Pošlete nám zprávu a my vám pomůžeme
+                </p>
+                <button
+                  onClick={() => navigate('/support')}
+                  className="text-green-600 dark:text-green-400 hover:underline font-semibold"
+                >
+                  Kontaktovat podporu →
+                </button>
+              </div>
+            </div>
+
+            <div className="bg-neutral-50 dark:bg-neutral-700/50 rounded-xl p-6">
+              <h3 className="font-bold text-neutral-800 dark:text-white mb-4">
+                Rychlé odkazy
+              </h3>
+              <div className="space-y-2">
+                <a href="#" className="block text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400">
+                  • Technická podpora
+                </a>
+                <a href="#" className="block text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400">
+                  • Podmínky použití
+                </a>
+                <a href="#" className="block text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400">
+                  • Zásady ochrany osobních údajů
+                </a>
+                <a href="#" className="block text-neutral-700 dark:text-neutral-300 hover:text-blue-600 dark:hover:text-blue-400">
+                  • Návod k použití platformy
+                </a>
+              </div>
+            </div>
           </div>
         );
     }
@@ -604,57 +898,105 @@ export default function Dashboard() {
                 <button
                   onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    activeTab === 'dashboard' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                    activeTab === 'dashboard' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                   }`}
                 >
                   <FaChartLine />
                   <span>Dashboard</span>
                 </button>
+
                 <button
-                  onClick={() => { setActiveTab('profile'); setSidebarOpen(false); }}
+                  onClick={() => { setActiveTab('my-courses'); setSidebarOpen(false); }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    activeTab === 'profile' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                    activeTab === 'my-courses' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                   }`}
                 >
-                  <FaUser />
-                  <span>Profil</span>
+                  <FaGraduationCap />
+                  <span>Moje kurzy</span>
                 </button>
+
+                <button
+                  onClick={() => { setActiveTab('progress'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'progress' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaTrophy />
+                  <span>Pokrok a statistiky</span>
+                </button>
+
+                <button
+                  onClick={() => { setActiveTab('certificates'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'certificates' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaCertificate />
+                  <span>Přehled certifikátů</span>
+                </button>
+
+                <button
+                  onClick={() => { setActiveTab('schedule'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'schedule' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaCalendar />
+                  <span>Plán lekcí</span>
+                </button>
+
+                <button
+                  onClick={() => { setActiveTab('messages'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'messages' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaEnvelope />
+                  <span>Moje zprávy</span>
+                </button>
+
+                <button
+                  onClick={() => { setActiveTab('community'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'community' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaUsers />
+                  <span>Komunita</span>
+                </button>
+
+                <button
+                  onClick={() => { setActiveTab('notes'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'notes' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaStickyNote />
+                  <span>Poznámky a cíle</span>
+                </button>
+
+                <div className="border-t border-neutral-200 dark:border-neutral-700 my-4"></div>
+
                 <button
                   onClick={() => { setActiveTab('settings'); setSidebarOpen(false); }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    activeTab === 'settings' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                    activeTab === 'settings' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                   }`}
                 >
                   <FaCog />
-                  <span>Nastavení</span>
+                  <span>Nastavení účtu</span>
                 </button>
+
                 <button
-                  onClick={() => { setActiveTab('privacy'); setSidebarOpen(false); }}
+                  onClick={() => { setActiveTab('support'); setSidebarOpen(false); }}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    activeTab === 'privacy' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                    activeTab === 'support' ? 'bg-blue-600 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                   }`}
                 >
-                  <FaLock />
-                  <span>Soukromí</span>
+                  <FaHeadset />
+                  <span>Podpora</span>
                 </button>
-                <button
-                  onClick={() => { setActiveTab('subscription'); setSidebarOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    activeTab === 'subscription' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
-                  }`}
-                >
-                  <FaCrown />
-                  <span>Předplatné</span>
-                </button>
-                <button
-                  onClick={() => { setActiveTab('payment'); setSidebarOpen(false); }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                    activeTab === 'payment' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
-                  }`}
-                >
-                  <FaCreditCard />
-                  <span>Platby</span>
-                </button>
+
                 <button
                   onClick={handleLogout}
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all mt-4"
