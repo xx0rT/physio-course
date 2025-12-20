@@ -10,7 +10,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['next-themes'],
+    include: ['next-themes', '@supabase/supabase-js'],
   },
   server: {
     port: 3000,
