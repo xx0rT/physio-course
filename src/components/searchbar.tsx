@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { FaChalkboardTeacher, FaBook, FaLayerGroup, FaArrowRight } from 'react-icons/fa';
-import { useAuth } from "@/context/authProvider";
 
 // --- TYPE DEFINITIONS ---
 type Course = {
@@ -73,7 +72,6 @@ const useOnClickOutside = (ref: React.RefObject<HTMLElement | null>, handler: (e
 };
 
 const SearchBar = () => {
-  const { user } = useAuth();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResults>({ courses: [], instructors: [], categories: [] });
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -82,10 +80,6 @@ const SearchBar = () => {
   const navigate = useNavigate();
 
   useOnClickOutside(searchContainerRef, () => setIsDropdownVisible(false));
-
-  if (!user) {
-    return null;
-  }
 
   // Debounced search effect
   useEffect(() => {
