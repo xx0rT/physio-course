@@ -6,6 +6,7 @@ import WhyChooseUsSection from "@/components/home/chooseUsSection";
 import SkillsSection from "@/components/home/skillsSection";
 import TestimonialSection from "@/components/home/testimonialSection";
 import InstructorsSection from "@/components/home/InstructorsSection";
+import FAQSection from "@/components/home/FAQSection";
 
 export default function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default function HomePage() {
       <SkillsSection />
       <TestimonialSection />
       <InstructorsSection />
+      <FAQSection />
     </>
   );
 }

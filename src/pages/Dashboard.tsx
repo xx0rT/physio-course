@@ -7,12 +7,16 @@ import {
   FaFire,
   FaGraduationCap,
   FaChartLine,
-  FaClock,
+  FaUser,
+  FaCog,
   FaLock,
+  FaCreditCard,
+  FaCrown,
+  FaSignOutAlt,
   FaCheckCircle,
   FaPlay,
-  FaCrown,
-  FaStar
+  FaStar,
+  FaBars
 } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,30 +45,24 @@ interface EnrolledCourse {
   thumbnail: string;
   progress_percentage: number;
   last_accessed: string;
-  instructor_info: any;
 }
 
-interface NextCourse {
-  id: string;
-  title: string;
-  thumbnail: string;
-  description: string;
-  isLocked: boolean;
-}
+type SidebarTab = 'dashboard' | 'profile' | 'settings' | 'privacy' | 'subscription' | 'payment';
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
-  const [nextCourses, setNextCourses] = useState<NextCourse[]>([]);
   const [hasSubscription, setHasSubscription] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<SidebarTab>('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/auth/login");
       return;
     }
     loadDashboardData();
@@ -78,12 +76,11 @@ export default function Dashboard() {
         loadUserStats(),
         loadAchievements(),
         loadEnrolledCourses(),
-        loadNextCourses(),
         checkSubscription()
       ]);
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
-      toast.error("Failed to load dashboard");
+      toast.error("Nepodařilo se načíst data");
     } finally {
       setLoading(false);
     }
@@ -141,51 +138,22 @@ export default function Dashboard() {
         courses:course_id (
           id,
           title,
-          thumbnail,
-          instructor_info
+          thumbnail
         )
       `)
       .eq('user_id', user._id)
       .order('last_accessed', { ascending: false })
-      .limit(3);
+      .limit(5);
 
     const coursesData = (enrollments || []).map(enrollment => ({
       id: enrollment.courses.id,
       title: enrollment.courses.title,
       thumbnail: enrollment.courses.thumbnail,
       progress_percentage: enrollment.progress_percentage || 0,
-      last_accessed: enrollment.last_accessed,
-      instructor_info: enrollment.courses.instructor_info
+      last_accessed: enrollment.last_accessed
     }));
 
     setEnrolledCourses(coursesData);
-  };
-
-  const loadNextCourses = async () => {
-    if (!user) return;
-
-    const { data: allCourses } = await supabase
-      .from('courses')
-      .select('id, title, thumbnail, description')
-      .eq('is_published', true)
-      .eq('approval_status', 'approved')
-      .limit(3);
-
-    const { data: enrollments } = await supabase
-      .from('enrollments')
-      .select('course_id')
-      .eq('user_id', user._id);
-
-    const enrolledIds = new Set(enrollments?.map(e => e.course_id) || []);
-
-    const nextCoursesData = (allCourses || [])
-      .filter(course => !enrolledIds.has(course.id))
-      .map(course => ({
-        ...course,
-        isLocked: false
-      }));
-
-    setNextCourses(nextCoursesData.slice(0, 3));
   };
 
   const checkSubscription = async () => {
@@ -213,12 +181,380 @@ export default function Dashboard() {
     return stats.level * 100;
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      toast.error("Odhlášení se nezdařilo");
+    }
+  };
+
+  const renderDashboardContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                    <FaTrophy className="text-2xl text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                    {stats?.level || 1}
+                  </span>
+                </div>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-2">Aktuální úroveň</p>
+                <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 mb-1">
+                  <div
+                    className="bg-purple-500 h-2 rounded-full transition-all"
+                    style={{ width: `${getLevelProgress()}%` }}
+                  />
+                </div>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  {stats?.xp || 0} / {getNextLevelXP()} XP
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900 flex items-center justify-center">
+                    <FaFire className="text-2xl text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">
+                    {stats?.current_streak || 0}
+                  </span>
+                </div>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm">Denní série</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                  Nejdelší: {stats?.longest_streak || 0} dní
+                </p>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                    <FaGraduationCap className="text-2xl text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    {stats?.total_courses_completed || 0}
+                  </span>
+                </div>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm">Dokončené kurzy</p>
+              </div>
+
+              <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                    <FaChartLine className="text-2xl text-green-600 dark:text-green-400" />
+                  </div>
+                  <span className="text-3xl font-bold text-green-600 dark:text-green-400">
+                    {stats?.total_lessons_completed || 0}
+                  </span>
+                </div>
+                <p className="text-neutral-600 dark:text-neutral-400 text-sm">Dokončené lekce</p>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-neutral-800 dark:text-white">
+                      Pokračovat v učení
+                    </h2>
+                    <button
+                      onClick={() => navigate('/my-learning')}
+                      className="text-purple-600 dark:text-purple-400 hover:underline text-sm"
+                    >
+                      Zobrazit vše
+                    </button>
+                  </div>
+
+                  {enrolledCourses.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+                        Ještě jste nezačali žádný kurz
+                      </p>
+                      <button
+                        onClick={() => navigate('/courses')}
+                        className="button1 px-6 py-2 rounded-lg"
+                      >
+                        Procházet kurzy
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {enrolledCourses.map((course) => (
+                        <div
+                          key={course.id}
+                          onClick={() => navigate(`/course-player/${course.id}`)}
+                          className="flex items-center gap-4 p-4 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer transition-all group"
+                        >
+                          <img
+                            src={course.thumbnail}
+                            alt={course.title}
+                            className="w-24 h-16 object-cover rounded-lg"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-neutral-800 dark:text-white mb-1 truncate group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                              {course.title}
+                            </h3>
+                            <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 mb-1">
+                              <div
+                                className="bg-purple-500 h-2 rounded-full transition-all"
+                                style={{ width: `${course.progress_percentage}%` }}
+                              />
+                            </div>
+                            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                              {course.progress_percentage}% dokončeno
+                            </p>
+                          </div>
+                          <FaPlay className="text-purple-600 dark:text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+                  <h2 className="text-xl font-bold text-neutral-800 dark:text-white mb-4">
+                    Úspěchy
+                  </h2>
+                  <div className="space-y-3 max-h-96 overflow-y-auto">
+                    {achievements.slice(0, 6).map((achievement) => (
+                      <div
+                        key={achievement.id}
+                        className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
+                          achievement.unlocked
+                            ? 'bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500'
+                            : 'bg-neutral-50 dark:bg-neutral-700/50 opacity-60'
+                        }`}
+                      >
+                        <div className="text-2xl">
+                          {achievement.unlocked ? achievement.icon : '🔒'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-sm text-neutral-800 dark:text-white truncate">
+                            {achievement.name}
+                          </h4>
+                          <p className="text-xs text-neutral-600 dark:text-neutral-400 truncate">
+                            {achievement.description}
+                          </p>
+                        </div>
+                        {achievement.unlocked && (
+                          <FaCheckCircle className="text-green-500 flex-shrink-0" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6 shadow text-white">
+              <div className="grid md:grid-cols-2 gap-6 items-center">
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <FaCrown className="text-2xl text-yellow-300" />
+                    <h3 className="text-2xl font-bold">Úroveň {stats?.level || 1}</h3>
+                  </div>
+                  <p className="text-sm opacity-90 mb-4">
+                    Pokračujte v učení a dosáhněte další úrovně!
+                  </p>
+                  <div className="bg-white/20 rounded-lg p-3 text-sm">
+                    <div className="flex justify-between mb-1">
+                      <span>Pokrok XP</span>
+                      <span className="font-semibold">{stats?.xp || 0} / {getNextLevelXP()}</span>
+                    </div>
+                    <div className="w-full bg-white/30 rounded-full h-3">
+                      <div
+                        className="bg-white h-3 rounded-full transition-all"
+                        style={{ width: `${getLevelProgress()}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white/10 rounded-lg p-4">
+                  <h4 className="font-bold mb-3">Vaše statistiky</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Celkové XP:</span>
+                      <span className="font-semibold">{stats?.xp || 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Kurzy:</span>
+                      <span className="font-semibold">{stats?.total_courses_completed || 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Lekce:</span>
+                      <span className="font-semibold">{stats?.total_lessons_completed || 0}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Série:</span>
+                      <span className="font-semibold">{stats?.current_streak || 0} dní</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'profile':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+              Informace o profilu
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                  Jméno
+                </label>
+                <p className="text-neutral-800 dark:text-white">{user?.firstName || 'Nenastaveno'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                  Příjmení
+                </label>
+                <p className="text-neutral-800 dark:text-white">{user?.lastName || 'Nenastaveno'}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                  Email
+                </label>
+                <p className="text-neutral-800 dark:text-white">{user?.email}</p>
+              </div>
+              <button
+                onClick={() => navigate('/auth/update-profile')}
+                className="button1 px-6 py-2 rounded-lg"
+              >
+                Upravit profil
+              </button>
+            </div>
+          </div>
+        );
+
+      case 'settings':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+              Nastavení
+            </h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Notifikace</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-5 h-5" defaultChecked />
+                    <span className="text-neutral-700 dark:text-neutral-300">Emailové notifikace o nových kurzech</span>
+                  </label>
+                  <label className="flex items-center gap-3">
+                    <input type="checkbox" className="w-5 h-5" defaultChecked />
+                    <span className="text-neutral-700 dark:text-neutral-300">Připomínky pro dokončení kurzů</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Jazyk</h3>
+                <select className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700">
+                  <option>Čeština</option>
+                  <option>English</option>
+                  <option>العربية</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'privacy':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+              Soukromí a bezpečnost
+            </h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Viditelnost profilu</h3>
+                <select className="w-full px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700">
+                  <option>Veřejný</option>
+                  <option>Soukromý</option>
+                </select>
+              </div>
+              <div>
+                <h3 className="font-semibold text-neutral-800 dark:text-white mb-3">Změna hesla</h3>
+                <button className="button1 px-6 py-2 rounded-lg">
+                  Změnit heslo
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'subscription':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+              Předplatné
+            </h2>
+            {hasSubscription ? (
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                  <FaCrown className="text-3xl text-yellow-500" />
+                  <div>
+                    <h3 className="font-bold text-neutral-800 dark:text-white">Prémiový člen</h3>
+                    <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                      Máte neomezený přístup ke všem kurzům
+                    </p>
+                  </div>
+                </div>
+                <button className="text-red-600 hover:underline">
+                  Zrušit předplatné
+                </button>
+              </div>
+            ) : (
+              <div>
+                <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+                  Momentálně nemáte aktivní předplatné
+                </p>
+                <button
+                  onClick={() => navigate('/courses')}
+                  className="button1 px-6 py-2 rounded-lg"
+                >
+                  Získat prémiový přístup
+                </button>
+              </div>
+            )}
+          </div>
+        );
+
+      case 'payment':
+        return (
+          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
+              Platební metody
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+              Spravujte své platební metody
+            </p>
+            <button className="button1 px-6 py-2 rounded-lg">
+              Přidat platební metodu
+            </button>
+          </div>
+        );
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-500 mx-auto"></div>
-          <p className="mt-4 text-neutral-600 dark:text-neutral-400">Loading your dashboard...</p>
+          <p className="mt-4 text-neutral-600 dark:text-neutral-400">Načítání vašeho dashboardu...</p>
         </div>
       </div>
     );
@@ -228,261 +564,110 @@ export default function Dashboard() {
     <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pt-16">
       <ToastContainer position="top-right" autoClose={3000} />
 
-      <div style={{ background: 'linear-gradient(135deg, #704FE6 0%, #1e2a47 100%)' }} className="text-white py-12">
+      <div style={{ background: 'linear-gradient(135deg, #704FE6 0%, #1e2a47 100%)' }} className="text-white py-8">
         <div className="container mx-auto px-5">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-white/20 flex items-center justify-center text-3xl font-bold">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="lg:hidden text-white p-2"
+              >
+                <FaBars className="text-2xl" />
+              </button>
+              <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center text-2xl font-bold">
                 {user?.firstName?.[0]}{user?.lastName?.[0]}
               </div>
               <div>
-                <h1 className="text-3xl font-bold">Welcome back, {user?.firstName}!</h1>
-                <p className="opacity-90">Continue your learning journey</p>
+                <h1 className="text-2xl md:text-3xl font-bold">Vítejte zpět, {user?.firstName}!</h1>
+                <p className="opacity-90 text-sm md:text-base">Pokračujte ve své cestě vzdělávání</p>
               </div>
             </div>
-
-            {hasSubscription ? (
-              <div className="flex items-center gap-2 bg-white/10 px-6 py-3 rounded-full">
+            {hasSubscription && (
+              <div className="hidden md:flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full">
                 <FaCrown className="text-yellow-400" />
-                <span className="font-semibold">Premium Member</span>
+                <span className="font-semibold">Premium</span>
               </div>
-            ) : (
-              <button
-                onClick={() => navigate('/courses')}
-                className="button1 px-6 py-3 rounded-full font-semibold"
-              >
-                Get Premium Access
-              </button>
             )}
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-5 py-8">
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
-                <FaTrophy className="text-2xl text-purple-600 dark:text-purple-400" />
-              </div>
-              <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">
-                {stats?.level || 1}
-              </span>
-            </div>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-2">Current Level</p>
-            <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 mb-1">
-              <div
-                className="bg-purple-500 h-2 rounded-full transition-all"
-                style={{ width: `${getLevelProgress()}%` }}
-              />
-            </div>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">
-              {stats?.xp || 0} / {getNextLevelXP()} XP
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-lg bg-orange-100 dark:bg-orange-900 flex items-center justify-center">
-                <FaFire className="text-2xl text-orange-600 dark:text-orange-400" />
-              </div>
-              <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">
-                {stats?.current_streak || 0}
-              </span>
-            </div>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm">Day Streak</p>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-              Longest: {stats?.longest_streak || 0} days
-            </p>
-          </div>
-
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
-                <FaGraduationCap className="text-2xl text-blue-600 dark:text-blue-400" />
-              </div>
-              <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                {stats?.total_courses_completed || 0}
-              </span>
-            </div>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm">Courses Completed</p>
-          </div>
-
-          <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900 flex items-center justify-center">
-                <FaChartLine className="text-2xl text-green-600 dark:text-green-400" />
-              </div>
-              <span className="text-3xl font-bold text-green-600 dark:text-green-400">
-                {stats?.total_lessons_completed || 0}
-              </span>
-            </div>
-            <p className="text-neutral-600 dark:text-neutral-400 text-sm">Lessons Completed</p>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 space-y-6">
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-neutral-800 dark:text-white">
-                  Continue Learning
-                </h2>
+        <div className="flex gap-6">
+          <div className={`${sidebarOpen ? 'block' : 'hidden'} lg:block fixed lg:relative inset-0 lg:inset-auto z-40 lg:z-auto`}>
+            <div
+              className="absolute inset-0 bg-black/50 lg:hidden"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <div className="relative bg-white dark:bg-neutral-800 rounded-xl p-6 shadow h-fit lg:w-64 m-4 lg:m-0">
+              <nav className="space-y-2">
                 <button
-                  onClick={() => navigate('/my-learning')}
-                  className="text-purple-600 dark:text-purple-400 hover:underline text-sm"
+                  onClick={() => { setActiveTab('dashboard'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'dashboard' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
                 >
-                  View All
+                  <FaChartLine />
+                  <span>Dashboard</span>
                 </button>
-              </div>
-
-              {enrolledCourses.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-neutral-600 dark:text-neutral-400 mb-4">
-                    You haven't started any courses yet
-                  </p>
-                  <button
-                    onClick={() => navigate('/courses')}
-                    className="button1 px-6 py-2 rounded-lg"
-                  >
-                    Browse Courses
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {enrolledCourses.map((course) => (
-                    <div
-                      key={course.id}
-                      onClick={() => navigate(`/course-player/${course.id}`)}
-                      className="flex items-center gap-4 p-4 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 cursor-pointer transition-all group"
-                    >
-                      <img
-                        src={course.thumbnail}
-                        alt={course.title}
-                        className="w-24 h-16 object-cover rounded-lg"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-neutral-800 dark:text-white mb-1 truncate group-hover:text-purple-600 dark:group-hover:text-purple-400">
-                          {course.title}
-                        </h3>
-                        <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 mb-1">
-                          <div
-                            className="bg-purple-500 h-2 rounded-full transition-all"
-                            style={{ width: `${course.progress_percentage}%` }}
-                          />
-                        </div>
-                        <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                          {course.progress_percentage}% complete
-                        </p>
-                      </div>
-                      <FaPlay className="text-purple-600 dark:text-purple-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-              <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6">
-                Recommended Next
-              </h2>
-
-              {nextCourses.length === 0 ? (
-                <p className="text-center text-neutral-600 dark:text-neutral-400 py-8">
-                  No recommendations available
-                </p>
-              ) : (
-                <div className="grid md:grid-cols-2 gap-4">
-                  {nextCourses.map((course) => (
-                    <div
-                      key={course.id}
-                      onClick={() => !course.isLocked && navigate(`/course-details/${course.id}`)}
-                      className={`rounded-lg overflow-hidden shadow hover:shadow-lg transition-all ${
-                        course.isLocked ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
-                      }`}
-                    >
-                      <div className="relative">
-                        <img
-                          src={course.thumbnail}
-                          alt={course.title}
-                          className="w-full h-32 object-cover"
-                        />
-                        {course.isLocked && (
-                          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <FaLock className="text-white text-2xl" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold text-neutral-800 dark:text-white mb-2 line-clamp-2">
-                          {course.title}
-                        </h3>
-                        <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">
-                          {course.description}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+                <button
+                  onClick={() => { setActiveTab('profile'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'profile' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaUser />
+                  <span>Profil</span>
+                </button>
+                <button
+                  onClick={() => { setActiveTab('settings'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'settings' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaCog />
+                  <span>Nastavení</span>
+                </button>
+                <button
+                  onClick={() => { setActiveTab('privacy'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'privacy' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaLock />
+                  <span>Soukromí</span>
+                </button>
+                <button
+                  onClick={() => { setActiveTab('subscription'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'subscription' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaCrown />
+                  <span>Předplatné</span>
+                </button>
+                <button
+                  onClick={() => { setActiveTab('payment'); setSidebarOpen(false); }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+                    activeTab === 'payment' ? 'bg-purple-500 text-white' : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                  }`}
+                >
+                  <FaCreditCard />
+                  <span>Platby</span>
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all mt-4"
+                >
+                  <FaSignOutAlt />
+                  <span>Odhlásit se</span>
+                </button>
+              </nav>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="bg-white dark:bg-neutral-800 rounded-xl p-6 shadow">
-              <h2 className="text-xl font-bold text-neutral-800 dark:text-white mb-4">
-                Achievements
-              </h2>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {achievements.slice(0, 8).map((achievement) => (
-                  <div
-                    key={achievement.id}
-                    className={`flex items-center gap-3 p-3 rounded-lg transition-all ${
-                      achievement.unlocked
-                        ? 'bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500'
-                        : 'bg-neutral-50 dark:bg-neutral-700/50 opacity-60'
-                    }`}
-                  >
-                    <div className="text-2xl">
-                      {achievement.unlocked ? achievement.icon : '🔒'}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-sm text-neutral-800 dark:text-white truncate">
-                        {achievement.name}
-                      </h4>
-                      <p className="text-xs text-neutral-600 dark:text-neutral-400 truncate">
-                        {achievement.description}
-                      </p>
-                    </div>
-                    {achievement.unlocked && (
-                      <FaCheckCircle className="text-green-500 flex-shrink-0" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl p-6 shadow text-white">
-              <div className="flex items-center gap-2 mb-3">
-                <FaCrown className="text-2xl text-yellow-300" />
-                <h3 className="text-xl font-bold">Level {stats?.level || 1}</h3>
-              </div>
-              <p className="text-sm opacity-90 mb-4">
-                Keep learning to reach the next level and unlock more features!
-              </p>
-              <div className="bg-white/20 rounded-lg p-3 text-sm">
-                <div className="flex justify-between mb-1">
-                  <span>XP Progress</span>
-                  <span className="font-semibold">{stats?.xp || 0} / {getNextLevelXP()}</span>
-                </div>
-                <div className="w-full bg-white/30 rounded-full h-3">
-                  <div
-                    className="bg-white h-3 rounded-full transition-all"
-                    style={{ width: `${getLevelProgress()}%` }}
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="flex-1">
+            {renderDashboardContent()}
           </div>
         </div>
       </div>

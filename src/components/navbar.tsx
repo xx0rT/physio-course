@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchButton from "./searchbar";
 
@@ -29,6 +29,20 @@ const Navbar = () => {
   const { t } = useTranslation();
 
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -36,11 +50,13 @@ const Navbar = () => {
   const { user , loading } = useAuth();
   if(loading)return null
   return (
-    <section className={`fixed top-0 left-0 w-full px-5   2xl:px-20 p-5 flex justify-between Lg:justify-evenly items-center z-50 bg-slate-100 dark:bg-neutral-900 select-none duration-150`}>
-      <div className="flex justify-center gap-2 items-center w-fit ">
-        <SiDatabricks className="w-9   text-purple-400" size="100%" />
+    <section className={`fixed top-0 left-0 w-full px-5 2xl:px-20 flex justify-between Lg:justify-evenly items-center z-50 bg-slate-100 dark:bg-neutral-900 select-none transition-all duration-300 shadow-md ${
+      isScrolled ? 'py-2' : 'py-5'
+    }`}>
+      <div className="flex justify-center gap-2 items-center w-fit">
+        <SiDatabricks className={`text-purple-400 transition-all duration-300 ${isScrolled ? 'w-7' : 'w-9'}`} size="100%" />
         <Link
-          className=" md:text-xl font-bold text-neutral-800 dark:text-white"
+          className={`font-bold text-neutral-800 dark:text-white transition-all duration-300 ${isScrolled ? 'text-base md:text-lg' : 'text-lg md:text-xl'}`}
           to="/"
         >
           {t("navbar.title")}
