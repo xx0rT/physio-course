@@ -1,10 +1,7 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import CourseCard from "@/components/ui/CourseCard";
 import FilterCourses, { FilterState } from "@/components/courses/FilterCourses";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import {
   Pagination,
   PaginationContent,
@@ -34,8 +31,7 @@ const COURSES_PER_PAGE = 20;
 const CoursesPage = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { user, courses: dbCourses } = useAuth();
-  const navigate = useNavigate();
+  const { courses: dbCourses } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<FilterState | null>(null);
 
@@ -58,13 +54,6 @@ const CoursesPage = () => {
       }
     }));
   }, [dbCourses]);
-
-  useEffect(() => {
-    if (!user) {
-      toast.error("Musíte se přihlásit pro zobrazení kurzů!");
-      navigate("/login");
-    }
-  }, [user, navigate]);
 
   const handleFilterChange = useCallback((newFilters: FilterState) => {
     setActiveFilters(newFilters);
@@ -126,13 +115,8 @@ const CoursesPage = () => {
     }
   };
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <section className="container mx-auto px-5 py-10 mt-20">
-      <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} />
       <div
         className={`mb-10 text-center ${locale === 'ar' ? 'lg:text-right' : 'lg:text-left'}`}
       >
