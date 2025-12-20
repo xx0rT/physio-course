@@ -29,30 +29,35 @@ interface Course {
   instructor: { name: string; avatar: string; };
 }
 
-const allCourses: Course[] = [
-  { id: '1', image: '/home/card1.png', title: 'React for Beginners', category: 'Development', price: 49, rating: 4.6, duration: 12, level: 'Beginner', language: 'English', createdAt: new Date('2023-10-20'), instructor: { name: 'John Doe', avatar: '/home/person1.png' },description:"" },
-  { id: '2', image: '/home/card2.png', title: 'Advanced CSS and Sass', category: 'Design', price: 99, rating: 4.8, duration: 25, level: 'Intermediate', language: 'English', createdAt: new Date('2023-11-01'), instructor: { name: 'Jane Smith', avatar: '/home/person2.png' } ,description:""},
-  { id: '3', image: '/home/card3.png', title: 'Intro to Digital Marketing', category: 'Marketing', price: 0, rating: 4.2, duration: 5, level: 'Beginner', language: 'French', createdAt: new Date('2023-09-15'), instructor: { name: 'Sam Wilson', avatar: '/home/person3.png' } ,description:""},
-  { id: '4', image: '/home/card4.png', title: 'Complete Python Bootcamp', category: 'IT & Software', price: 199, rating: 4.7, duration: 40, level: 'All Levels', language: 'English', createdAt: new Date('2023-11-05'), instructor: { name: 'Emily White', avatar: '/home/person4.png' },description:"" },
-  { id: '5', image: '/home/card1.png', title: 'Photography Masterclass', category: 'Photography', price: 79, rating: 4.9, duration: 15, level: 'All Levels', language: 'Arabic', createdAt: new Date('2023-08-10'), instructor: { name: 'Chris Green', avatar: '/home/person1.png' },description:"" },
-  { id: '6', image: '/home/card2.png', title: 'Business Fundamentals', category: 'Business', price: 0, rating: 4.0, duration: 8, level: 'Beginner', language: 'English', createdAt: new Date('2023-11-10'), instructor: { name: 'Patricia Black', avatar: '/home/person2.png' } ,description:""},
-  { id: '7', image: '/home/card3.png', title: 'UI/UX Design Essentials', category: 'Design', price: 129, rating: 4.5, duration: 22, level: 'Intermediate', language: 'English', createdAt: new Date('2023-07-22'), instructor: { name: 'Michael Brown', avatar: '/home/person3.png' } ,description:""},
-  { id: '8', image: '/home/card4.png', title: 'Expert JavaScript', category: 'Development', price: 299, rating: 3.8, duration: 50, level: 'Expert', language: 'English', createdAt: new Date('2023-06-30'), instructor: { name: 'Sarah Jones', avatar: '/home/person4.png' } ,description:""},
-  { id: '9', image: '/home/card1.png', title: 'SQL for Data Science', category: 'IT & Software', price: 89, rating: 4.4, duration: 10, level: 'Intermediate', language: 'Arabic', createdAt: new Date('2023-10-25'), instructor: { name: 'Mohammed Ali', avatar: '/home/person1.png' } ,description:""},
-  { id: '10', image: '/home/card2.png', title: 'Short Course on Vue.js', category: 'Development', price: 29, rating: 4.1, duration: 0.5, level: 'Beginner', language: 'French', createdAt: new Date('2023-11-11'), instructor: { name: 'Pierre Dubois', avatar: '/home/person2.png' },description:"" },
-  { id: '11', image: '/home/card3.png', title: 'Extended Photoshop Guide', category: 'Design', price: 69, rating: 3.2, duration: 6.5, level: 'Beginner', language: 'English', createdAt: new Date('2023-05-19'), instructor: { name: 'Jane Smith', avatar: '/home/person3.png' } ,description:""},
-  { id: '12', image: '/home/card4.png', title: 'Agile & Scrum for PMs', category: 'Business', price: 149, rating: 4.8, duration: 3.5, level: 'Expert', language: 'English', createdAt: new Date('2023-11-12'), instructor: { name: 'Sam Wilson', avatar: '/home/person4.png' } ,description:""},
-];
-
 const COURSES_PER_PAGE = 20;
 
 const CoursesPage = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { user } = useAuth();
+  const { user, courses: dbCourses } = useAuth();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<FilterState | null>(null);
+
+  const allCourses: Course[] = useMemo(() => {
+    return dbCourses.map((course) => ({
+      id: course._id,
+      image: course.thumbnail,
+      title: course.title,
+      description: course.description,
+      category: course.category as 'Development' | 'Business' | 'IT & Software' | 'Design' | 'Marketing' | 'Photography',
+      price: course.price,
+      rating: course.averageRating,
+      duration: course.duration,
+      level: course.level as 'All Levels' | 'Beginner' | 'Intermediate' | 'Expert',
+      language: (course.language[0] || 'English') as 'English' | 'Arabic' | 'French',
+      createdAt: course.createdAt,
+      instructor: {
+        name: course.instructor.fullName,
+        avatar: course.instructor.profilePic || '/home/person1.png'
+      }
+    }));
+  }, [dbCourses]);
 
   useEffect(() => {
     if (!user) {

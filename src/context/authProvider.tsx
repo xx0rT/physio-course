@@ -318,19 +318,53 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
   const checkCourses = useCallback(async () => {
     try {
-      const res = await axios.get(`${api}/courses`, {
-        withCredentials: true,
-      });
-      if (res.data?.courses?.length > 0) {
-        setCourses(res.data.courses);
+      const { data, error } = await supabase
+        .from('courses')
+        .select('*')
+        .eq('is_published', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        const transformedCourses: Course[] = data.map((course) => ({
+          _id: course.id,
+          title: course.title,
+          description: course.description || '',
+          instructor: course.instructor_info || {
+            _id: '',
+            firstName: '',
+            lastName: '',
+            fullName: 'Unknown',
+            profilePic: '/home/person1.png'
+          },
+          sections: [],
+          price: Number(course.price) || 0,
+          category: course.category || '',
+          level: course.level || '',
+          language: course.language || ['English'],
+          requirements: course.requirements || [],
+          whatYouWillLearn: course.what_you_will_learn || [],
+          tags: course.tags || [],
+          thumbnail: course.thumbnail || '/home/card1.png',
+          averageRating: Number(course.average_rating) || 0,
+          totalReviews: course.total_reviews || 0,
+          totalStudents: course.total_students || 0,
+          isPublished: course.is_published,
+          approvalStatus: course.approval_status || 'pending',
+          rejectionReason: course.rejection_reason,
+          createdAt: new Date(course.created_at),
+          duration: 0,
+        }));
+        setCourses(transformedCourses);
       } else {
         setCourses(defaultCourses);
       }
     } catch (error) {
-      console.error("Course API unavailable. Using fallback data.", error);
+      console.error("Course fetch failed. Using fallback data.", error);
       setCourses(defaultCourses);
     }
-  }, [api]);
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -344,25 +378,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const fetchCourseById = useCallback(
     async (id: string) => {
       try {
-        const res = await axios.get(`${api}/courses/${id}`, {
-          withCredentials: true,
-        });
-        setSelectedCourse(res.data.course);
-      } catch (error) {
-        console.warn( 
-          "API unavailable, trying fallback for course detail",
-          error
-        );
+        const { data, error } = await supabase
+          .from('courses')
+          .select('*')
+          .eq('id', id)
+          .maybeSingle();
 
-        const fallback = defaultCourses.find((c) => c._id === id);
-        if (fallback) {
-          setSelectedCourse(fallback);
+        if (error) throw error;
+
+        if (data) {
+          const transformedCourse: Course = {
+            _id: data.id,
+            title: data.title,
+            description: data.description || '',
+            instructor: data.instructor_info || {
+              _id: '',
+              firstName: '',
+              lastName: '',
+              fullName: 'Unknown',
+              profilePic: '/home/person1.png'
+            },
+            sections: [],
+            price: Number(data.price) || 0,
+            category: data.category || '',
+            level: data.level || '',
+            language: data.language || ['English'],
+            requirements: data.requirements || [],
+            whatYouWillLearn: data.what_you_will_learn || [],
+            tags: data.tags || [],
+            thumbnail: data.thumbnail || '/home/card1.png',
+            averageRating: Number(data.average_rating) || 0,
+            totalReviews: data.total_reviews || 0,
+            totalStudents: data.total_students || 0,
+            isPublished: data.is_published,
+            approvalStatus: data.approval_status || 'pending',
+            rejectionReason: data.rejection_reason,
+            createdAt: new Date(data.created_at),
+            duration: 0,
+          };
+          setSelectedCourse(transformedCourse);
         } else {
-          setSelectedCourse(null);
+          const fallback = defaultCourses.find((c) => c._id === id);
+          setSelectedCourse(fallback || null);
         }
+      } catch (error) {
+        console.warn("Course fetch failed, trying fallback", error);
+        const fallback = defaultCourses.find((c) => c._id === id);
+        setSelectedCourse(fallback || null);
       }
     },
-    [api]
+    []
   );
 
   return (
