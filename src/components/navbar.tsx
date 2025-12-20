@@ -70,7 +70,7 @@ const Navbar = () => {
               <NavigationMenuTrigger className=" border border-transparent hover:text-purple-400 hover:border-purple-400 p-2 rounded-xl duration-150">
                 {t("navbar.pages")}
               </NavigationMenuTrigger>
-              <NavigationMenuContent className="grid gap-3 p-4 lg:w-[600px] 2xl:w-[700px] lg:grid-cols-[1fr_1fr]">
+              <NavigationMenuContent className="grid gap-3 p-4 lg:w-[600px] 2xl:w-[700px] lg:grid-cols-[1fr_1fr] bg-white dark:bg-neutral-800">
                 {LinksData.footer.Quick_Links.map((item, index) => (
                   <NavigationMenuLink key={index} asChild>
                     <Link
@@ -100,7 +100,7 @@ const Navbar = () => {
                     {user?.fullName?.charAt(0)}
                   </Link>
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="grid gap-3 p-4 lg:w-[600px] 2xl:w-[700px] lg:grid-cols-[1fr_1fr]">
+                <NavigationMenuContent className="grid gap-3 p-4 lg:w-[600px] 2xl:w-[700px] lg:grid-cols-[1fr_1fr] bg-white dark:bg-neutral-800">
                   {LinksData.navbar.slice(3, 7).map((item, index) => (
                     <NavigationMenuLink key={index} asChild>
                       <Link
