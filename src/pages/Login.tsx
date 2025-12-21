@@ -24,10 +24,10 @@ export default function Login() {
 
     try {
       await login(email, password);
-      toast.success("Successfully logged in!");
+      toast.success("Úspěšně přihlášeno!");
       navigate("/dashboard");
     } catch (error) {
-      toast.error("Login failed. Please check your credentials.");
+      toast.error("Přihlášení selhalo. Zkontrolujte své přihlašovací údaje.");
     } finally {
       setIsLoading(false);
     }
@@ -44,10 +44,10 @@ export default function Login() {
               <FaUserCircle className="text-3xl text-white" />
             </div>
             <h1 className="text-3xl font-bold text-neutral-800 dark:text-white mb-2">
-              Welcome Back
+              Vítejte zpět
             </h1>
             <p className="text-neutral-600 dark:text-neutral-400">
-              Sign in to continue your learning journey
+              Přihlaste se do svého účtu Dires Fyzio
             </p>
           </div>
 
@@ -57,7 +57,7 @@ export default function Login() {
                 htmlFor="email"
                 className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2"
               >
-                Email Address
+                E-mailová adresa
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -80,7 +80,7 @@ export default function Login() {
                 htmlFor="password"
                 className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2"
               >
-                Password
+                Heslo
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -106,29 +106,29 @@ export default function Login() {
               {isLoading ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-                  Signing in...
+                  Přihlašování...
                 </div>
               ) : (
-                "Sign In"
+                "Přihlásit se"
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-neutral-600 dark:text-neutral-400">
-              Don't have an account?{" "}
+              Nemáte účet?{" "}
               <Link
                 to="/auth/register"
                 className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold transition-colors"
               >
-                Sign Up
+                Zaregistrovat se
               </Link>
             </p>
           </div>
         </div>
 
         <p className="text-center mt-6 text-sm text-neutral-500 dark:text-neutral-400">
-          By signing in, you agree to our Terms of Service and Privacy Policy
+          Přihlášením souhlasíte s našimi podmínkami služby a zásadami ochrany osobních údajů
         </p>
       </div>
     </div>

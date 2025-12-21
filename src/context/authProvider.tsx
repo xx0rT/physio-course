@@ -373,6 +373,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     };
     init();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          await checkUser();
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+        }
+      }
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
   }, [checkUser, checkCourses]);
 
   const fetchCourseById = useCallback(
