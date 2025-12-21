@@ -76,6 +76,7 @@ interface AuthContextType {
     password: string,
   ) => Promise<void>;
   deactivateAccount:() => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
   becomeInstructor: (data: {
     title: string;
     bio: string;
@@ -313,6 +314,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const resetPassword = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
+
+      if (error) throw error;
+    } catch (error: any) {
+      console.error("Password reset failed:", error);
+      throw new Error(error.message || "Failed to send password reset email");
+    }
+  };
+
   const becomeInstructor = async (data: {
     title: string;
     bio: string;
@@ -509,6 +523,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
+        resetPassword,
         becomeInstructor,
         updateInstructor,
         courses,
