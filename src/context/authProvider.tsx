@@ -191,23 +191,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
 
       if (data.user) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (loginError) throw loginError;
-
-        if (loginData.user) {
+        if (data.session) {
           const userData: User = {
             profile: "",
             firstName,
             lastName,
-            _id: loginData.user.id,
-            email: loginData.user.email || "",
-            createdAt: loginData.user.created_at,
+            _id: data.user.id,
+            email: data.user.email || "",
+            createdAt: data.user.created_at,
             isActive: true,
             fullName: `${firstName} ${lastName}`.trim(),
             myCourses: [],
@@ -218,6 +209,59 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             socialLinks: {},
           };
           setUser(userData);
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+          if (sessionError) throw sessionError;
+
+          if (sessionData.session) {
+            const userData: User = {
+              profile: "",
+              firstName,
+              lastName,
+              _id: data.user.id,
+              email: data.user.email || "",
+              createdAt: data.user.created_at,
+              isActive: true,
+              fullName: `${firstName} ${lastName}`.trim(),
+              myCourses: [],
+              enrolledCourses: [],
+              bio: "",
+              title: "",
+              role: "student",
+              socialLinks: {},
+            };
+            setUser(userData);
+          } else {
+            const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+
+            if (loginError) throw loginError;
+
+            if (loginData.user) {
+              const userData: User = {
+                profile: "",
+                firstName,
+                lastName,
+                _id: loginData.user.id,
+                email: loginData.user.email || "",
+                createdAt: loginData.user.created_at,
+                isActive: true,
+                fullName: `${firstName} ${lastName}`.trim(),
+                myCourses: [],
+                enrolledCourses: [],
+                bio: "",
+                title: "",
+                role: "student",
+                socialLinks: {},
+              };
+              setUser(userData);
+            }
+          }
         }
       }
     } catch (error: any) {
