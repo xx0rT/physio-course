@@ -3,7 +3,7 @@
     "switchLocale": "Čeština"
   },
   "navbar": {
-    "title": "FyzioQuest",
+    "title": "Dires Fyzio",
     "home": "Domů",
     "support": "Podpora",
     "about": "O nás",
@@ -36,7 +36,7 @@
     }
   },
   "HeroSection": {
-    "welcome": "Vítejte ve FyzioQuest Online Kurzech",
+    "welcome": "Vítejte ve Dires Fyzio Online Kurzech",
     "title": "Rozvíjejte své dovednosti v oblasti fyzioterapie",
     "description": "Jsme specialisté na vzdělávání fyzioterapeutů se zaměřením na praktické techniky a evidence-based přístupy pro úspěšnou praxi.",
     "button": "Najít kurzy",
@@ -59,7 +59,7 @@
   },
   "CoursesSection": {
     "sectionTitle": "Nejoblíbenější kurzy",
-    "headline": "FyzioQuest kurzy",
+    "headline": "Dires Fyzio kurzy",
     "highlight": "Studenti",
     "subheadline": "se mohou připojit.",
     "button": "Načíst více kurzů",
@@ -250,7 +250,7 @@
     "findInstructor": "Najít lektora"
   },
   "courses": {
-    "title": "FyzioQuest kurzy",
+    "title": "Dires Fyzio kurzy",
     "subtitle": "Studenti se mohou připojit.",
     "category": "Ortopedická fyzioterapie",
     "price": "1250 Kč",

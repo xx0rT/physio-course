@@ -120,78 +120,81 @@ export default function CourseDetails() {
   const totalDuration = sections.reduce((sum, section) => sum + section.duration, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-neutral-900">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-neutral-900 dark:to-neutral-800">
       <ToastContainer position="top-right" autoClose={3000} />
 
-      <div style={{ background: 'linear-gradient(135deg, #704FE6 0%, #1e2a47 100%)' }} className="text-white py-20 mt-16">
-        <div className="container mx-auto px-5">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2">
-              <h1 className="text-4xl font-bold mb-4">{selectedCourse.title}</h1>
-              <p className="text-lg mb-6 opacity-90">{selectedCourse.description}</p>
+      <div className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-600 text-white py-24 mt-16">
+        <div className="container mx-auto px-5 lg:px-10">
+          <div className="grid lg:grid-cols-3 gap-10 items-start">
+            <div className="lg:col-span-2 space-y-6">
+              <h1 className="text-4xl lg:text-5xl font-bold leading-tight">{selectedCourse.title}</h1>
+              <p className="text-lg text-teal-50 leading-relaxed">{selectedCourse.description}</p>
 
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-4 py-3 rounded-xl w-fit">
                 <div className="flex">{renderStars(Math.round(selectedCourse.averageRating))}</div>
-                <span className="font-semibold">{selectedCourse.averageRating.toFixed(1)}</span>
-                <span className="opacity-90">({selectedCourse.totalReviews} reviews)</span>
+                <span className="font-bold text-xl">{selectedCourse.averageRating.toFixed(1)}</span>
+                <span className="text-teal-100">({selectedCourse.totalReviews} reviews)</span>
               </div>
 
-              <div className="flex flex-wrap gap-4 text-sm">
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
-                  <FaUsers />
-                  <span>{selectedCourse.totalStudents} students</span>
+              <div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2.5 rounded-xl hover:bg-white/20 transition-all">
+                  <FaUsers className="text-xl" />
+                  <span className="font-medium">{selectedCourse.totalStudents} students</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
-                  <FaClock />
-                  <span>{totalDuration} min</span>
+                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2.5 rounded-xl hover:bg-white/20 transition-all">
+                  <FaClock className="text-xl" />
+                  <span className="font-medium">{totalDuration} min</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
-                  <MdSignalCellularAlt />
-                  <span>{selectedCourse.level}</span>
+                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2.5 rounded-xl hover:bg-white/20 transition-all">
+                  <MdSignalCellularAlt className="text-xl" />
+                  <span className="font-medium">{selectedCourse.level}</span>
                 </div>
-                <div className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg">
-                  <FaLanguage />
-                  <span>{selectedCourse.language.join(', ')}</span>
+                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2.5 rounded-xl hover:bg-white/20 transition-all">
+                  <FaLanguage className="text-xl" />
+                  <span className="font-medium">{selectedCourse.language.join(', ')}</span>
                 </div>
               </div>
 
-              <div className="mt-6">
-                <p className="text-sm opacity-90">Created by <span className="font-semibold">{selectedCourse.instructor.fullName}</span></p>
+              <div className="pt-4">
+                <p className="text-teal-50">Created by <span className="font-bold text-white">{selectedCourse.instructor.fullName}</span></p>
               </div>
             </div>
 
-            <div className="md:col-span-1">
-              <div className="bg-white dark:bg-neutral-800 rounded-lg overflow-hidden shadow-xl">
-                <img
-                  src={selectedCourse.thumbnail}
-                  alt={selectedCourse.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
+            <div className="lg:col-span-1">
+              <div className="bg-white dark:bg-neutral-800 rounded-2xl overflow-hidden shadow-2xl transform transition-all hover:scale-[1.02] sticky top-24">
+                <div className="relative">
+                  <img
+                    src={selectedCourse.thumbnail}
+                    alt={selectedCourse.title}
+                    className="w-full h-56 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                </div>
+                <div className="p-6 space-y-4">
                   {hasSubscription ? (
                     <>
-                      <div className="flex items-center justify-center gap-2 mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                        <FaCheckCircle className="text-green-600 dark:text-green-400" />
-                        <span className="text-green-700 dark:text-green-300 font-semibold">
+                      <div className="flex items-center justify-center gap-2 p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl border-2 border-green-200 dark:border-green-800">
+                        <FaCheckCircle className="text-green-600 dark:text-green-400 text-xl" />
+                        <span className="text-green-700 dark:text-green-300 font-bold">
                           You have access
                         </span>
                       </div>
                       <button
                         onClick={handleStartLearning}
-                        className="w-full button1 font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+                        className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
                       >
-                        <FaPlay /> Start Learning
+                        <FaPlay className="text-lg" /> Start Learning
                       </button>
                     </>
                   ) : (
                     <>
-                      <div className="flex items-center justify-center gap-2 mb-4 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                        <FaCrown className="text-purple-600 dark:text-purple-400" />
-                        <span className="text-purple-700 dark:text-purple-300 font-semibold text-sm">
+                      <div className="flex items-center justify-center gap-2 p-4 bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/30 dark:to-cyan-900/30 rounded-xl border-2 border-teal-200 dark:border-teal-800">
+                        <FaCrown className="text-teal-600 dark:text-teal-400 text-xl" />
+                        <span className="text-teal-700 dark:text-teal-300 font-bold">
                           Subscription Required
                         </span>
                       </div>
-                      <p className="text-center text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+                      <p className="text-center text-neutral-600 dark:text-neutral-400">
                         Get unlimited access to this and all courses
                       </p>
                       <button
@@ -199,7 +202,7 @@ export default function CourseDetails() {
                           const element = document.getElementById('subscription-section');
                           element?.scrollIntoView({ behavior: 'smooth' });
                         }}
-                        className="w-full button1 font-semibold py-3 rounded-lg"
+                        className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
                       >
                         View Subscription Plans
                       </button>
@@ -212,16 +215,16 @@ export default function CourseDetails() {
         </div>
       </div>
 
-      <div className="container mx-auto px-5 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 space-y-8">
+      <div className="container mx-auto px-5 lg:px-10 py-16">
+        <div className="grid lg:grid-cols-3 gap-10">
+          <div className="lg:col-span-2 space-y-8">
             {selectedCourse.whatYouWillLearn.length > 0 && (
-              <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow">
-                <h2 className="text-2xl font-bold mb-4 text-neutral-800 dark:text-white">What you'll learn</h2>
-                <div className="grid md:grid-cols-2 gap-3">
+              <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-700">
+                <h2 className="text-3xl font-bold mb-6 text-neutral-800 dark:text-white">What you'll learn</h2>
+                <div className="grid md:grid-cols-2 gap-4">
                   {selectedCourse.whatYouWillLearn.map((item, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <FaCheckCircle className="text-green-500 mt-1 flex-shrink-0" />
+                    <div key={index} className="flex items-start gap-3 group">
+                      <FaCheckCircle className="text-teal-500 mt-1 flex-shrink-0 text-lg group-hover:scale-110 transition-transform" />
                       <span className="text-neutral-700 dark:text-neutral-300">{item}</span>
                     </div>
                   ))}
@@ -230,23 +233,23 @@ export default function CourseDetails() {
             )}
 
             {sections.length > 0 && (
-              <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow">
-                <h2 className="text-2xl font-bold mb-4 text-neutral-800 dark:text-white">Course Content</h2>
-                <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+              <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-700">
+                <h2 className="text-3xl font-bold mb-4 text-neutral-800 dark:text-white">Course Content</h2>
+                <p className="text-neutral-600 dark:text-neutral-400 mb-6 text-lg">
                   {sections.length} sections • {totalDuration} min total length
                 </p>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {sections.map((section) => (
                     <div
                       key={section.id}
-                      className="border dark:border-neutral-700 rounded p-4 hover:bg-gray-50 dark:hover:bg-neutral-700"
+                      className="border-2 dark:border-neutral-700 rounded-xl p-5 hover:border-teal-500 hover:shadow-md dark:hover:bg-neutral-700/50 transition-all cursor-pointer"
                     >
-                      <div className="flex justify-between items-start">
+                      <div className="flex justify-between items-start gap-4">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-neutral-800 dark:text-white">{section.title}</h3>
-                          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">{section.description}</p>
+                          <h3 className="font-bold text-neutral-800 dark:text-white text-lg">{section.title}</h3>
+                          <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-2">{section.description}</p>
                         </div>
-                        <span className="text-sm text-neutral-500 ml-4">{section.duration} min</span>
+                        <span className="text-sm text-teal-600 dark:text-teal-400 font-semibold whitespace-nowrap">{section.duration} min</span>
                       </div>
                     </div>
                   ))}
@@ -255,56 +258,59 @@ export default function CourseDetails() {
             )}
 
             {selectedCourse.requirements.length > 0 && (
-              <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow">
-                <h2 className="text-2xl font-bold mb-4 text-neutral-800 dark:text-white">Requirements</h2>
-                <ul className="list-disc list-inside space-y-2">
+              <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-700">
+                <h2 className="text-3xl font-bold mb-6 text-neutral-800 dark:text-white">Requirements</h2>
+                <ul className="space-y-3">
                   {selectedCourse.requirements.map((req, index) => (
-                    <li key={index} className="text-neutral-700 dark:text-neutral-300">{req}</li>
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="text-teal-500 font-bold mt-0.5">•</span>
+                      <span className="text-neutral-700 dark:text-neutral-300">{req}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
             )}
 
-            <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow">
-              <h2 className="text-2xl font-bold mb-4 text-neutral-800 dark:text-white">Description</h2>
-              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-700">
+              <h2 className="text-3xl font-bold mb-6 text-neutral-800 dark:text-white">Description</h2>
+              <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed text-lg">
                 {selectedCourse.description}
               </p>
             </div>
           </div>
 
-          <div className="md:col-span-1">
-            <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow sticky top-24">
-              <h3 className="text-xl font-bold mb-4 text-neutral-800 dark:text-white">Instructor</h3>
-              <div className="flex items-center gap-3 mb-4">
+          <div className="lg:col-span-1">
+            <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-700 sticky top-24">
+              <h3 className="text-2xl font-bold mb-6 text-neutral-800 dark:text-white">Instructor</h3>
+              <div className="flex items-center gap-4 mb-6">
                 <img
                   src={selectedCourse.instructor.profilePic || '/home/person1.png'}
                   alt={selectedCourse.instructor.fullName}
-                  className="w-16 h-16 rounded-full"
+                  className="w-20 h-20 rounded-full border-4 border-teal-500 shadow-lg"
                 />
                 <div>
-                  <h4 className="font-semibold text-neutral-800 dark:text-white">
+                  <h4 className="font-bold text-lg text-neutral-800 dark:text-white">
                     {selectedCourse.instructor.fullName}
                   </h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Instructor</p>
+                  <p className="text-sm text-teal-600 dark:text-teal-400 font-medium">Instructor</p>
                 </div>
               </div>
               <button
                 onClick={() => navigate(`/instructors/${selectedCourse.instructor._id}`)}
-                className="w-full border-2 border-purple-600 text-purple-600 dark:text-purple-400 font-semibold py-2 rounded-lg hover:bg-purple-50 dark:hover:bg-neutral-700"
+                className="w-full border-2 border-teal-600 text-teal-600 dark:text-teal-400 font-bold py-3 rounded-xl hover:bg-teal-50 dark:hover:bg-neutral-700 transition-all transform hover:scale-105"
               >
                 View Profile
               </button>
             </div>
 
             {selectedCourse.tags.length > 0 && (
-              <div className="bg-white dark:bg-neutral-800 p-6 rounded-lg shadow mt-6">
-                <h3 className="text-xl font-bold mb-4 text-neutral-800 dark:text-white">Tags</h3>
-                <div className="flex flex-wrap gap-2">
+              <div className="bg-white dark:bg-neutral-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-neutral-700 mt-6">
+                <h3 className="text-2xl font-bold mb-6 text-neutral-800 dark:text-white">Tags</h3>
+                <div className="flex flex-wrap gap-3">
                   {selectedCourse.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm"
+                      className="bg-gradient-to-r from-teal-100 to-cyan-100 dark:from-teal-900 dark:to-cyan-900 text-teal-800 dark:text-teal-200 px-4 py-2 rounded-full text-sm font-semibold hover:scale-110 transition-transform cursor-pointer"
                     >
                       {tag}
                     </span>
