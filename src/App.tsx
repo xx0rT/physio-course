@@ -27,12 +27,6 @@ import MyLearningPage from '@/pages/MyLearning';
 import WishlistPage from '@/pages/Wishlist';
 import LoginPage from '@/pages/Login';
 import RegisterPage from '@/pages/Register';
-import ForgotPasswordPage from '@/pages/ForgotPassword';
-import ResetPasswordPage from '@/pages/ResetPassword';
-import AuthCallbackPage from '@/pages/AuthCallback';
-import Setup2FAPage from '@/pages/Setup2FA';
-import Verify2FAPage from '@/pages/Verify2FA';
-import SecurityPage from '@/pages/Security';
 import BecomeInstructorPage from '@/pages/BecomeInstructor';
 import AddCoursesPage from '@/pages/AddCourses';
 import UpdateProfilePage from '@/pages/UpdateProfile';
@@ -77,12 +71,6 @@ function App() {
                 <Route path="/dashboard/wishlist" element={<WishlistPage />} />
                 <Route path="/auth/login" element={<LoginPage />} />
                 <Route path="/auth/register" element={<RegisterPage />} />
-                <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/auth/callback" element={<AuthCallbackPage />} />
-                <Route path="/auth/setup-2fa" element={<Setup2FAPage />} />
-                <Route path="/auth/verify-2fa" element={<Verify2FAPage />} />
-                <Route path="/dashboard/security" element={<SecurityPage />} />
                 <Route path="/auth/becomeInstructor" element={<BecomeInstructorPage />} />
                 <Route path="/auth/addCourses" element={<AddCoursesPage />} />
                 <Route path="/auth/update-profile" element={<UpdateProfilePage />} />

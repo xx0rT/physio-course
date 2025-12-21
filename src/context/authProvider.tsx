@@ -75,7 +75,6 @@ interface AuthContextType {
     email: string,
     password: string,
   ) => Promise<void>;
-  signInWithGoogle: () => Promise<void>;
   deactivateAccount:() => Promise<void>;
   becomeInstructor: (data: {
     title: string;
@@ -185,11 +184,86 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             lastName,
             role: "student",
           },
-          emailRedirectTo: `${window.location.origin}/auth/login`,
+          emailRedirectTo: window.location.origin,
         },
       });
 
       if (error) throw error;
+
+      if (data.user) {
+        if (data.session) {
+          const userData: User = {
+            profile: "",
+            firstName,
+            lastName,
+            _id: data.user.id,
+            email: data.user.email || "",
+            createdAt: data.user.created_at,
+            isActive: true,
+            fullName: `${firstName} ${lastName}`.trim(),
+            myCourses: [],
+            enrolledCourses: [],
+            bio: "",
+            title: "",
+            role: "student",
+            socialLinks: {},
+          };
+          setUser(userData);
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 1000));
+
+          const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+
+          if (sessionError) throw sessionError;
+
+          if (sessionData.session) {
+            const userData: User = {
+              profile: "",
+              firstName,
+              lastName,
+              _id: data.user.id,
+              email: data.user.email || "",
+              createdAt: data.user.created_at,
+              isActive: true,
+              fullName: `${firstName} ${lastName}`.trim(),
+              myCourses: [],
+              enrolledCourses: [],
+              bio: "",
+              title: "",
+              role: "student",
+              socialLinks: {},
+            };
+            setUser(userData);
+          } else {
+            const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+
+            if (loginError) throw loginError;
+
+            if (loginData.user) {
+              const userData: User = {
+                profile: "",
+                firstName,
+                lastName,
+                _id: loginData.user.id,
+                email: loginData.user.email || "",
+                createdAt: loginData.user.created_at,
+                isActive: true,
+                fullName: `${firstName} ${lastName}`.trim(),
+                myCourses: [],
+                enrolledCourses: [],
+                bio: "",
+                title: "",
+                role: "student",
+                socialLinks: {},
+              };
+              setUser(userData);
+            }
+          }
+        }
+      }
     } catch (error: any) {
       console.error("Register failed:", error);
       throw new Error(error.message || "Registration failed");
@@ -236,26 +310,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
-    }
-  };
-
-  const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          },
-        },
-      });
-
-      if (error) throw error;
-    } catch (error) {
-      console.error("Google sign-in failed:", error);
-      throw new Error("Google authentication failed");
     }
   };
 
@@ -455,7 +509,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
-        signInWithGoogle,
         becomeInstructor,
         updateInstructor,
         courses,

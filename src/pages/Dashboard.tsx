@@ -691,19 +691,9 @@ export default function Dashboard() {
                       <option>Soukromý</option>
                     </select>
                   </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => navigate('/auth/forgot-password')}
-                      className="button1 px-6 py-2 rounded-lg"
-                    >
+                  <div>
+                    <button className="button1 px-6 py-2 rounded-lg">
                       Změnit heslo
-                    </button>
-                    <button
-                      onClick={() => navigate('/dashboard/security')}
-                      className="flex items-center gap-2 bg-teal-500 hover:bg-teal-600 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-200"
-                    >
-                      <FaLock />
-                      Zabezpečení (2FA)
                     </button>
                   </div>
                 </div>
