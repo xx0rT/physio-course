@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/context/authProvider";
+import { supabase } from "@/lib/supabase";
 import { toast, ToastContainer } from "react-toastify";
 import { FaEnvelope, FaLock, FaUserCircle, FaGoogle } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,8 +26,15 @@ export default function Login() {
 
     try {
       await login(email, password);
-      toast.success("Úspěšně přihlášeno!");
-      navigate("/dashboard");
+
+      const factors = await supabase.auth.mfa.listFactors();
+
+      if (factors.data?.totp && factors.data.totp.length > 0) {
+        navigate("/auth/verify-2fa");
+      } else {
+        toast.success("Úspěšně přihlášeno!");
+        navigate("/dashboard");
+      }
     } catch (error: any) {
       console.error("Login error:", error);
       const errorMessage = error?.message || "Přihlášení selhalo.";
