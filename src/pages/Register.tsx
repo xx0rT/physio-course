@@ -60,7 +60,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-5 py-20 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-neutral-900 dark:to-neutral-800">
+    <div className="min-h-screen flex items-center justify-center px-5 py-20 bg-gradient-to-br from-teal-50 to-coral-50 dark:from-neutral-900 dark:to-neutral-800">
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
@@ -88,7 +88,7 @@ export default function Register() {
                   value={formData.firstName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                   placeholder="Jan"
                 />
               </div>
@@ -107,7 +107,7 @@ export default function Register() {
                   value={formData.lastName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
                   placeholder="Novák"
                 />
               </div>
@@ -173,7 +173,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-purple-500 hover:bg-purple-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+              className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               {isLoading ? "Vytváření účtu..." : "Zaregistrovat se"}
             </button>
@@ -184,7 +184,7 @@ export default function Register() {
               Už máte účet?{" "}
               <Link
                 to="/auth/login"
-                className="text-purple-500 hover:text-purple-600 font-semibold"
+                className="text-teal-500 hover:text-teal-600 font-semibold"
               >
                 Přihlásit se
               </Link>

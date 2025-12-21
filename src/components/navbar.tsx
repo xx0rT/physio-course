@@ -54,7 +54,7 @@ const Navbar = () => {
       isScrolled ? 'py-2' : 'py-5'
     }`}>
       <div className="flex justify-center gap-2 items-center w-fit">
-        <SiDatabricks className={`text-purple-400 transition-all duration-300 ${isScrolled ? 'w-7' : 'w-9'}`} size="100%" />
+        <SiDatabricks className={`text-teal-500 transition-all duration-300 ${isScrolled ? 'w-7' : 'w-9'}`} size="100%" />
         <Link
           className={`font-bold text-neutral-800 dark:text-white transition-all duration-300 ${isScrolled ? 'text-base md:text-lg' : 'text-lg md:text-xl'}`}
           to="/"
@@ -74,7 +74,7 @@ const Navbar = () => {
           <Link
             key={index}
             to={item.url}
-            className="border border-transparent hover:text-purple-400 hover:border-purple-400 p-2 rounded-xl duration-150"
+            className="border border-transparent hover:text-teal-500 hover:border-teal-500 p-2 rounded-xl duration-150"
           >
             {t(`navbar.${item.title}`)}
           </Link>
@@ -83,14 +83,14 @@ const Navbar = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className=" border border-transparent hover:text-purple-400 hover:border-purple-400 p-2 rounded-xl duration-150">
+              <NavigationMenuTrigger className=" border border-transparent hover:text-teal-500 hover:border-teal-500 p-2 rounded-xl duration-150">
                 {t("navbar.pages")}
               </NavigationMenuTrigger>
               <NavigationMenuContent className="grid gap-3 p-4 lg:w-[600px] 2xl:w-[700px] lg:grid-cols-[1fr_1fr] bg-white dark:bg-neutral-800">
                 {LinksData.footer.Quick_Links.map((item, index) => (
                   <NavigationMenuLink key={index} asChild>
                     <Link
-                      className="p-2 w-full hover:text-purple-400 cursor-pointer"
+                      className="p-2 w-full hover:text-teal-500 cursor-pointer"
                       to={item.url}
                     >
                       <p className="text-[15px]">
@@ -120,7 +120,7 @@ const Navbar = () => {
                   {LinksData.navbar.slice(3, 7).map((item, index) => (
                     <NavigationMenuLink key={index} asChild>
                       <Link
-                        className="p-2 w-full hover:text-purple-400 cursor-pointer"
+                        className="p-2 w-full hover:text-teal-500 cursor-pointer"
                         to={item.url}
                       >
                         <p className="text-[15px]">{t(`navbar.${item.title}`)}</p>
@@ -131,7 +131,7 @@ const Navbar = () => {
                   {!user?.bio && (
                     <NavigationMenuLink>
                     <Link
-                      className="p-2 w-full hover:text-purple-400 cursor-pointer"
+                      className="p-2 w-full hover:text-teal-500 cursor-pointer"
                       to="/auth/becomeInstructor"
                     >
                       <p className="text-[15px]">{t("navbar.become-instructor")}</p>
@@ -144,7 +144,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/auth/login"
-                className="hidden lg:inline bg-purple-400 text-white rounded-xl p-3 border border-purple-400 hover:bg-transparent hover:text-purple-400  duration-150"
+                className="hidden lg:inline bg-teal-500 text-white rounded-xl p-3 border border-teal-500 hover:bg-transparent hover:text-teal-500  duration-150"
               >
                 {t("navbar.Log-in")}
               </Link>
@@ -154,7 +154,7 @@ const Navbar = () => {
       </div>
       <button
         onClick={toggleSidebar}
-        className={`lg:hidden text-purple-400 w-10 duration-150
+        className={`lg:hidden text-teal-500 w-10 duration-150
           ${isSidebarVisible ? "scale-0" : " scale-100"}
           `}
       >
@@ -169,7 +169,7 @@ const Navbar = () => {
 
       <button
         onClick={toggleSidebar}
-        className={`absolute text-white  p-2 mx-2 mt-4 text-2xl bg-purple-500 rounded-2xl duration-150 lg:-right-80
+        className={`absolute text-white  p-2 mx-2 mt-4 text-2xl bg-teal-500 rounded-2xl duration-150 lg:-right-80
             ${isSidebarVisible ? "right-80" : " -right-80"}
             `}
       >
@@ -187,7 +187,7 @@ const Navbar = () => {
           <Link
             onClick={toggleSidebar}
             to="/dashboard"
-            className="my-6 bg-purple-500  text-white rounded-2xl p-3 px-5 "
+            className="my-6 bg-teal-500  text-white rounded-2xl p-3 px-5 "
           >
             {t("navbar.account")}
           </Link>
@@ -196,14 +196,14 @@ const Navbar = () => {
             <Link
               onClick={toggleSidebar}
               to="/auth/login"
-              className=" bg-purple-500  text-white rounded-2xl p-3 px-5"
+              className=" bg-teal-500  text-white rounded-2xl p-3 px-5"
             >
               {t("navbar.Log-in")}
             </Link>
             <Link
               onClick={toggleSidebar}
               to="/auth/register"
-              className="border border-purple-500 text-purple-500 rounded-2xl p-3 px-5"
+              className="border border-teal-500 text-teal-500 rounded-2xl p-3 px-5"
             >
               {t("navbar.register")}
             </Link>

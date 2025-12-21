@@ -42,7 +42,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
         <div className="overflow-hidden rounded-2xl">
           {/* Course Cover*/}
           <div className="relative w-full h-2/4 ">
-            <p className="p-2 bg-purple-500 rounded-2xl absolute right-2 top-2 flex items-center gap-1 ">
+            <p className="p-2 bg-teal-500 rounded-2xl absolute right-2 top-2 flex items-center gap-1 ">
               <FaStar className="text-yellow-300" />
               {rating}
             </p>
@@ -54,7 +54,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
             />
           </div>
           {/* Course Category*/}
-          <p className="mt-3 text-xs font-semibold text-white bg-purple-500 dark:text-purple-500 dark:bg-purple-100 px-1 py-1 inline-block rounded-lg">
+          <p className="mt-3 text-xs font-semibold text-white bg-teal-500 dark:text-teal-500 dark:bg-teal-100 px-1 py-1 inline-block rounded-lg">
             {category}
           </p>
 
@@ -68,7 +68,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
                   {title.split(" ").slice(0, 3).join(" ") + "..."}
                 </h1>
               )}
-              <p className="text-lg text-purple-500 flex items-center">
+              <p className="text-lg text-teal-500 flex items-center">
                 {price == 0 ? (
                   t("CoursesSection.freeCourse")
                 ) : (
@@ -88,16 +88,16 @@ const CourseCard: React.FC<CourseCardProps> = ({
             hover: { display: "inline" ,scale:1},
           }}
           transition={{ duration: 0.04 }}
-          className=" bg-neutral-200 dark:bg-neutral-900 border border-purple-500 rounded-2xl p-3 px-5 absolute top-full  z-20 w-full lg:w-[300px] cursor-default"
+          className=" bg-neutral-200 dark:bg-neutral-900 border border-teal-500 rounded-2xl p-3 px-5 absolute top-full  z-20 w-full lg:w-[300px] cursor-default"
         >
           <div className="my-4">
-            <h1 className="text-purple-500 dark:text-purple-500 font-semibold uppercase ">
+            <h1 className="text-teal-500 dark:text-teal-500 font-semibold uppercase ">
               {t("CoursesSection.hoverTitle")}
             </h1>
             <h1 className="ml-2  text-neutral-900">{title}</h1>
           </div>
           <div className="my-4">
-            <h1 className="font-semibold text-purple-500 dark:text-purple-500 uppercase">
+            <h1 className="font-semibold text-teal-500 dark:text-teal-500 uppercase">
               Description
             </h1>
             <p className="ml-2">{description}</p>

@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   const { t } = useTranslation();
   const socialStyle =
-    "w-10 border border-purple-400 p-3 rounded-full text-white bg-purple-400 hover:text-purple-400 hover:bg-transparent duration-150 cursor-pointer";
+    "w-10 border border-coral-400 p-3 rounded-full text-white bg-coral-400 hover:text-coral-400 hover:bg-transparent duration-150 cursor-pointer";
 
   return (
     <section className="p-10 bg-neutral-950 flex flex-col text-center justify-center items-center md:text-start md:flex-row md:justify-evenly md:items-start gap-20 lg:gap-5 ">
@@ -36,7 +36,7 @@ const Footer = () => {
         <div className="flex flex-col gap-4 pl-5">
           {data.footer.our_services.map((item, index) => (
             <Link
-              className="text-neutral-400 hover:text-purple-400"
+              className="text-neutral-400 hover:text-coral-400"
               to={item.url}
               key={index}
             >
@@ -50,7 +50,7 @@ const Footer = () => {
         <div className="flex flex-col gap-4 pl-5">
           {data.footer.Quick_Links.map((item, index) => (
             <Link
-              className="text-neutral-400 hover:text-purple-400"
+              className="text-neutral-400 hover:text-coral-400"
               to={item.url}
               key={index}
             >

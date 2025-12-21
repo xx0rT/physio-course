@@ -49,8 +49,8 @@ const CustomButton: React.FC<Props> = ({
         style={width ? { width: `${title.length}rem` } : { width: "fit" }}
         className={`rounded-2xl  p-3 px-4    cursor-pointer ${
           bg
-            ? "bg-purple-500 text-white "
-            : "border border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white"
+            ? "bg-teal-500 text-white "
+            : "border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white"
         }`}
       >
         {title}
