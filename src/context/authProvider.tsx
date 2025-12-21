@@ -184,33 +184,38 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             lastName,
             role: "student",
           },
+          emailRedirectTo: window.location.origin,
         },
       });
 
       if (error) throw error;
 
       if (data.user) {
-        const userData: User = {
-          profile: "",
-          firstName,
-          lastName,
-          _id: data.user.id,
-          email: data.user.email || "",
-          createdAt: data.user.created_at,
-          isActive: true,
-          fullName: `${firstName} ${lastName}`.trim(),
-          myCourses: [],
-          enrolledCourses: [],
-          bio: "",
-          title: "",
-          role: "student",
-          socialLinks: {},
-        };
-        setUser(userData);
+        if (data.session) {
+          const userData: User = {
+            profile: "",
+            firstName,
+            lastName,
+            _id: data.user.id,
+            email: data.user.email || "",
+            createdAt: data.user.created_at,
+            isActive: true,
+            fullName: `${firstName} ${lastName}`.trim(),
+            myCourses: [],
+            enrolledCourses: [],
+            bio: "",
+            title: "",
+            role: "student",
+            socialLinks: {},
+          };
+          setUser(userData);
+        } else {
+          throw new Error("Email confirmation required. Please check your email to confirm your account.");
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Register failed:", error);
-      throw new Error("Registration failed");
+      throw new Error(error.message || "Registration failed");
     }
   };
 

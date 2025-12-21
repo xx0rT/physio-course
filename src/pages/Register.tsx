@@ -52,8 +52,17 @@ export default function Register() {
       );
       toast.success("Účet byl úspěšně vytvořen!");
       navigate("/");
-    } catch (error) {
-      toast.error("Registrace selhala. Zkuste to znovu.");
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      const errorMessage = error?.message || "Registrace selhala. Zkuste to znovu.";
+
+      if (errorMessage.includes("Email confirmation required")) {
+        toast.info("Potvrďte svůj e-mail. Zkontrolujte si e-mailovou schránku.");
+      } else if (errorMessage.includes("already registered")) {
+        toast.error("Tento e-mail je již registrován.");
+      } else {
+        toast.error(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }

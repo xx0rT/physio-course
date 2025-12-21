@@ -26,8 +26,17 @@ export default function Login() {
       await login(email, password);
       toast.success("Úspěšně přihlášeno!");
       navigate("/dashboard");
-    } catch (error) {
-      toast.error("Přihlášení selhalo. Zkontrolujte své přihlašovací údaje.");
+    } catch (error: any) {
+      console.error("Login error:", error);
+      const errorMessage = error?.message || "Přihlášení selhalo.";
+
+      if (errorMessage.includes("Invalid login credentials")) {
+        toast.error("Neplatné přihlašovací údaje. Zkontrolujte e-mail a heslo.");
+      } else if (errorMessage.includes("Email not confirmed")) {
+        toast.error("E-mail nebyl potvrzen. Zkontrolujte si schránku.");
+      } else {
+        toast.error("Přihlášení selhalo. Zkontrolujte své přihlašovací údaje.");
+      }
     } finally {
       setIsLoading(false);
     }
