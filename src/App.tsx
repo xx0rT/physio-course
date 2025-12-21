@@ -9,6 +9,7 @@ import { AuthProvider } from '@/context/authProvider';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import ScrollTopBtn from '@/components/scrollTopBtn';
+import { ScrollToTop } from '@/components/ui/ScrollToTop';
 
 import HomePage from '@/pages/Home';
 import CoursesPage from '@/pages/Courses';
@@ -51,6 +52,7 @@ function App() {
         disableTransitionOnChange
       >
         <Router>
+          <ScrollToTop />
           <div className="flex flex-col min-h-screen">
             <Navbar />
             <main className="flex-grow">
