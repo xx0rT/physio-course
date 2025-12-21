@@ -191,14 +191,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error) throw error;
 
       if (data.user) {
-        if (data.session) {
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (loginError) throw loginError;
+
+        if (loginData.user) {
           const userData: User = {
             profile: "",
             firstName,
             lastName,
-            _id: data.user.id,
-            email: data.user.email || "",
-            createdAt: data.user.created_at,
+            _id: loginData.user.id,
+            email: loginData.user.email || "",
+            createdAt: loginData.user.created_at,
             isActive: true,
             fullName: `${firstName} ${lastName}`.trim(),
             myCourses: [],
@@ -209,8 +218,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             socialLinks: {},
           };
           setUser(userData);
-        } else {
-          throw new Error("Email confirmation required. Please check your email to confirm your account.");
         }
       }
     } catch (error: any) {
