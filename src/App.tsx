@@ -27,7 +27,6 @@ import MyLearningPage from '@/pages/MyLearning';
 import WishlistPage from '@/pages/Wishlist';
 import LoginPage from '@/pages/Login';
 import RegisterPage from '@/pages/Register';
-import ResetPasswordPage from '@/pages/ResetPassword';
 import BecomeInstructorPage from '@/pages/BecomeInstructor';
 import AddCoursesPage from '@/pages/AddCourses';
 import UpdateProfilePage from '@/pages/UpdateProfile';
@@ -72,7 +71,6 @@ function App() {
                 <Route path="/dashboard/wishlist" element={<WishlistPage />} />
                 <Route path="/auth/login" element={<LoginPage />} />
                 <Route path="/auth/register" element={<RegisterPage />} />
-                <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/auth/becomeInstructor" element={<BecomeInstructorPage />} />
                 <Route path="/auth/addCourses" element={<AddCoursesPage />} />
                 <Route path="/auth/update-profile" element={<UpdateProfilePage />} />
