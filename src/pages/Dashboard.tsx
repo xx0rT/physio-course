@@ -197,9 +197,11 @@ export default function Dashboard() {
   const handleLogout = async () => {
     try {
       await logout();
+      toast.success("Úspěšně odhlášeno!");
       navigate('/');
     } catch (error) {
-      toast.error("Odhlášení se nezdařilo");
+      console.error("Logout error:", error);
+      toast.error("Odhlášení se nezdařilo. Zkuste to znovu.");
     }
   };
 

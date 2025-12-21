@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/context/authProvider";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -70,6 +71,8 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-5 py-20 bg-gradient-to-br from-teal-50 to-coral-50 dark:from-neutral-900 dark:to-neutral-800">
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <div className="w-full max-w-md">
         <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">

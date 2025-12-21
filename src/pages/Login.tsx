@@ -7,10 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { user, login } = useAuth();
+  const { user, login, resetPassword } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [isResetting, setIsResetting] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -39,6 +42,29 @@ export default function Login() {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!resetEmail) {
+      toast.error("Zadejte prosím svůj e-mail.");
+      return;
+    }
+
+    setIsResetting(true);
+
+    try {
+      await resetPassword(resetEmail);
+      toast.success("Odkaz pro obnovení hesla byl odeslán na váš e-mail!");
+      setShowResetModal(false);
+      setResetEmail("");
+    } catch (error: any) {
+      console.error("Reset password error:", error);
+      toast.error("Odeslání odkazu pro obnovení hesla selhalo. Zkuste to znovu.");
+    } finally {
+      setIsResetting(false);
     }
   };
 
@@ -107,6 +133,16 @@ export default function Login() {
               </div>
             </div>
 
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowResetModal(true)}
+                className="text-sm text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-medium transition-colors"
+              >
+                Zapomněli jste heslo?
+              </button>
+            </div>
+
             <button
               type="submit"
               disabled={isLoading}
@@ -140,6 +176,71 @@ export default function Login() {
           Přihlášením souhlasíte s našimi podmínkami služby a zásadami ochrany osobních údajů
         </p>
       </div>
+
+      {showResetModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl p-8 max-w-md w-full border border-neutral-200 dark:border-neutral-700">
+            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-4">
+              Obnovit heslo
+            </h2>
+            <p className="text-neutral-600 dark:text-neutral-400 mb-6">
+              Zadejte svůj e-mail a my vám pošleme odkaz pro obnovení hesla.
+            </p>
+
+            <form onSubmit={handleResetPassword} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="reset-email"
+                  className="block text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2"
+                >
+                  E-mailová adresa
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <FaEnvelope className="text-neutral-400" />
+                  </div>
+                  <input
+                    id="reset-email"
+                    type="email"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    required
+                    className="w-full pl-11 pr-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-700 text-neutral-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowResetModal(false);
+                    setResetEmail("");
+                  }}
+                  className="flex-1 px-4 py-3 rounded-lg border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all"
+                >
+                  Zrušit
+                </button>
+                <button
+                  type="submit"
+                  disabled={isResetting}
+                  className="flex-1 button1 font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isResetting ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                      Odesílání...
+                    </div>
+                  ) : (
+                    "Odeslat"
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -75,6 +75,8 @@ interface AuthContextType {
     email: string,
     password: string,
   ) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (newPassword: string) => Promise<void>;
   deactivateAccount:() => Promise<void>;
   becomeInstructor: (data: {
     title: string;
@@ -310,6 +312,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
+      throw error;
+    }
+  };
+
+  const resetPassword = async (email: string) => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
+
+      if (error) throw error;
+    } catch (error: any) {
+      console.error("Password reset failed:", error);
+      throw new Error(error.message || "Password reset failed");
+    }
+  };
+
+  const updatePassword = async (newPassword: string) => {
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) throw error;
+    } catch (error: any) {
+      console.error("Password update failed:", error);
+      throw new Error(error.message || "Password update failed");
     }
   };
 
@@ -509,6 +538,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         register,
+        resetPassword,
+        updatePassword,
         becomeInstructor,
         updateInstructor,
         courses,
