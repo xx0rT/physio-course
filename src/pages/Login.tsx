@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/context/authProvider";
 import { toast, ToastContainer } from "react-toastify";
-import { FaEnvelope, FaLock, FaUserCircle } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUserCircle, FaGoogle } from "react-icons/fa";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { user, login } = useAuth();
+  const { user, login, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -107,9 +108,18 @@ export default function Login() {
               </div>
             </div>
 
+            <div className="text-right">
+              <Link
+                to="/auth/forgot-password"
+                className="text-sm text-teal-600 dark:text-teal-400 hover:text-teal-700 dark:hover:text-teal-300 font-semibold transition-colors"
+              >
+                Zapomenuté heslo?
+              </Link>
+            </div>
+
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isGoogleLoading}
               className="w-full button1 font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
             >
               {isLoading ? (
@@ -122,6 +132,46 @@ export default function Login() {
               )}
             </button>
           </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-neutral-300 dark:border-neutral-600"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-white dark:bg-neutral-800 text-neutral-500 dark:text-neutral-400">
+                  Nebo pokračovat s
+                </span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={async () => {
+                setIsGoogleLoading(true);
+                try {
+                  await signInWithGoogle();
+                } catch (error: any) {
+                  toast.error("Přihlášení pomocí Google selhalo");
+                  setIsGoogleLoading(false);
+                }
+              }}
+              disabled={isLoading || isGoogleLoading}
+              className="mt-4 w-full flex items-center justify-center gap-3 bg-white dark:bg-neutral-700 border-2 border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-white font-semibold py-3 px-4 rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-600 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+            >
+              {isGoogleLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-neutral-600"></div>
+                  Přihlašování...
+                </div>
+              ) : (
+                <>
+                  <FaGoogle className="text-xl" />
+                  Přihlásit se pomocí Google
+                </>
+              )}
+            </button>
+          </div>
 
           <div className="mt-6 text-center">
             <p className="text-neutral-600 dark:text-neutral-400">
