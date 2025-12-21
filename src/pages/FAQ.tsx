@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
-import { FiPlus, FiMinus, FiHelpCircle, FiMessageCircle } from "react-icons/fi";
+import { motion } from "framer-motion";
+import { FaChevronDown, FaChevronUp, FaQuestionCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const FAQPage = () => {
   const { t } = useTranslation();
@@ -13,9 +14,14 @@ const FAQPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-neutral-900 dark:to-neutral-800">
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 mt-16">
-        <div className="container mx-auto px-5">
+    <div className="min-h-screen bg-white dark:bg-neutral-900">
+      <div className="relative bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-neutral-800 dark:to-neutral-900 py-20 mt-16 overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-teal-400 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-5 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -23,15 +29,15 @@ const FAQPage = () => {
             className="text-center max-w-3xl mx-auto"
           >
             <div className="flex justify-center mb-6">
-              <div className="bg-white/10 backdrop-blur-sm rounded-full p-6">
-                <FiHelpCircle className="w-16 h-16" />
+              <div className="bg-teal-500 rounded-full p-6 shadow-xl">
+                <FaQuestionCircle className="w-16 h-16 text-white" />
               </div>
             </div>
-            <h1 className="text-5xl font-bold mb-6">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-neutral-800 dark:text-white">
               {t("faq.title")}
             </h1>
-            <p className="text-xl text-white/90">
-              Find answers to common questions about our platform, courses, and services
+            <p className="text-xl text-neutral-600 dark:text-neutral-300">
+              Najděte odpovědi na nejčastější otázky o naší platformě, kurzech a službách
             </p>
           </motion.div>
         </div>
@@ -44,134 +50,126 @@ const FAQPage = () => {
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="bg-white dark:bg-neutral-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 dark:border-neutral-700"
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="bg-white dark:bg-neutral-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-neutral-200 dark:border-neutral-700"
               >
                 <button
-                  className="w-full text-left p-6 flex items-center justify-between group transition-all duration-200 hover:bg-gray-50 dark:hover:bg-neutral-750"
+                  className="w-full text-left p-6 flex items-center justify-between group transition-all duration-200 hover:bg-teal-50 dark:hover:bg-neutral-750"
                   onClick={() => toggleFAQ(index)}
                   aria-expanded={openIndex === index}
                 >
-                  <div className="flex items-start gap-4 flex-1">
-                    <div className={`mt-1 transition-colors duration-200 ${
-                      openIndex === index
-                        ? 'text-purple-600 dark:text-purple-400'
-                        : 'text-gray-400 dark:text-neutral-500'
-                    }`}>
-                      <FiMessageCircle className="w-6 h-6" />
-                    </div>
-                    <span className="font-semibold text-lg text-neutral-800 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors pr-4">
-                      {faq.question}
-                    </span>
-                  </div>
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                  <span className="font-semibold text-lg text-neutral-800 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors pr-4">
+                    {faq.question}
+                  </span>
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
                     openIndex === index
-                      ? 'bg-purple-600 text-white rotate-180'
-                      : 'bg-gray-200 dark:bg-neutral-700 text-gray-600 dark:text-neutral-400'
+                      ? 'bg-teal-500 text-white'
+                      : 'bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-400'
                   }`}>
                     {openIndex === index ? (
-                      <FiMinus className="w-5 h-5" />
+                      <FaChevronUp className="w-4 h-4" />
                     ) : (
-                      <FiPlus className="w-5 h-5" />
+                      <FaChevronDown className="w-4 h-4" />
                     )}
                   </div>
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {openIndex === index && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 pb-6 pl-16">
-                        <div className="bg-purple-50 dark:bg-neutral-900/50 rounded-lg p-5 border-l-4 border-purple-600">
-                          <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div
+                  className={`transition-all duration-300 ease-in-out ${
+                    openIndex === index
+                      ? 'max-h-96 opacity-100'
+                      : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <div className="px-6 pb-6">
+                    <div className="bg-teal-50 dark:bg-neutral-900/50 rounded-lg p-5 border-l-4 border-teal-500">
+                      <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16 mt-8">
+      <div className="bg-neutral-100 dark:bg-neutral-800 py-16">
         <div className="container mx-auto px-5">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="text-center max-w-2xl mx-auto"
-          >
-            <h2 className="text-3xl font-bold mb-4">Still Have Questions?</h2>
-            <p className="text-lg text-white/90 mb-8">
-              Can't find the answer you're looking for? Please reach out to our support team.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                onClick={() => window.location.href = '/support'}
-                className="bg-white text-purple-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
-                Contact Support
-              </button>
-              <button
-                onClick={() => window.location.href = '/courses'}
-                className="bg-transparent border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-purple-600 transition-all duration-200"
-              >
-                Browse Courses
-              </button>
-            </div>
-          </motion.div>
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-white dark:bg-neutral-900 rounded-2xl shadow-lg p-8 md:p-12"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-800 dark:text-white mb-6 text-center">
+                Rychlá nápověda
+              </h2>
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                <Link to="/courses" className="group text-center p-6 rounded-xl bg-teal-50 dark:bg-teal-900/20 hover:shadow-lg transition-all duration-200 border-2 border-transparent hover:border-teal-500">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">📚</div>
+                  <h3 className="font-semibold text-lg text-neutral-800 dark:text-white mb-2">
+                    Začínáme
+                  </h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Naučte se orientovat na platformě
+                  </p>
+                </Link>
+                <Link to="/support" className="group text-center p-6 rounded-xl bg-cyan-50 dark:bg-cyan-900/20 hover:shadow-lg transition-all duration-200 border-2 border-transparent hover:border-cyan-500">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">💳</div>
+                  <h3 className="font-semibold text-lg text-neutral-800 dark:text-white mb-2">
+                    Platby a účtování
+                  </h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Informace o cenách a vratках
+                  </p>
+                </Link>
+                <Link to="/dashboard/my-learning" className="group text-center p-6 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 hover:shadow-lg transition-all duration-200 border-2 border-transparent hover:border-emerald-500">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">🎓</div>
+                  <h3 className="font-semibold text-lg text-neutral-800 dark:text-white mb-2">
+                    Certifikáty
+                  </h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Informace o dokončení kurzu
+                  </p>
+                </Link>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-5 py-16">
-        <div className="max-w-4xl mx-auto">
+      <div className="bg-gradient-to-br from-teal-500 to-cyan-600 text-white py-16">
+        <div className="container mx-auto px-5">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="bg-white dark:bg-neutral-800 rounded-xl shadow-lg p-8"
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="text-center max-w-2xl mx-auto"
           >
-            <h2 className="text-2xl font-bold text-neutral-800 dark:text-white mb-6 text-center">
-              Quick Help Topics
-            </h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="text-center p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="text-3xl mb-3">📚</div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-2">
-                  Getting Started
-                </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Learn how to navigate the platform
-                </p>
-              </div>
-              <div className="text-center p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="text-3xl mb-3">💳</div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-2">
-                  Payment & Billing
-                </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Understand pricing and refunds
-                </p>
-              </div>
-              <div className="text-center p-4 rounded-lg bg-green-50 dark:bg-green-900/20 hover:shadow-md transition-all duration-200 cursor-pointer">
-                <div className="text-3xl mb-3">🎓</div>
-                <h3 className="font-semibold text-neutral-800 dark:text-white mb-2">
-                  Certificates
-                </h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Learn about course completion
-                </p>
-              </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Stále máte otázky?</h2>
+            <p className="text-lg text-white/90 mb-8">
+              Nenašli jste odpověď, kterou hledáte? Kontaktujte náš tým podpory.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                to="/support"
+                className="bg-white text-teal-600 font-semibold px-8 py-3 rounded-lg hover:bg-neutral-100 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                Kontaktovat podporu
+              </Link>
+              <Link
+                to="/courses"
+                className="bg-transparent border-2 border-white text-white font-semibold px-8 py-3 rounded-lg hover:bg-white hover:text-teal-600 transition-all duration-200"
+              >
+                Prohlížet kurzy
+              </Link>
             </div>
           </motion.div>
         </div>

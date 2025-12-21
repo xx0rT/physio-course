@@ -30,6 +30,7 @@ import RegisterPage from '@/pages/Register';
 import BecomeInstructorPage from '@/pages/BecomeInstructor';
 import AddCoursesPage from '@/pages/AddCourses';
 import UpdateProfilePage from '@/pages/UpdateProfile';
+import UpdatePasswordPage from '@/pages/UpdatePassword';
 import NotFoundPage from '@/pages/NotFound';
 
 function App() {
@@ -74,6 +75,7 @@ function App() {
                 <Route path="/auth/becomeInstructor" element={<BecomeInstructorPage />} />
                 <Route path="/auth/addCourses" element={<AddCoursesPage />} />
                 <Route path="/auth/update-profile" element={<UpdateProfilePage />} />
+                <Route path="/auth/update-password" element={<UpdatePasswordPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>
