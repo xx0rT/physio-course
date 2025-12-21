@@ -47,8 +47,8 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
   };
-  const { user , loading } = useAuth();
-  if(loading)return null
+  const { user } = useAuth();
+
   return (
     <section className={`fixed top-0 left-0 w-full px-5 2xl:px-20 flex justify-between Lg:justify-evenly items-center z-50 bg-slate-100 dark:bg-neutral-900 select-none transition-all duration-300 shadow-md ${
       isScrolled ? 'py-2' : 'py-5'
