@@ -96,7 +96,7 @@ export default function Setup2FA() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-5 py-20" style={{ background: 'linear-gradient(135deg, rgba(112, 79, 230, 0.1) 0%, rgba(30, 42, 71, 0.1) 100%)' }}>
+    <div className="min-h-screen flex items-center justify-center px-5 pt-28 pb-20" style={{ background: 'linear-gradient(135deg, rgba(112, 79, 230, 0.1) 0%, rgba(30, 42, 71, 0.1) 100%)' }}>
       <ToastContainer position="top-right" autoClose={3000} />
 
       <div className="w-full max-w-md">

@@ -73,7 +73,7 @@ export default function Security() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 py-20 px-5">
+    <div className="min-h-screen bg-neutral-50 dark:bg-neutral-900 pt-28 pb-20 px-5">
       <ToastContainer position="top-right" autoClose={3000} />
 
       <div className="max-w-4xl mx-auto">
