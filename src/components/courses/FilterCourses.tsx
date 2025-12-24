@@ -268,29 +268,33 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
   
 
   const CheckboxLabel = ({ item, groupName }: { item: {value: string, label: string}, groupName: keyof FilterState}) => (
-    <label key={item.value} className={`flex items-center gap-2 py-1 cursor-pointer ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
-        <input 
-            type="checkbox" 
-            className="accent-purple-500" 
-            checked={(filters[groupName] as string[]).includes(item.value)} 
-            onChange={() => handleCheckboxChange(groupName, item.value)} 
+    <label key={item.value} className={`flex items-center gap-2 py-1 cursor-pointer hover:bg-teal-100 dark:hover:bg-teal-900/30 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
+        <input
+            type="checkbox"
+            className="accent-teal-500 w-4 h-4"
+            checked={(filters[groupName] as string[]).includes(item.value)}
+            onChange={() => handleCheckboxChange(groupName, item.value)}
         />
-        {item.label}
+        <span className="text-neutral-700 dark:text-neutral-300 font-medium">{item.label}</span>
     </label>
   );
 
   return (
-    <div className="w-full lg:w-64 space-y-6 text-sm text-gray-900 dark:text-white">
-      {/* 4. Translate Filter Header */}
+    <div className="w-full lg:w-64 space-y-6 text-sm sticky top-24 bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950/30 dark:to-teal-900/20 p-6 rounded-2xl shadow-lg border border-teal-200 dark:border-teal-800 backdrop-blur-sm">
+      {/* Filter Header */}
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsSidebarVisible(prev => !prev)}
-          className="flex items-center border px-3 py-1 rounded text-sm font-medium cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-700"
+          className="flex items-center border-2 border-teal-500 px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-teal-500 hover:text-white transition-all duration-200 text-teal-700 dark:text-teal-300"
         >
           <Menu className={`h-4 w-4 ${locale === 'ar' ? 'ml-2' : 'mr-2'}`} />
           {t('filters.title')}
         </button>
-        <select value={filters.sortBy} onChange={handleSortChange} className="border rounded px-2 py-1 text-sm cursor-pointer bg-transparent dark:bg-neutral-800">
+        <select
+          value={filters.sortBy}
+          onChange={handleSortChange}
+          className="border-2 border-teal-500 rounded-lg px-3 py-2 text-sm cursor-pointer bg-white dark:bg-neutral-800 text-teal-700 dark:text-teal-300 font-medium hover:bg-teal-50 dark:hover:bg-teal-950/30 transition-all"
+        >
           <option value="highest-rated">{t('filters.sortBy_options.highest_rated')}</option>
           <option value="newest">{t('filters.sortBy_options.newest')}</option>
         </select>
@@ -300,15 +304,15 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
       {isSidebarVisible && (
         <Accordion type="multiple" defaultValue={["ratings", "category"]} className="w-full space-y-2">
           
-          <AccordionItem value="ratings">
-            <AccordionTrigger className="text-gray-900 dark:text-white">{t('filters.ratings_title')}</AccordionTrigger>
+          <AccordionItem value="ratings" className="border-b border-teal-200 dark:border-teal-800">
+            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.ratings_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {[4.5, 4.0, 3.5, 3.0].map((rate) => (
-                <label key={rate} className={`flex items-center gap-2 py-1 cursor-pointer ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
+                <label key={rate} className={`flex items-center gap-2 py-1 cursor-pointer hover:bg-teal-100 dark:hover:bg-teal-900/30 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
                   <input
                     type="radio"
                     name="rating"
-                    className="accent-purple-500"
+                    className="accent-teal-500 w-4 h-4"
                     checked={filters.rating === rate}
                     onChange={() => handleRatingChange(rate)}
                   />
@@ -317,14 +321,14 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
                       <Star key={i} size={16} className={i < rate ? "text-yellow-400 fill-yellow-400" : "text-gray-300"} />
                     ))}
                   </span>
-                  <span>{t('filters.ratings_and_up', { rate: rate.toFixed(1) })}</span>
+                  <span className="text-neutral-700 dark:text-neutral-300 font-medium">{t('filters.ratings_and_up', { rate: rate.toFixed(1) })}</span>
                 </label>
               ))}
             </AccordionContent>
           </AccordionItem>
           
-          <AccordionItem value="duration">
-            <AccordionTrigger className="text-gray-900 dark:text-white">{t('filters.duration_title')}</AccordionTrigger>
+          <AccordionItem value="duration" className="border-b border-teal-200 dark:border-teal-800">
+            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.duration_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {durationOptions.map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="duration"/>
@@ -332,8 +336,8 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="price">
-            <AccordionTrigger className="text-gray-900 dark:text-white">{t('filters.price_title')}</AccordionTrigger>
+          <AccordionItem value="price" className="border-b border-teal-200 dark:border-teal-800">
+            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.price_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {priceOptions.map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="price"/>
@@ -341,8 +345,8 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="language">
-            <AccordionTrigger className="text-gray-900 dark:text-white">{t('filters.language_title')}</AccordionTrigger>
+          <AccordionItem value="language" className="border-b border-teal-200 dark:border-teal-800">
+            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.language_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {languageOptions.map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="language"/>
@@ -350,8 +354,8 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="level">
-            <AccordionTrigger className="text-gray-900 dark:text-white">{t('filters.level_title')}</AccordionTrigger>
+          <AccordionItem value="level" className="border-b border-teal-200 dark:border-teal-800">
+            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.level_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {levelOptions.map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="level"/>
@@ -359,15 +363,15 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="category">
-            <AccordionTrigger className="text-gray-900 dark:text-white">{t('filters.category_title')}</AccordionTrigger>
+          <AccordionItem value="category" className="border-b border-teal-200 dark:border-teal-800">
+            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.category_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {(showAllCategories ? categoryOptions : categoryOptions.slice(0, 4)).map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="category"/>
               ))}
               {categoryOptions.length > 4 && (
                 <button
-                  className="mt-2 text-purple-600 font-semibold text-sm flex items-center gap-1"
+                  className="mt-2 text-teal-600 dark:text-teal-400 font-semibold text-sm flex items-center gap-1 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"
                   onClick={() => setShowAllCategories((prev) => !prev)}
                 >
                   {showAllCategories ? t('filters.show_less') : t('filters.show_more')}
