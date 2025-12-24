@@ -64,13 +64,15 @@ interface Course {
 }
 
 interface Subscription {
-  id: string;
-  user_id: string;
-  plan_type: 'monthly' | 'lifetime';
-  status: 'active' | 'expired' | 'cancelled';
-  start_date: string;
-  end_date: string | null;
-  price_paid: number;
+  customer_id: string;
+  subscription_id: string | null;
+  subscription_status: 'not_started' | 'incomplete' | 'incomplete_expired' | 'trialing' | 'active' | 'past_due' | 'canceled' | 'unpaid' | 'paused' | null;
+  price_id: string | null;
+  current_period_start: number | null;
+  current_period_end: number | null;
+  cancel_at_period_end: boolean | null;
+  payment_method_brand: string | null;
+  payment_method_last4: string | null;
 }
 
 interface AuthContextType {
@@ -79,6 +81,7 @@ interface AuthContextType {
   apiAvailable: boolean;
   subscription: Subscription | null;
   hasActiveSubscription: boolean;
+  refreshSubscription: () => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (
@@ -138,25 +141,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const checkSubscription = useCallback(async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from('subscriptions')
+        .from('stripe_user_subscriptions')
         .select('*')
-        .eq('user_id', userId)
-        .eq('status', 'active')
         .maybeSingle();
 
       if (error) throw error;
 
       if (data) {
         setSubscription(data);
-        if (data.plan_type === 'lifetime') {
-          setHasActiveSubscription(true);
-        } else if (data.end_date) {
-          const endDate = new Date(data.end_date);
-          const now = new Date();
-          setHasActiveSubscription(endDate > now);
-        } else {
-          setHasActiveSubscription(true);
-        }
+        const status = data.subscription_status;
+        setHasActiveSubscription(status === 'active' || status === 'trialing');
       } else {
         setSubscription(null);
         setHasActiveSubscription(false);
@@ -167,6 +161,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setHasActiveSubscription(false);
     }
   }, []);
+
+  const refreshSubscription = useCallback(async () => {
+    if (user) {
+      await checkSubscription(user._id);
+    }
+  }, [user, checkSubscription]);
 
   const checkUser = useCallback(async () => {
     try {
@@ -575,6 +575,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         apiAvailable,
         subscription,
         hasActiveSubscription,
+        refreshSubscription,
         login,
         logout,
         register,
