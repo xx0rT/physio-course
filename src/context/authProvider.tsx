@@ -63,10 +63,22 @@ interface Course {
   duration: number;
 }
 
+interface Subscription {
+  id: string;
+  user_id: string;
+  plan_type: 'monthly' | 'lifetime';
+  status: 'active' | 'expired' | 'cancelled';
+  start_date: string;
+  end_date: string | null;
+  price_paid: number;
+}
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
   apiAvailable: boolean;
+  subscription: Subscription | null;
+  hasActiveSubscription: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   register: (
@@ -110,6 +122,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [apiAvailable, setApiAvailable] = useState(true);
   const [courses, setCourses] = useState<Course[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
 
   const api = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -120,6 +134,39 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       "Content-Type": "application/json",
     },
   });
+
+  const checkSubscription = useCallback(async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('status', 'active')
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        setSubscription(data);
+        if (data.plan_type === 'lifetime') {
+          setHasActiveSubscription(true);
+        } else if (data.end_date) {
+          const endDate = new Date(data.end_date);
+          const now = new Date();
+          setHasActiveSubscription(endDate > now);
+        } else {
+          setHasActiveSubscription(true);
+        }
+      } else {
+        setSubscription(null);
+        setHasActiveSubscription(false);
+      }
+    } catch (error) {
+      console.error("Subscription check failed:", error);
+      setSubscription(null);
+      setHasActiveSubscription(false);
+    }
+  }, []);
 
   const checkUser = useCallback(async () => {
     try {
@@ -145,13 +192,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           socialLinks: supabaseUser.user_metadata?.socialLinks || {},
         };
         setUser(userData);
+        await checkSubscription(supabaseUser.id);
       }
       setApiAvailable(true);
     } catch (error) {
       console.error("Auth check failed:", error);
       setUser(null);
     }
-  }, []);
+  }, [checkSubscription]);
 
   const deactivateAccount = async () => {
     try {
@@ -525,6 +573,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         loading,
         apiAvailable,
+        subscription,
+        hasActiveSubscription,
         login,
         logout,
         register,

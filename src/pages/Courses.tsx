@@ -1,5 +1,6 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate, Link } from "react-router-dom";
 import CourseCard from "@/components/ui/CourseCard";
 import FilterCourses, { FilterState } from "@/components/courses/FilterCourses";
 import {
@@ -10,6 +11,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { useAuth } from "@/context/authProvider";
+import { Lock, CreditCard } from "lucide-react";
 
 interface Course {
   id: string;
@@ -31,9 +33,16 @@ const COURSES_PER_PAGE = 20;
 const CoursesPage = () => {
   const { t, i18n } = useTranslation();
   const locale = i18n.language;
-  const { courses: dbCourses } = useAuth();
+  const navigate = useNavigate();
+  const { user, loading, courses: dbCourses, hasActiveSubscription } = useAuth();
   const [currentPage, setCurrentPage] = useState(1);
   const [activeFilters, setActiveFilters] = useState<FilterState | null>(null);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth/login');
+    }
+  }, [user, loading, navigate]);
 
   const allCourses: Course[] = useMemo(() => {
     return dbCourses.map((course) => ({
@@ -110,6 +119,55 @@ const CoursesPage = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  if (!hasActiveSubscription) {
+    return (
+      <section className="container mx-auto px-5 py-20 mt-20">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950/30 dark:to-teal-900/20 rounded-2xl p-12 shadow-xl border border-teal-200 dark:border-teal-800">
+            <div className="flex justify-center mb-6">
+              <div className="bg-teal-500/20 p-6 rounded-full">
+                <Lock className="w-16 h-16 text-teal-600 dark:text-teal-400" />
+              </div>
+            </div>
+            <h1 className="text-3xl font-bold text-teal-900 dark:text-teal-100 mb-4">
+              Subscription Required
+            </h1>
+            <p className="text-teal-700 dark:text-teal-300 mb-8 text-lg">
+              Access to courses requires an active subscription. Purchase a subscription to unlock all courses and start your learning journey.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/dashboard/checkout"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-xl"
+              >
+                <CreditCard className="w-5 h-5" />
+                Get Subscription
+              </Link>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white dark:bg-neutral-800 hover:bg-gray-50 dark:hover:bg-neutral-700 text-teal-700 dark:text-teal-300 font-semibold rounded-lg border-2 border-teal-500 transition-all"
+              >
+                Back to Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="container mx-auto px-5 py-10 mt-20">
       <div
@@ -117,7 +175,7 @@ const CoursesPage = () => {
       >
         <h1 className="text-3xl font-bold text-neutral-800 dark:text-white">
           {t('coursesPage.title_part1')}{' '}
-          <span className="text-purple-500">{t('coursesPage.title_part2')}</span>
+          <span className="text-teal-500">{t('coursesPage.title_part2')}</span>
         </h1>
         <p className="text-neutral-600 dark:text-neutral-400 mt-2">
           {t('coursesPage.description')}
@@ -166,7 +224,7 @@ const CoursesPage = () => {
                 <PaginationItem className="cursor-pointer">
                   <PaginationPrevious
                     onClick={() => handlePageChange(currentPage - 1)}
-                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'hover:text-purple-600'}
+                    className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'hover:text-teal-600'}
                   />
                 </PaginationItem>
                 <PaginationItem>
@@ -177,7 +235,7 @@ const CoursesPage = () => {
                 <PaginationItem className="cursor-pointer">
                   <PaginationNext
                     onClick={() => handlePageChange(currentPage + 1)}
-                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'hover:text-purple-600'}
+                    className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'hover:text-teal-600'}
                   />
                 </PaginationItem>
               </PaginationContent>
