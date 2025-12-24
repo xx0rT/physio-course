@@ -308,7 +308,7 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
             <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.ratings_title')}</AccordionTrigger>
             <AccordionContent className="pt-2 space-y-2">
               {[4.5, 4.0, 3.5, 3.0].map((rate) => (
-                <label key={rate} className={`flex items-center gap-2 py-1 cursor-pointer hover:bg-teal-100 dark:hover:bg-teal-900/30 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
+                <label key={handleRatingChange} className={`flex items-center gap-2 py-1 cursor-pointer hover:bg-teal-100 dark:hover:bg-teal-900/30 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
                   <input
                     type="radio"
                     name="rating"
