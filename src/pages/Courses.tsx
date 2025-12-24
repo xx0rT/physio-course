@@ -69,11 +69,6 @@ const CoursesPage = () => {
       updatedCourses = updatedCourses.filter(course => course.rating >= activeFilters.rating);
     }
 
-    if (activeFilters.price.length > 0 && !activeFilters.price.includes('Paid') || !activeFilters.price.includes('Free')) {
-        if(activeFilters.price.includes('Free')) updatedCourses = updatedCourses.filter(c => c.price === 0);
-        if(activeFilters.price.includes('Paid')) updatedCourses = updatedCourses.filter(c => c.price > 0);
-    }
-
     if (activeFilters.duration.length > 0) {
         updatedCourses = updatedCourses.filter(course => {
             return activeFilters.duration.some(range => {
@@ -86,7 +81,7 @@ const CoursesPage = () => {
         });
     }
 
-    const checkboxFilters: Array<keyof FilterState> = ['category', 'level', 'language'];
+    const checkboxFilters: Array<keyof FilterState> = ['category', 'level'];
     checkboxFilters.forEach(key => {
         const filterValues = activeFilters[key] as string[];
         if (filterValues.length > 0) {
@@ -101,7 +96,7 @@ const CoursesPage = () => {
     }
 
     return updatedCourses;
-  }, [activeFilters]);
+  }, [activeFilters, allCourses]);
 
   const totalPages = Math.ceil(filteredCourses.length / COURSES_PER_PAGE);
   const currentCourses = filteredCourses.slice(

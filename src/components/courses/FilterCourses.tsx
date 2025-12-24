@@ -204,13 +204,11 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Star, Menu, ChevronDown, ChevronUp } from "lucide-react";
+import { Star, SlidersHorizontal, ChevronDown, ChevronUp } from "lucide-react";
 
 export interface FilterState {
   rating: number;
-  price: string[];
   duration: string[];
-  language: string[];
   level: string[];
   category: string[];
   sortBy: string;
@@ -222,9 +220,7 @@ interface FilterProps {
 
 const initialFilters: FilterState = {
   rating: 0,
-  price: [],
   duration: [],
-  language: [],
   level: [],
   category: [],
   sortBy: 'highest-rated',
@@ -235,13 +231,10 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
   const locale = i18n.language;
 
   const [filters, setFilters] = useState<FilterState>(initialFilters);
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
   const [showAllCategories, setShowAllCategories] = useState(false);
 
   const categoryOptions = t('filters.category_options', { returnObjects: true }) as { value: string; label: string }[];
   const durationOptions = t('filters.duration_options', { returnObjects: true }) as { value: string; label: string }[];
-  const priceOptions = t('filters.price_options', { returnObjects: true }) as { value: string; label: string }[];
-  const languageOptions = t('filters.language_options', { returnObjects: true }) as { value: string; label: string }[];
   const levelOptions = t('filters.level_options', { returnObjects: true }) as { value: string; label: string }[];
 
   useEffect(() => {
@@ -268,47 +261,47 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
   
 
   const CheckboxLabel = ({ item, groupName }: { item: {value: string, label: string}, groupName: keyof FilterState}) => (
-    <label key={item.value} className={`flex items-center gap-2 py-1 cursor-pointer hover:bg-teal-100 dark:hover:bg-teal-900/30 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
+    <label key={item.value} className={`flex items-center gap-3 py-2 cursor-pointer hover:bg-teal-500/10 -mx-2 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
         <input
             type="checkbox"
-            className="accent-teal-500 w-4 h-4"
+            className="accent-teal-500 w-4 h-4 rounded border-gray-600"
             checked={(filters[groupName] as string[]).includes(item.value)}
             onChange={() => handleCheckboxChange(groupName, item.value)}
         />
-        <span className="text-neutral-700 dark:text-neutral-300 font-medium">{item.label}</span>
+        <span className="text-gray-200 text-sm">{item.label}</span>
     </label>
   );
 
   return (
-    <div className="w-full lg:w-64 space-y-6 text-sm sticky top-24 bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950/30 dark:to-teal-900/20 p-6 rounded-2xl shadow-lg border border-teal-200 dark:border-teal-800 backdrop-blur-sm">
+    <div className="w-full lg:w-72 sticky top-24">
       {/* Filter Header */}
-      <div className="flex items-center justify-between">
-        <button
-          onClick={() => setIsSidebarVisible(prev => !prev)}
-          className="flex items-center border-2 border-teal-500 px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-teal-500 hover:text-white transition-all duration-200 text-teal-700 dark:text-teal-300"
-        >
-          <Menu className={`h-4 w-4 ${locale === 'ar' ? 'ml-2' : 'mr-2'}`} />
-          {t('filters.title')}
-        </button>
-        <select
-          value={filters.sortBy}
-          onChange={handleSortChange}
-          className="border-2 border-teal-500 rounded-lg px-3 py-2 text-sm cursor-pointer bg-white dark:bg-neutral-800 text-teal-700 dark:text-teal-300 font-medium hover:bg-teal-50 dark:hover:bg-teal-950/30 transition-all"
-        >
-          <option value="highest-rated">{t('filters.sortBy_options.highest_rated')}</option>
-          <option value="newest">{t('filters.sortBy_options.newest')}</option>
-        </select>
-      </div>
+      <div className="bg-gradient-to-br from-teal-900/40 to-teal-950/60 backdrop-blur-sm border border-teal-700/30 rounded-2xl p-5 shadow-xl">
+        <div className="flex items-center gap-3 pb-4 border-b border-teal-700/30">
+          <button className="flex items-center gap-2 px-4 py-2 bg-teal-500/10 border border-teal-500/30 rounded-lg text-teal-300 hover:bg-teal-500/20 transition-all text-sm font-medium">
+            <SlidersHorizontal className="h-4 w-4" />
+            {t('filters.title')}
+          </button>
+          <select
+            value={filters.sortBy}
+            onChange={handleSortChange}
+            className="flex-1 px-3 py-2 bg-teal-500/10 border border-teal-500/30 rounded-lg text-teal-300 text-sm cursor-pointer hover:bg-teal-500/20 transition-all focus:outline-none focus:ring-2 focus:ring-teal-500/50"
+          >
+            <option value="highest-rated" className="bg-gray-900">{t('filters.sortBy_options.highest_rated')}</option>
+            <option value="newest" className="bg-gray-900">{t('filters.sortBy_options.newest')}</option>
+          </select>
+        </div>
 
-      {/* Filter Sidebar  */}
-      {isSidebarVisible && (
-        <Accordion type="multiple" defaultValue={["ratings", "category"]} className="w-full space-y-2">
-          
-          <AccordionItem value="ratings" className="border-b border-teal-200 dark:border-teal-800">
-            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.ratings_title')}</AccordionTrigger>
-            <AccordionContent className="pt-2 space-y-2">
+        {/* Filter Sections */}
+        <Accordion type="multiple" defaultValue={["ratings", "category", "duration", "level"]} className="w-full mt-4">
+
+          {/* Ratings */}
+          <AccordionItem value="ratings" className="border-b border-teal-700/30">
+            <AccordionTrigger className="text-white font-semibold hover:text-teal-300 py-3 text-sm">
+              {t('filters.ratings_title')}
+            </AccordionTrigger>
+            <AccordionContent className="pt-2 pb-3 space-y-1">
               {[4.5, 4.0, 3.5, 3.0].map((rate) => (
-                <label key={rate} className={`flex items-center gap-2 py-1 cursor-pointer hover:bg-teal-100 dark:hover:bg-teal-900/30 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
+                <label key={rate} className={`flex items-center gap-3 py-2 cursor-pointer hover:bg-teal-500/10 -mx-2 px-2 rounded transition-colors ${locale === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
                   <input
                     type="radio"
                     name="rating"
@@ -318,70 +311,61 @@ const FilterCourses: React.FC<FilterProps> = ({ onFilter }) => {
                   />
                   <span className={`flex items-center gap-1 ${locale === 'ar' ? 'flex-row-reverse' : ''}`}>
                     {Array(5).fill(0).map((_, i) => (
-                      <Star key={i} size={16} className={i < rate ? "text-yellow-400 fill-yellow-400" : "text-gray-300"} />
+                      <Star key={i} size={14} className={i < rate ? "text-yellow-400 fill-yellow-400" : "text-gray-600"} />
                     ))}
                   </span>
-                  <span className="text-neutral-700 dark:text-neutral-300 font-medium">{t('filters.ratings_and_up', { rate: rate.toFixed(1) })}</span>
+                  <span className="text-gray-200 text-sm">{t('filters.ratings_and_up', { rate: rate.toFixed(1) })}</span>
                 </label>
               ))}
             </AccordionContent>
           </AccordionItem>
-          
-          <AccordionItem value="duration" className="border-b border-teal-200 dark:border-teal-800">
-            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.duration_title')}</AccordionTrigger>
-            <AccordionContent className="pt-2 space-y-2">
+
+          {/* Duration */}
+          <AccordionItem value="duration" className="border-b border-teal-700/30">
+            <AccordionTrigger className="text-white font-semibold hover:text-teal-300 py-3 text-sm">
+              {t('filters.duration_title')}
+            </AccordionTrigger>
+            <AccordionContent className="pt-2 pb-3 space-y-1">
               {durationOptions.map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="duration"/>
               ))}
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="price" className="border-b border-teal-200 dark:border-teal-800">
-            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.price_title')}</AccordionTrigger>
-            <AccordionContent className="pt-2 space-y-2">
-              {priceOptions.map((item) => (
-                <CheckboxLabel key={item.value} item={item} groupName="price"/>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="language" className="border-b border-teal-200 dark:border-teal-800">
-            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.language_title')}</AccordionTrigger>
-            <AccordionContent className="pt-2 space-y-2">
-              {languageOptions.map((item) => (
-                <CheckboxLabel key={item.value} item={item} groupName="language"/>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
-
-          <AccordionItem value="level" className="border-b border-teal-200 dark:border-teal-800">
-            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.level_title')}</AccordionTrigger>
-            <AccordionContent className="pt-2 space-y-2">
+          {/* Level */}
+          <AccordionItem value="level" className="border-b border-teal-700/30">
+            <AccordionTrigger className="text-white font-semibold hover:text-teal-300 py-3 text-sm">
+              {t('filters.level_title')}
+            </AccordionTrigger>
+            <AccordionContent className="pt-2 pb-3 space-y-1">
               {levelOptions.map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="level"/>
               ))}
             </AccordionContent>
           </AccordionItem>
 
-          <AccordionItem value="category" className="border-b border-teal-200 dark:border-teal-800">
-            <AccordionTrigger className="text-teal-900 dark:text-teal-100 font-semibold hover:text-teal-600 dark:hover:text-teal-400">{t('filters.category_title')}</AccordionTrigger>
-            <AccordionContent className="pt-2 space-y-2">
+          {/* Category */}
+          <AccordionItem value="category" className="border-b-0">
+            <AccordionTrigger className="text-white font-semibold hover:text-teal-300 py-3 text-sm">
+              {t('filters.category_title')}
+            </AccordionTrigger>
+            <AccordionContent className="pt-2 pb-3 space-y-1">
               {(showAllCategories ? categoryOptions : categoryOptions.slice(0, 4)).map((item) => (
                 <CheckboxLabel key={item.value} item={item} groupName="category"/>
               ))}
               {categoryOptions.length > 4 && (
                 <button
-                  className="mt-2 text-teal-600 dark:text-teal-400 font-semibold text-sm flex items-center gap-1 hover:text-teal-700 dark:hover:text-teal-300 transition-colors"
+                  className="mt-2 text-teal-400 font-semibold text-xs flex items-center gap-1 hover:text-teal-300 transition-colors"
                   onClick={() => setShowAllCategories((prev) => !prev)}
                 >
                   {showAllCategories ? t('filters.show_less') : t('filters.show_more')}
-                  {showAllCategories ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  {showAllCategories ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                 </button>
               )}
             </AccordionContent>
           </AccordionItem>
         </Accordion>
-      )}
+      </div>
     </div>
   );
 };

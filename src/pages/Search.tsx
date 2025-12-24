@@ -39,9 +39,7 @@ export default function Search() {
 
   const [sidebarFilters, setSidebarFilters] = useState<FilterState>({
     rating: 0,
-    price: [],
     duration: [],
-    language: [],
     level: [],
     category: [],
     sortBy: 'highest-rated',
@@ -88,18 +86,6 @@ export default function Search() {
       );
     }
 
-    if (sidebarFilters.price && sidebarFilters.price.length > 0) {
-      results = results.filter((course) => {
-        if (sidebarFilters.price!.includes('Free')) {
-          return course.price === 0;
-        }
-        if (sidebarFilters.price!.includes('Paid')) {
-          return course.price > 0;
-        }
-        return true;
-      });
-    }
-
     if (typeof sidebarFilters.rating === "number" && sidebarFilters.rating > 0) {
       results = results.filter(
         (course) => course.average_rating >= sidebarFilters.rating!
@@ -109,12 +95,6 @@ export default function Search() {
     if (sidebarFilters.level && sidebarFilters.level.length > 0) {
       results = results.filter((course) =>
         sidebarFilters.level!.includes(course.level)
-      );
-    }
-
-    if (sidebarFilters.language && sidebarFilters.language.length > 0) {
-      results = results.filter((course) =>
-        course.language?.some(lang => sidebarFilters.language!.includes(lang))
       );
     }
 
