@@ -26,18 +26,14 @@ const AboutUsSection = () => {
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
-        className="w-fit m-auto lg:w-2/4 select-none relative"
+        className="w-fit m-auto lg:w-2/4 select-none"
       >
-        <div className="relative">
-          <img
-            src="/home/about.png"
-            alt="about"
-            className="rounded-2xl w-full h-auto shadow-2xl border-4 border-white dark:border-neutral-800"
-            draggable={false}
-          />
-          {/* Decorative element behind image */}
-          <div className="absolute -bottom-4 -right-4 w-full h-full bg-purple-200 dark:bg-purple-900/30 rounded-2xl -z-10"></div>
-        </div>
+        <img
+          src="/home/about.png"
+          alt="about"
+          className="rounded-2xl w-full h-auto shadow-2xl"
+          draggable={false}
+        />
       </motion.div>
 
 

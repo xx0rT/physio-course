@@ -90,15 +90,11 @@ const InstructorsSection = () => {
             viewport={{ once: true, amount: 0.3 }}
               className="relative"
             >
-              <div className="relative">
-                <img
-                  src={instructor.image}
-                  alt={instructor.name}
-                  className="relative w-full rounded-2xl border-4 border-white dark:border-neutral-700 shadow-xl hover:shadow-2xl transition-shadow duration-300"
-                />
-                {/* Decorative element */}
-                <div className="absolute -bottom-3 -right-3 w-full h-full bg-purple-200 dark:bg-purple-900/30 rounded-2xl -z-10"></div>
-              </div>
+              <img
+                src={instructor.image}
+                alt={instructor.name}
+                className="w-full rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+              />
               <div className="absolute top-5 right-5">
                 <ShareButton />
               </div>

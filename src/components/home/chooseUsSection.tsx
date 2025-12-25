@@ -89,18 +89,14 @@ const WhyChooseUsSection = () => {
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
         viewport={{ once: true, amount: 0.3 }}
-        className="w-fit m-auto lg:w-2/6 select-none relative"
+        className="w-fit m-auto lg:w-2/6 select-none"
       >
-        <div className="relative">
-          <img
-            src="/home/group.png"
-            alt="group of students"
-            className="w-full h-auto rounded-2xl shadow-2xl border-4 border-white dark:border-neutral-800"
-            draggable={false}
-          />
-          {/* Decorative element */}
-          <div className="absolute -bottom-4 -left-4 w-full h-full bg-teal-200 dark:bg-teal-900/30 rounded-2xl -z-10"></div>
-        </div>
+        <img
+          src="/home/group.png"
+          alt="group of students"
+          className="w-full h-auto rounded-2xl shadow-2xl"
+          draggable={false}
+        />
       </motion.div>
     </section>
   );
