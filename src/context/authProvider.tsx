@@ -346,10 +346,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           socialLinks: data.user.user_metadata?.socialLinks || {},
         };
         setUser(userData);
+        await checkSubscription(data.user.id);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login failed:", error);
-      throw new Error("Login failed");
+      throw error;
     }
   };
 
