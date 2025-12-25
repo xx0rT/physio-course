@@ -94,7 +94,7 @@ const WhyChooseUsSection = () => {
         <img
           src="/home/group.png"
           alt="group of students"
-          className="w-full h-auto rounded-2xl shadow-2xl"
+          className="w-full h-auto"
           draggable={false}
         />
       </motion.div>

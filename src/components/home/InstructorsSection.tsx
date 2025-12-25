@@ -93,7 +93,7 @@ const InstructorsSection = () => {
               <img
                 src={instructor.image}
                 alt={instructor.name}
-                className="w-full rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+                className="relative w-full rounded-lg border-4 border-purple-500"
               />
               <div className="absolute top-5 right-5">
                 <ShareButton />

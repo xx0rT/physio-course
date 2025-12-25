@@ -31,7 +31,7 @@ const AboutUsSection = () => {
         <img
           src="/home/about.png"
           alt="about"
-          className="rounded-2xl w-full h-auto shadow-2xl"
+          className="rounded-lg w-full h-auto"
           draggable={false}
         />
       </motion.div>

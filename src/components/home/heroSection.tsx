@@ -22,46 +22,6 @@ const HeroSection = () => {
         transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
       />
 
-      {/* Floating decorative circles */}
-      <motion.div
-        className="absolute top-1/4 left-1/4 w-4 h-4 bg-teal-400/40 rounded-full"
-        animate={{
-          y: [0, -20, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute top-1/3 right-1/3 w-3 h-3 bg-purple-400/40 rounded-full"
-        animate={{
-          y: [0, 20, 0],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0.5,
-        }}
-      />
-      <motion.div
-        className="absolute bottom-1/3 right-1/4 w-5 h-5 bg-teal-300/30 rounded-full"
-        animate={{
-          y: [0, -15, 0],
-          x: [0, 10, 0],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-      />
-
       <div className="max-w-7xl mx-auto w-full flex m-auto flex-col md:flex-row items-center justify-between gap-10 relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
@@ -118,30 +78,18 @@ const HeroSection = () => {
           transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
           className="relative flex justify-end select-none"
         >
-          <motion.div
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <img
-              src="/home/hero.png"
-              alt="Students in library"
-              className="w-full h-auto rounded-2xl shadow-2xl"
-              draggable={false}
-            />
-          </motion.div>
+          <img
+            src="/home/hero.png"
+            alt="Students in library"
+            className="w-full h-auto"
+            draggable={false}
+          />
 
           <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-            whileHover={{ scale: 1.05 }}
-            className="instructor-card sticky -ml-20 shadow-xl"
+            className="instructor-card sticky -ml-20"
           >
             <p className="text-lg font-medium text-black mb-2">
               <motion.span
