@@ -7,8 +7,12 @@ const HeroSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="max-w-7xl mx-auto w-full min-h-screen bg-cover bg-center flex items-center px-5 md:px-10 pt-32 md:py-20">
-      <div className="flex m-auto flex-col md:flex-row items-center justify-between gap-10">
+    <section className="relative w-full min-h-screen flex items-center px-5 md:px-10 pt-32 md:py-20 bg-gradient-to-br from-teal-50/30 via-white to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-20 right-10 w-72 h-72 bg-teal-100/30 dark:bg-teal-900/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-purple-100/30 dark:bg-purple-900/10 rounded-full blur-3xl"></div>
+
+      <div className="max-w-7xl mx-auto w-full flex m-auto flex-col md:flex-row items-center justify-between gap-10 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}

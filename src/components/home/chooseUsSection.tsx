@@ -13,47 +13,72 @@ const WhyChooseUsSection = () => {
   ];
 
   return (
-    <section className="max-w-7xl mx-auto my-5 px-5 md:px-10 md:py-20 pt-32 flex flex-col lg:flex-row justify-between items-center gap-10 cursor-default overflow-x-hidden">
+    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24 flex flex-col lg:flex-row justify-between items-center gap-16 cursor-default overflow-x-hidden bg-gradient-to-br from-white via-teal-50/20 to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 rounded-3xl my-20">
+      {/* Decorative elements */}
+      <div className="absolute top-20 right-20 w-32 h-32 opacity-20">
+        <div className="grid grid-cols-8 gap-2">
+          {[...Array(64)].map((_, i) => (
+            <div key={i} className="w-1 h-1 bg-teal-500 rounded-full"></div>
+          ))}
+        </div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
-        className="w-full lg:w-4/6 flex flex-col items-center lg:items-start gap-10"
+        className="w-full lg:w-4/6 flex flex-col items-center lg:items-start gap-8 relative z-10"
       >
-        <div className=" text-purple-500 text-xs sm:text-sm font-bold uppercase px-4 py-2 rounded-md">
-          {t("WhyChooseUs.title")}
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <span className="px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-full text-sm font-semibold uppercase tracking-wide">
+            {t("WhyChooseUs.title")}
+          </span>
+        </motion.div>
 
-        <div>
-          <h1 className="mb-4 text-neutral-800 dark:text-white text-2xl sm:text-3xl text-center sm:text-start  font-bold leading-tight mt-3">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <h1 className="mb-4 text-neutral-800 dark:text-white text-3xl sm:text-4xl text-center sm:text-start font-bold leading-tight">
             {t("WhyChooseUs.heading")}
           </h1>
 
-          <p className="px-10 text-neutral-500 dark:text-neutral-400  text-base sm:text-lg text-center lg:text-start">
+          <p className="text-neutral-600 dark:text-neutral-400 text-base sm:text-lg text-center lg:text-start leading-relaxed">
             {t("WhyChooseUs.description")}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-8 ">
-          {features.map(({ key }) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+          {features.map(({ key }, index) => (
             <motion.div
               key={key}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
               viewport={{ once: true, amount: 0.3 }}
-              className="bg-[#E9E2FF] p-5 rounded-lg min-w-60 w-2/6"
+              className="bg-white dark:bg-neutral-800 p-6 rounded-2xl shadow-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-xl hover:scale-105 transition-all duration-300"
             >
-              <div className="flex items-center gap-4">
-                <FaCheckCircle className="text-purple-500 text-xl" />
-                <h6 className="text-gray-950 font-bold text-lg">
-                  {t(`WhyChooseUs.features.${key}.title`)}
-                </h6>
+              <div className="flex items-start gap-4">
+                <div className="bg-purple-100 dark:bg-purple-900/30 p-3 rounded-xl flex-shrink-0">
+                  <FaCheckCircle className="text-purple-600 dark:text-purple-400 text-2xl" />
+                </div>
+                <div>
+                  <h6 className="text-neutral-900 dark:text-white font-bold text-lg mb-2">
+                    {t(`WhyChooseUs.features.${key}.title`)}
+                  </h6>
+                  <p className="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed">
+                    {t(`WhyChooseUs.features.${key}.desc`)}
+                  </p>
+                </div>
               </div>
-              <p className="text-gray-500 text-sm mt-2">
-                {t(`WhyChooseUs.features.${key}.desc`)}
-              </p>
             </motion.div>
           ))}
         </div>
@@ -62,16 +87,20 @@ const WhyChooseUsSection = () => {
       <motion.div
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
         viewport={{ once: true, amount: 0.3 }}
-        className="w-fit m-auto lg:w-2/6 select-none "
+        className="w-fit m-auto lg:w-2/6 select-none relative"
       >
-        <img
-          src="/home/group.png"
-          alt="group of students"
-          className="w-full h-auto"
-          draggable={false}
-        />
+        <div className="relative">
+          <img
+            src="/home/group.png"
+            alt="group of students"
+            className="w-full h-auto rounded-2xl shadow-2xl border-4 border-white dark:border-neutral-800"
+            draggable={false}
+          />
+          {/* Decorative element */}
+          <div className="absolute -bottom-4 -left-4 w-full h-full bg-teal-200 dark:bg-teal-900/30 rounded-2xl -z-10"></div>
+        </div>
       </motion.div>
     </section>
   );

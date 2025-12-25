@@ -11,31 +11,36 @@ const CoursesSection = () => {
   const { courses ,loading } = useAuth();
 
   return (
-    <section className="max-w-7xl mx-auto px-5 md:px-10 md:py-20 pt-32">
+    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24">
       <ToastContainer
         position="top-right"
         autoClose={5000}
         hideProgressBar={false}
       />
 
-      <motion.p
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+      {/* Decorative background blob */}
+      <div className="absolute top-20 left-0 w-96 h-96 bg-teal-100/20 dark:bg-teal-900/10 rounded-full blur-3xl -z-10"></div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
-        className="bg-gray-50 text-purple-500 px-4 py-2 rounded-md font-medium text-left inline-block"
+        className="mb-4"
       >
-        {t("CoursesSection.sectionTitle")}
-      </motion.p>
+        <span className="px-4 py-2 bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400 rounded-full text-sm font-semibold uppercase tracking-wide">
+          {t("CoursesSection.sectionTitle")}
+        </span>
+      </motion.div>
 
       {/* Header section */}
-      <div className="flex flex-col md:flex-row justify-between items-center mt-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-6 mb-12">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true, amount: 0.3 }}
-          className="capitalize text-neutral-800 dark:text-white text-3xl font-bold text-center md:text-left"
+          className="capitalize text-neutral-800 dark:text-white text-3xl md:text-4xl font-bold text-left"
         >
           {t("CoursesSection.headline")} <span className="circle">{t("CoursesSection.highlight")}</span>{" "}
           {t("CoursesSection.subheadline")}
@@ -46,18 +51,18 @@ const CoursesSection = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           viewport={{ once: true, amount: 0.3 }}
-          className="mt-4 md:mt-0"
-        ></motion.div>
-        <CustomButton
-          title={t("CoursesSection.button")}
-          href="/courses"
-          bg={true}
-          width={true}
-        />
+        >
+          <CustomButton
+            title={t("CoursesSection.button")}
+            href="/courses"
+            bg={true}
+            width={true}
+          />
+        </motion.div>
       </div>
 
       {/* Courses Grid */}
-      <div className="w-full grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-6 items-center justify-center select-none gap-5">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-center select-none gap-6">
         {loading
           ? [1, 2, 3].map((i) => (
               <motion.div
