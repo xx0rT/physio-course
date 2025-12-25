@@ -59,8 +59,11 @@ export default function UpdateProfile() {
 
   const loadProfile = async () => {
     try {
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      if (!authUser) return;
+      const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+      if (authError || !authUser) {
+        setLoading(false);
+        return;
+      }
 
       const { data, error } = await supabase
         .from("users")
@@ -89,8 +92,10 @@ export default function UpdateProfile() {
         });
       }
     } catch (error: any) {
-      console.error("Error loading profile:", error);
-      toast.error("Failed to load profile");
+      if (error?.message !== "Auth session missing!") {
+        console.error("Error loading profile:", error);
+        toast.error("Failed to load profile");
+      }
     } finally {
       setLoading(false);
     }
@@ -130,8 +135,12 @@ export default function UpdateProfile() {
     setUploading(true);
 
     try {
-      const { data: { user: authUser } } = await supabase.auth.getUser();
-      if (!authUser) return;
+      const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+      if (authError || !authUser) {
+        toast.error("Authentication required");
+        setUploading(false);
+        return;
+      }
 
       const fileExt = file.name.split(".").pop();
       const fileName = `${authUser.id}-${Date.now()}.${fileExt}`;
@@ -156,8 +165,10 @@ export default function UpdateProfile() {
 
       toast.success("Profile picture uploaded successfully");
     } catch (error: any) {
-      console.error("Error uploading profile picture:", error);
-      toast.error("Failed to upload profile picture");
+      if (error?.message !== "Auth session missing!") {
+        console.error("Error uploading profile picture:", error);
+        toast.error("Failed to upload profile picture");
+      }
     } finally {
       setUploading(false);
     }
@@ -194,8 +205,10 @@ export default function UpdateProfile() {
       toast.success("Profile updated successfully");
       navigate("/dashboard");
     } catch (error: any) {
-      console.error("Error updating profile:", error);
-      toast.error("Failed to update profile");
+      if (error?.message !== "Auth session missing!") {
+        console.error("Error updating profile:", error);
+        toast.error("Failed to update profile");
+      }
     } finally {
       setSaving(false);
     }

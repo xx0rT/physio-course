@@ -105,9 +105,9 @@ export default function Checkout() {
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.error?.includes('price_id') || data.error?.includes('No such price')) {
+        if (data.error?.includes('price_id') || data.error?.includes('No such price') || data.error?.includes('Stripe')) {
           setSetupRequired(true);
-          throw new Error('Stripe products not configured. Please complete the setup below.');
+          return;
         }
         throw new Error(data.error || 'Failed to create checkout session');
       }
@@ -118,8 +118,14 @@ export default function Checkout() {
         throw new Error('No checkout URL received');
       }
     } catch (error: any) {
-      console.error('Checkout error:', error);
-      toast.error(error.message || 'Failed to start checkout. Please try again.');
+      const isStripeSetupError = error?.message?.includes('Stripe') ||
+                                  error?.message?.includes('price_id') ||
+                                  error?.message?.includes('No such price');
+
+      if (!isStripeSetupError) {
+        console.error('Checkout error:', error);
+        toast.error(error.message || 'Failed to start checkout. Please try again.');
+      }
     } finally {
       setProcessing(false);
     }
