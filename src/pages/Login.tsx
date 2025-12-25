@@ -11,6 +11,7 @@ export default function Login() {
   const { user, login, resetPassword } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
@@ -20,6 +21,12 @@ export default function Login() {
     if (user) {
       navigate("/dashboard");
     }
+
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
   }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,6 +35,13 @@ export default function Login() {
 
     try {
       await login(email, password);
+
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
+
       toast.success("Úspěšně přihlášeno!");
       navigate("/dashboard");
     } catch (error: any) {
@@ -135,6 +149,22 @@ export default function Login() {
                   placeholder="••••••••"
                 />
               </div>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                id="remember-me"
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 text-teal-600 bg-white dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600 rounded focus:ring-teal-500 focus:ring-2 cursor-pointer"
+              />
+              <label
+                htmlFor="remember-me"
+                className="ml-2 text-sm text-neutral-700 dark:text-neutral-300 cursor-pointer select-none"
+              >
+                Zapamatovat si mě
+              </label>
             </div>
 
             <button
