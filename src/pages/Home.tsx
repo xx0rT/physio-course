@@ -7,6 +7,7 @@ import SkillsSection from "@/components/home/skillsSection";
 import TestimonialSection from "@/components/home/testimonialSection";
 import InstructorsSection from "@/components/home/InstructorsSection";
 import FAQSection from "@/components/home/FAQSection";
+import BentoGrid from "@/components/home/bentogrid";
 
 export default function HomePage() {
   return (
@@ -14,6 +15,7 @@ export default function HomePage() {
       <HeroSection />
       <CategoriesSection />
       <CoursesSection />
+      <BentoGrid />
       <AboutUsSection />
       <WhyChooseUsSection />
       <SkillsSection />
