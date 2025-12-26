@@ -10,22 +10,74 @@ import AsSeenOnSection from "@/components/home/asSeenOnSection";
 import TestimonialSection from "@/components/home/testimonialSection";
 import SkillsSection from "@/components/home/skillsSection";
 import FAQSection from "@/components/home/FAQSection";
+import ScrollProgress from "@/components/shared/scroll-progress";
+import SectionIndicators from "@/components/shared/section-indicators";
+import StickySection from "@/components/shared/sticky-section";
 
 export default function HomePage() {
+  const sections = [
+    { id: "hero", label: "Domů" },
+    { id: "features", label: "Funkce" },
+    { id: "why-choose", label: "Proč my" },
+    { id: "certificates", label: "Certifikace" },
+    { id: "about", label: "O nás" },
+    { id: "services", label: "Služby" },
+    { id: "instructors", label: "Lektoři" },
+    { id: "testimonials", label: "Reference" },
+    { id: "partners", label: "Partneři" },
+    { id: "stats", label: "Statistiky" },
+    { id: "faq", label: "FAQ" },
+  ];
+
   return (
     <>
-      <HeroSection />
-      <Features />
-      <WhyChooseUsSection />
-      <CertificatesSection />
-      <AboutUsSection />
-      <BentoGrid />
-      <InstructorsSection />
-      <Testimonials />
-      <AsSeenOnSection />
-      <TestimonialSection />
-      <SkillsSection />
-      <FAQSection />
+      <ScrollProgress />
+      <SectionIndicators sections={sections} />
+
+      <StickySection id="hero">
+        <HeroSection />
+      </StickySection>
+
+      <StickySection id="features" stickyLabel="Naše funkce">
+        <Features />
+      </StickySection>
+
+      <StickySection id="why-choose" stickyLabel="Proč si vybrat nás">
+        <WhyChooseUsSection />
+      </StickySection>
+
+      <StickySection id="certificates" stickyLabel="Certifikace">
+        <CertificatesSection />
+      </StickySection>
+
+      <StickySection id="about" stickyLabel="O nás">
+        <AboutUsSection />
+      </StickySection>
+
+      <StickySection id="services" stickyLabel="Naše služby">
+        <BentoGrid />
+      </StickySection>
+
+      <StickySection id="instructors" stickyLabel="Naši lektoři">
+        <InstructorsSection />
+      </StickySection>
+
+      <StickySection id="testimonials" stickyLabel="Co říkají studenti">
+        <Testimonials />
+        <TestimonialSection />
+      </StickySection>
+
+      <StickySection id="partners" stickyLabel="Naši partneři">
+        <AsSeenOnSection />
+      </StickySection>
+
+      <StickySection id="stats" stickyLabel="Statistiky">
+        <SkillsSection />
+      </StickySection>
+
+      <StickySection id="faq" stickyLabel="Časté dotazy">
+        <FAQSection />
+      </StickySection>
     </>
   );
 }
