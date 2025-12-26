@@ -25,7 +25,7 @@ export default function BentoGrid() {
                 </span>
               </div>
               <h2 className="mt-6 text-center text-3xl font-bold md:text-4xl lg:text-[40px] text-neutral-900 dark:text-white">
-                Přizpůsobitelné
+                Individuální přístup
               </h2>
             </div>
           </div>
@@ -88,10 +88,10 @@ export default function BentoGrid() {
               </div>
               <div className="relative z-10 mt-8 space-y-1.5 text-center">
                 <h2 className="text-lg font-medium text-neutral-900 dark:text-white">
-                  Bezpečné standardně
+                  Certifikovaná péče
                 </h2>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  Vaše data jsou chráněna nejmodernějšími bezpečnostními opatřeními. Zabezpečení je pro nás prioritou.
+                  Všichni naši fyzioterapeuti jsou licencovaní profesionálové s mnohaletou praxí a průběžným vzděláváním.
                 </p>
               </div>
             </div>
@@ -149,10 +149,10 @@ export default function BentoGrid() {
               </div>
               <div className="relative z-10 mt-8 space-y-1.5 text-center">
                 <h2 className="text-lg font-medium text-neutral-900 dark:text-white">
-                  Rychlejší než světlo
+                  Sledování pokroku
                 </h2>
                 <p className="text-neutral-600 dark:text-neutral-400">
-                  Optimalizovaný výkon zajišťuje bleskovou rychlost načítání a plynulý průběh učení bez čekání.
+                  Průběžné monitorování vašich výsledků a úprava terapie na míru pro optimální rehabilitaci.
                 </p>
               </div>
             </div>
@@ -186,10 +186,10 @@ export default function BentoGrid() {
                 </div>
                 <div className="space-y-2">
                   <h2 className="text-lg font-medium text-neutral-900 dark:text-white">
-                    Spojte se s komunitou
+                    Online konzultace
                   </h2>
                   <p className="text-neutral-600 dark:text-neutral-400">
-                    Učte se společně s dalšími profesionály. Sdílejte zkušenosti a rostěte spolu.
+                    Spojte se s odborníky odkudkoliv. Flexibilní plánování a individuální péče z pohodlí domova.
                   </p>
                 </div>
               </div>

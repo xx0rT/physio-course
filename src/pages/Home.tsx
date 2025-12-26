@@ -8,11 +8,14 @@ import TestimonialSection from "@/components/home/testimonialSection";
 import InstructorsSection from "@/components/home/InstructorsSection";
 import FAQSection from "@/components/home/FAQSection";
 import BentoGrid from "@/components/home/bentogrid";
+import PreviewLanding from "@/components/home/preview-landing";
+import Testimonials from "@/components/home/testimonials";
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <PreviewLanding />
       <CategoriesSection />
       <CoursesSection />
       <BentoGrid />
@@ -21,6 +24,7 @@ export default function HomePage() {
       <SkillsSection />
       <TestimonialSection />
       <InstructorsSection />
+      <Testimonials />
       <FAQSection />
     </>
   );
