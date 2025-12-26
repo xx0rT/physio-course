@@ -11,28 +11,12 @@ import TestimonialSection from "@/components/home/testimonialSection";
 import SkillsSection from "@/components/home/skillsSection";
 import FAQSection from "@/components/home/FAQSection";
 import ScrollProgress from "@/components/shared/scroll-progress";
-import SectionIndicators from "@/components/shared/section-indicators";
 import StickySection from "@/components/shared/sticky-section";
 
 export default function HomePage() {
-  const sections = [
-    { id: "hero", label: "Domů" },
-    { id: "features", label: "Funkce" },
-    { id: "why-choose", label: "Proč my" },
-    { id: "certificates", label: "Certifikace" },
-    { id: "about", label: "O nás" },
-    { id: "services", label: "Služby" },
-    { id: "instructors", label: "Lektoři" },
-    { id: "testimonials", label: "Reference" },
-    { id: "partners", label: "Partneři" },
-    { id: "stats", label: "Statistiky" },
-    { id: "faq", label: "FAQ" },
-  ];
-
   return (
     <>
       <ScrollProgress />
-      <SectionIndicators sections={sections} />
 
       <StickySection id="hero">
         <HeroSection />
