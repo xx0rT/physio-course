@@ -4,7 +4,6 @@ import WhyChooseUsSection from "@/components/home/chooseUsSection";
 import CertificatesSection from "@/components/home/certificatesSection";
 import AboutUsSection from "@/components/home/aboutUsSection";
 import BentoGrid from "@/components/home/bentogrid";
-import CoursesSection from "@/components/home/CoursesSection";
 import InstructorsSection from "@/components/home/InstructorsSection";
 import Testimonials from "@/components/home/testimonials";
 import AsSeenOnSection from "@/components/home/asSeenOnSection";
@@ -21,7 +20,6 @@ export default function HomePage() {
       <CertificatesSection />
       <AboutUsSection />
       <BentoGrid />
-      <CoursesSection />
       <InstructorsSection />
       <Testimonials />
       <AsSeenOnSection />
