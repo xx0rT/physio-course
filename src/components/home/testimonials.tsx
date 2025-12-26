@@ -42,7 +42,7 @@ const testimonials = [
 export default function Testimonials() {
   return (
     <section className="transition-all duration-700 ease-in-out">
-      <div className="container flex max-w-6xl flex-col gap-10 py-32 sm:gap-y-16">
+      <div className="container mx-auto flex max-w-6xl flex-col gap-10 py-32 sm:gap-y-16 px-4">
         <HeaderSection
           label="Reference pacientů"
           title="Co říkají naši klienti"

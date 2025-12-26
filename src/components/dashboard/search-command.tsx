@@ -1,9 +1,6 @@
-"use client";
-
 import React from "react";
-import { useRouter } from "next/navigation";
-import { SidebarNavItem } from "@/types";
-
+import { useNavigate } from "react-router-dom";
+import { FaBook, FaChartLine, FaCalendarAlt, FaCertificate } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,11 +11,47 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Icons } from "@/components/shared/icons";
 
-export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
+type NavItem = {
+  title: string;
+  href: string;
+  icon?: string;
+};
+
+type SidebarNavItem = {
+  title: string;
+  items: NavItem[];
+};
+
+const defaultLinks: SidebarNavItem[] = [
+  {
+    title: "Kurzy",
+    items: [
+      { title: "Moje kurzy", href: "/my-learning", icon: "book" },
+      { title: "Všechny kurzy", href: "/courses", icon: "book" },
+      { title: "Oblíbené", href: "/wishlist", icon: "heart" },
+    ],
+  },
+  {
+    title: "Dashboard",
+    items: [
+      { title: "Přehled", href: "/dashboard", icon: "chart" },
+      { title: "Pokrok", href: "/dashboard", icon: "chart" },
+      { title: "Certifikáty", href: "/dashboard", icon: "certificate" },
+    ],
+  },
+];
+
+const iconMap: Record<string, React.ElementType> = {
+  book: FaBook,
+  chart: FaChartLine,
+  calendar: FaCalendarAlt,
+  certificate: FaCertificate,
+};
+
+export function SearchCommand({ links = defaultLinks }: { links?: SidebarNavItem[] }) {
   const [open, setOpen] = React.useState(false);
-  const router = useRouter();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -46,8 +79,8 @@ export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
         onClick={() => setOpen(true)}
       >
         <span className="inline-flex">
-          Search
-          <span className="hidden sm:inline-flex">&nbsp;documentation</span>...
+          Hledat
+          <span className="hidden sm:inline-flex">&nbsp;kurzy a funkce</span>...
         </span>
         <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.45rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
           <span className="text-xs">⌘</span>K
@@ -55,18 +88,18 @@ export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput placeholder="Zadejte příkaz nebo hledejte..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>Žádné výsledky nenalezeny.</CommandEmpty>
           {links.map((section) => (
             <CommandGroup key={section.title} heading={section.title}>
               {section.items.map((item) => {
-                const Icon = Icons[item.icon || "arrowRight"];
+                const Icon = iconMap[item.icon || "book"] || FaBook;
                 return (
                   <CommandItem
                     key={item.title}
                     onSelect={() => {
-                      runCommand(() => router.push(item.href as string));
+                      runCommand(() => navigate(item.href));
                     }}
                   >
                     <Icon className="mr-2 size-5" />

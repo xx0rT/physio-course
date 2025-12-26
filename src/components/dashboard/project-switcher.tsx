@@ -1,10 +1,6 @@
-"use client";
-
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Check, ChevronsUpDown, Plus } from "lucide-react";
-import { useSession } from "next-auth/react";
-
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -13,35 +9,39 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-type ProjectType = {
+type ProgramType = {
   title: string;
   slug: string;
   color: string;
 };
 
-const projects: ProjectType[] = [
+const programs: ProgramType[] = [
   {
-    title: "Project 1",
-    slug: "project-number-one",
-    color: "bg-red-500",
+    title: "Rehabilitace páteře",
+    slug: "rehabilitace-patere",
+    color: "bg-teal-500",
   },
   {
-    title: "Project 2",
-    slug: "project-number-two",
+    title: "Pooperační péče",
+    slug: "pooperacni-pece",
     color: "bg-blue-500",
   },
+  {
+    title: "Preventivní cvičení",
+    slug: "preventivni-cviceni",
+    color: "bg-green-500",
+  },
 ];
-const selected: ProjectType = projects[1];
+const selected: ProgramType = programs[0];
 
 export default function ProjectSwitcher({
   large = false,
 }: {
   large?: boolean;
 }) {
-  const { data: session, status } = useSession();
   const [openPopover, setOpenPopover] = useState(false);
 
-  if (!projects || status === "loading") {
+  if (!programs) {
     return <ProjectSwitcherPlaceholder />;
   }
 
@@ -79,9 +79,9 @@ export default function ProjectSwitcher({
           </Button>
         </PopoverTrigger>
         <PopoverContent align="start" className="max-w-60 p-2">
-          <ProjectList
+          <ProgramList
             selected={selected}
-            projects={projects}
+            programs={programs}
             setOpenPopover={setOpenPopover}
           />
         </PopoverContent>
@@ -90,25 +90,25 @@ export default function ProjectSwitcher({
   );
 }
 
-function ProjectList({
+function ProgramList({
   selected,
-  projects,
+  programs,
   setOpenPopover,
 }: {
-  selected: ProjectType;
-  projects: ProjectType[];
+  selected: ProgramType;
+  programs: ProgramType[];
   setOpenPopover: (open: boolean) => void;
 }) {
   return (
     <div className="flex flex-col gap-1">
-      {projects.map(({ slug, color }) => (
+      {programs.map(({ slug, title, color }) => (
         <Link
           key={slug}
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "relative flex h-9 items-center gap-3 p-3 text-muted-foreground hover:text-foreground",
           )}
-          href="#"
+          to="/dashboard"
           onClick={() => setOpenPopover(false)}
         >
           <div className={cn("size-3 shrink-0 rounded-full", color)} />
@@ -119,7 +119,7 @@ function ProjectList({
                 : "font-normal"
             }`}
           >
-            {slug}
+            {title}
           </span>
           {selected.slug === slug && (
             <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-foreground">
@@ -136,7 +136,7 @@ function ProjectList({
         }}
       >
         <Plus size={18} className="absolute left-2.5 top-2" />
-        <span className="flex-1 truncate text-center">New Project</span>
+        <span className="flex-1 truncate text-center">Nový program</span>
       </Button>
     </div>
   );
