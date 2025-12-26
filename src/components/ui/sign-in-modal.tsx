@@ -1,4 +1,3 @@
-import { signIn } from "next-auth/react";
 import {
   Dispatch,
   SetStateAction,
@@ -6,7 +5,9 @@ import {
   useMemo,
   useState,
 } from "react";
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/authProvider";
+import { toast } from "react-toastify";
 import { Icons } from "@/components/shared/icons";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
@@ -19,7 +20,37 @@ function SignInModal({
   showSignInModal: boolean;
   setShowSignInModal: Dispatch<SetStateAction<boolean>>;
 }) {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [signInClicked, setSignInClicked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSignInClicked(true);
+
+    try {
+      await login(email, password);
+      toast.success("Successfully signed in!");
+      setTimeout(() => {
+        setShowSignInModal(false);
+        navigate("/dashboard");
+      }, 400);
+    } catch (error: any) {
+      console.error("Login error:", error);
+      const errorMessage = error?.message || "Sign in failed.";
+
+      if (errorMessage.includes("Invalid login credentials")) {
+        toast.error("Invalid credentials. Please check your email and password.");
+      } else if (errorMessage.includes("Email not confirmed")) {
+        toast.error("Email not confirmed. Please check your inbox.");
+      } else {
+        toast.error("Sign in failed. Please check your credentials.");
+      }
+      setSignInClicked(false);
+    }
+  };
 
   return (
     <Modal showModal={showSignInModal} setShowModal={setShowSignInModal}>
@@ -28,33 +59,79 @@ function SignInModal({
           <a href={siteConfig.url}>
             <Icons.logo className="size-10" />
           </a>
-          <h3 className="font-urban text-2xl font-bold">Sign In</h3>
-          <p className="text-sm text-gray-500">
-            This is strictly for demo purposes - only your email and profile
-            picture will be stored.
+          <h3 className="text-2xl font-bold">Sign In</h3>
+          <p className="text-sm text-muted-foreground">
+            Sign in to access your courses and learning materials
           </p>
         </div>
 
         <div className="flex flex-col space-y-4 bg-secondary/50 px-4 py-8 md:px-16">
-          <Button
-            variant="default"
-            disabled={signInClicked}
-            onClick={() => {
-              setSignInClicked(true);
-              signIn("google", { redirect: false }).then(() =>
-                setTimeout(() => {
-                  setShowSignInModal(false);
-                }, 400),
-              );
-            }}
-          >
-            {signInClicked ? (
-              <Icons.spinner className="mr-2 size-4 animate-spin" />
-            ) : (
-              <Icons.google className="mr-2 size-4" />
-            )}{" "}
-            Sign In with Google
-          </Button>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label
+                htmlFor="modal-email"
+                className="block text-sm font-medium mb-2"
+              >
+                Email
+              </label>
+              <input
+                id="modal-email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                placeholder="your.email@example.com"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="modal-password"
+                className="block text-sm font-medium mb-2"
+              >
+                Password
+              </label>
+              <input
+                id="modal-password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              variant="default"
+              disabled={signInClicked}
+              className="w-full"
+            >
+              {signInClicked ? (
+                <>
+                  <Icons.spinner className="mr-2 size-4 animate-spin" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign In"
+              )}
+            </Button>
+          </form>
+
+          <div className="text-center text-sm">
+            <span className="text-muted-foreground">Don't have an account? </span>
+            <button
+              onClick={() => {
+                setShowSignInModal(false);
+                navigate("/auth/register");
+              }}
+              className="text-primary hover:underline font-medium"
+            >
+              Sign up
+            </button>
+          </div>
         </div>
       </div>
     </Modal>
