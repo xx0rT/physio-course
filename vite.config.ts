@@ -12,6 +12,14 @@ export default defineConfig({
   optimizeDeps: {
     include: ['next-themes', '@supabase/supabase-js', 'recharts'],
   },
+  build: {
+    commonjsOptions: {
+      include: [/recharts/, /node_modules/],
+    },
+  },
+  ssr: {
+    noExternal: ['recharts'],
+  },
   server: {
     port: 3000,
     open: true,
