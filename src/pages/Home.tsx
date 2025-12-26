@@ -10,8 +10,6 @@ import AsSeenOnSection from "@/components/home/asSeenOnSection";
 import TestimonialSection from "@/components/home/testimonialSection";
 import SkillsSection from "@/components/home/skillsSection";
 import FAQSection from "@/components/home/FAQSection";
-import CourseShowcaseSection from "@/components/home/CourseShowcaseSection";
-import BlogPreviewSection from "@/components/home/BlogPreviewSection";
 import ScrollProgress from "@/components/shared/scroll-progress";
 import StickySection from "@/components/shared/sticky-section";
 
@@ -40,10 +38,6 @@ export default function HomePage() {
         <AboutUsSection />
       </StickySection>
 
-      <StickySection id="course-showcase" stickyLabel="Studijní program">
-        <CourseShowcaseSection />
-      </StickySection>
-
       <StickySection id="services" stickyLabel="Naše služby">
         <BentoGrid />
       </StickySection>
@@ -63,10 +57,6 @@ export default function HomePage() {
 
       <StickySection id="stats" stickyLabel="Statistiky">
         <SkillsSection />
-      </StickySection>
-
-      <StickySection id="blog" stickyLabel="Blog">
-        <BlogPreviewSection />
       </StickySection>
 
       <StickySection id="faq" stickyLabel="Časté dotazy">
