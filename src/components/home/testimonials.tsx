@@ -5,19 +5,19 @@ const testimonials = [
     name: "Jana Nováková",
     job: "Sportovní trenérka",
     image: "/home/person1.png",
-    review: "Po zranění kolene jsem potřebovala odbornou péči. Díky individuálnímu přístupu fyzioterapeutů jsem se vrátila ke sportu rychleji, než jsem očekávala."
+    review: "Po zranění kolene jsem potřebovala odbornou péči. "
   },
   {
     name: "Petr Dvořák",
     job: "IT specialista",
     image: "/home/person2.png",
-    review: "Trpěl jsem chronickými bolestmi zad kvůli sedavému zaměstnání. Online kurzy ergonomie a pravidelná cvičení mi úplně změnila kvalitu života. Doporučuji všem v kancelářské práci! Přístup fyzioterapeutů je profesionální a vždy se přizpůsobí mým potřebám. Po třech měsících jsem bez bolesti."
+    review: "you havent added why choose us? section and our certificates section also please add into middle more top above Vytváříme komunitu celoživotních studentů fyzioterapie. add there a slider with something like Taky jste nás mohli vidět na: and under the header will be sliding logos with the firms"
   },
   {
     name: "Marie Svobodová",
     job: "Důchodkyně",
     image: "/home/person3.png",
-    review: "Ve svém věku jsem měla obavy z cvičení, ale fyzioterapeuti mě skvěle vedli. Postupné posílení svalů a zlepšení pohyblivosti mi vrátilo samostatnost."
+    review: "Ve svém věku jsem měla obavy z cvičení, ale fyzioterapeuti mě skvěle vedli. Postupné posílení svalů."
   },
   {
     name: "Tomáš Procházka",
@@ -29,13 +29,13 @@ const testimonials = [
     name: "Lucie Kratochvílová",
     job: "Učitelka",
     image: "/home/person5.png",
-    review: "Migrény a napětí v krční páteři mě trápily roky. Komplexní přístup zahrnující masáže, protahovací cvičení a edukaci o správném držení těla mi konečně přinesl úlevu. Teď můžu zase normálně pracovat a užívat si života bez neustálých bolestí hlavy."
+    review: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
   },
   {
     name: "Jan Marek",
     job: "Stavební dělník",
     image: "/home/person6.png",
-    review: "Pracovní úraz mi způsobil vážné problémy s páteří. Díky strukturovanému rehabilitačnímu programu jsem se mohl vrátit k práci. Profesionální péče na vysoké úrovni."
+    review: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
   }
 ];
 
