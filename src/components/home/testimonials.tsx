@@ -5,37 +5,37 @@ const testimonials = [
     name: "Jana Nováková",
     job: "Sportovní trenérka",
     image: "/home/person1.png",
-    review: "Po zranění kolene jsem potřebovala odbornou péči. Díky individuálnímu přístupu fyzioterapeutů jsem se vrátila ke sportu rychleji, než jsem očekávala. Perfektní kombinace manuální terapie a cvičení."
+    review: "Po zranění kolene jsem potřebovala odbornou péči. Díky individuálnímu přístupu fyzioterapeutů jsem se vrátila ke sportu rychleji, než jsem očekávala."
   },
   {
     name: "Petr Dvořák",
     job: "IT specialista",
     image: "/home/person2.png",
-    review: "Trpěl jsem chronickými bolestmi zad kvůli sedavému zaměstnání. Online kurzy ergonomie a pravidelná cvičení mi úplně změnila kvalitu života. Doporučuji všem v kancelářské práci!"
+    review: "Trpěl jsem chronickými bolestmi zad kvůli sedavému zaměstnání. Online kurzy ergonomie a pravidelná cvičení mi úplně změnila kvalitu života. Doporučuji všem v kancelářské práci! Přístup fyzioterapeutů je profesionální a vždy se přizpůsobí mým potřebám. Po třech měsících jsem bez bolesti."
   },
   {
     name: "Marie Svobodová",
     job: "Důchodkyně",
     image: "/home/person3.png",
-    review: "Ve svém věku jsem měla obavy z cvičení, ale fyzioterapeuti mě skvěle vedli. Postupné posílení svalů a zlepšení pohyblivosti mi vrátilo samostatnost. Děkuji za trpělivost a profesionalitu."
+    review: "Ve svém věku jsem měla obavy z cvičení, ale fyzioterapeuti mě skvěle vedli. Postupné posílení svalů a zlepšení pohyblivosti mi vrátilo samostatnost."
   },
   {
     name: "Tomáš Procházka",
     job: "Manažer",
     image: "/home/person4.png",
-    review: "Po operaci ramene byla rehabilitace klíčová. Online konzultace a přizpůsobený cvičební plán mi umožnily cvičit z domova podle vlastního harmonogramu. Výsledky překonaly očekávání."
+    review: "Po operaci ramene byla rehabilitace klíčová. Online konzultace mi umožnily cvičit z domova podle vlastního harmonogramu."
   },
   {
     name: "Lucie Kratochvílová",
     job: "Učitelka",
     image: "/home/person5.png",
-    review: "Migrény a napětí v krční páteři mě trápily roky. Komplexní přístup zahrnující masáže, protahovací cvičení a edukaci o správném držení těla mi konečně přinesl úlevu."
+    review: "Migrény a napětí v krční páteři mě trápily roky. Komplexní přístup zahrnující masáže, protahovací cvičení a edukaci o správném držení těla mi konečně přinesl úlevu. Teď můžu zase normálně pracovat a užívat si života bez neustálých bolestí hlavy."
   },
   {
     name: "Jan Marek",
     job: "Stavební dělník",
     image: "/home/person6.png",
-    review: "Pracovní úraz mi způsobil vážné problémy s páteří. Díky strukturovanému rehabilitačnímu programu a pravidelným konzultacím jsem se mohl vrátit k práci. Profesionální péče na vysoké úrovni."
+    review: "Pracovní úraz mi způsobil vážné problémy s páteří. Díky strukturovanému rehabilitačnímu programu jsem se mohl vrátit k práci. Profesionální péče na vysoké úrovni."
   }
 ];
 
