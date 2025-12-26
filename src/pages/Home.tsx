@@ -8,14 +8,14 @@ import TestimonialSection from "@/components/home/testimonialSection";
 import InstructorsSection from "@/components/home/InstructorsSection";
 import FAQSection from "@/components/home/FAQSection";
 import BentoGrid from "@/components/home/bentogrid";
-import PreviewLanding from "@/components/home/preview-landing";
 import Testimonials from "@/components/home/testimonials";
+import Features from "@/components/home/features";
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <PreviewLanding />
+      <Features />
       <CategoriesSection />
       <CoursesSection />
       <BentoGrid />
