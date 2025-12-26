@@ -1,12 +1,23 @@
-import Image from "next/image";
-import { InfoLdg } from "@/types";
-
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/shared/icons";
 import MaxWidthWrapper from "@/components/shared/max-width-wrapper";
 
+interface InfoItem {
+  icon?: keyof typeof Icons;
+  title: string;
+  description: string;
+}
+
+interface InfoLandingData {
+  title: string;
+  description: string;
+  image: string;
+  list: InfoItem[];
+}
+
 interface InfoLandingProps {
-  data: InfoLdg;
+  data: InfoLandingData;
   reverse?: boolean;
 }
 
@@ -15,10 +26,16 @@ export default function InfoLanding({
   reverse = false,
 }: InfoLandingProps) {
   return (
-    <div className="py-10 sm:py-20">
+    <div className="py-10 sm:py-20 bg-gradient-to-br from-white via-teal-50/20 to-white dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-900">
       <MaxWidthWrapper className="grid gap-10 px-2.5 lg:grid-cols-2 lg:items-center lg:px-7">
-        <div className={cn(reverse ? "lg:order-2" : "lg:order-1")}>
-          <h2 className="font-heading text-2xl text-foreground md:text-4xl lg:text-[40px]">
+        <motion.div
+          initial={{ opacity: 0, x: reverse ? 50 : -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className={cn(reverse ? "lg:order-2" : "lg:order-1")}
+        >
+          <h2 className="text-2xl font-bold text-foreground md:text-4xl lg:text-[40px]">
             {data.title}
           </h2>
           <p className="mt-4 text-base text-muted-foreground">
@@ -26,38 +43,47 @@ export default function InfoLanding({
           </p>
           <dl className="mt-6 space-y-4 leading-7">
             {data.list.map((item, index) => {
-              const Icon = Icons[item.icon || "arrowRight"];
+              const Icon = Icons[item.icon || "check"];
               return (
-                <div className="relative pl-8" key={index}>
-                  <dt className="font-semibold">
-                    <Icon className="absolute left-0 top-1 size-5 stroke-purple-700" />
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="relative pl-8"
+                >
+                  <dt className="font-semibold text-foreground">
+                    <Icon className="absolute left-0 top-1 size-5 text-teal-600 dark:text-teal-400" />
                     <span>{item.title}</span>
                   </dt>
                   <dd className="text-sm text-muted-foreground">
                     {item.description}
                   </dd>
-                </div>
+                </motion.div>
               );
             })}
           </dl>
-        </div>
-        <div
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: reverse ? -50 : 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
           className={cn(
-            "overflow-hidden rounded-xl border lg:-m-4",
-            reverse ? "order-1" : "order-2",
+            "overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 shadow-xl lg:-m-4",
+            reverse ? "lg:order-1" : "lg:order-2",
           )}
         >
           <div className="aspect-video">
-            <Image
+            <img
               className="size-full object-cover object-center"
               src={data.image}
               alt={data.title}
-              width={1000}
-              height={500}
-              priority={true}
+              loading="lazy"
             />
           </div>
-        </div>
+        </motion.div>
       </MaxWidthWrapper>
     </div>
   );
