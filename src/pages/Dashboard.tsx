@@ -79,7 +79,7 @@ export default function Dashboard() {
       return;
     }
     loadDashboardData();
-  }, [user, navigate]);
+  }, [user?._id]);
 
   const loadDashboardData = async () => {
     if (!user) return;

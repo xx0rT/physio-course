@@ -7,7 +7,7 @@ const HeroSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="relative w-full min-h-screen flex items-center px-5 md:px-10 pt-32 md:py-20 bg-gradient-to-br from-teal-50/30 via-white to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 overflow-hidden">
+    <section className="relative w-full min-h-screen flex items-center px-5 md:px-10 pt-32 md:py-20 bg-gradient-to-br from-teal-50/30 via-white to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 overflow-hidden transition-all duration-700 ease-in-out">
       {/* Animated decorative background elements */}
       <motion.div
         className="absolute top-20 right-10 w-72 h-72 bg-teal-100/30 dark:bg-teal-900/10 rounded-full blur-3xl"

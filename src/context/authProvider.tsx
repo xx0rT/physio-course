@@ -499,19 +499,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     init();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          await checkUser();
-        } else if (event === 'SIGNED_OUT') {
-          setUser(null);
-        }
+      (event, session) => {
+        (async () => {
+          if (event === 'SIGNED_IN' && session) {
+            await checkUser();
+          } else if (event === 'SIGNED_OUT') {
+            setUser(null);
+            setSubscription(null);
+            setHasActiveSubscription(false);
+          }
+        })();
       }
     );
 
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [checkUser, checkCourses]);
+  }, []);
 
   const fetchCourseById = useCallback(
     async (id: string) => {

@@ -20,7 +20,7 @@ const SkillsSection = () => {
 
   return (
     <section
-      className="max-w-7xl mx-auto px-5 md:px-10 md:py-20 pt-32 bg-cover bg-center rounded-lg flex justify-center items-center"
+      className="max-w-7xl mx-auto px-5 md:px-10 md:py-20 pt-32 bg-cover bg-center rounded-lg flex justify-center items-center transition-all duration-700 ease-in-out"
       style={{ backgroundImage: "url('/home/skill background.png')" }}
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5 items-center text-center justify-center">

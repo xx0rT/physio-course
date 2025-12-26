@@ -10,7 +10,7 @@ const AboutUsSection = () => {
   return (
     <section
       ref={ref}
-      className="relative max-w-7xl mx-auto px-5 md:px-10 md:py-20 pt-32 mt-3 flex flex-col lg:flex-row justify-center items-center gap-20 min-h-screen"
+      className="relative max-w-7xl mx-auto px-5 md:px-10 md:py-20 pt-32 mt-3 flex flex-col lg:flex-row justify-center items-center gap-20 min-h-screen transition-all duration-700 ease-in-out"
     >
       {/* Decorative dots pattern */}
       <div className="absolute top-10 right-20 w-32 h-32 opacity-20">
@@ -48,11 +48,13 @@ const AboutUsSection = () => {
           {t("AboutUsSection.sectionTitle")}
         </p>
 
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mt-4 text-neutral-900 dark:text-white">
-          {t("AboutUsSection.headline")}{" "}
-          <span className="relative inline-block">{t("AboutUsSection.highlight")}</span>
+        <h1 className="text-2xl sm:text-3xl lg:text-5xl font-bold mt-4 leading-tight">
+          <span className="text-neutral-900 dark:text-white">{t("AboutUsSection.headline")}{" "}</span>
+          <span className="relative inline-block bg-gradient-to-r from-purple-600 via-blue-500 to-teal-400 bg-clip-text text-transparent">
+            {t("AboutUsSection.highlight")}
+          </span>
           <br />
-          {t("AboutUsSection.subheadline")}
+          <span className="text-neutral-900 dark:text-white">{t("AboutUsSection.subheadline")}</span>
         </h1>
 
         <p className="  text-neutral-500 dark:text-neutral-400 text-sm sm:text-base">

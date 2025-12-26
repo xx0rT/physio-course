@@ -13,7 +13,7 @@ const WhyChooseUsSection = () => {
   ];
 
   return (
-    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24 flex flex-col lg:flex-row justify-between items-center gap-16 cursor-default overflow-x-hidden bg-gradient-to-br from-white via-teal-50/20 to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 rounded-3xl my-20">
+    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24 flex flex-col lg:flex-row justify-between items-center gap-16 cursor-default overflow-x-hidden bg-gradient-to-br from-white via-teal-50/20 to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 rounded-3xl my-20 transition-all duration-700 ease-in-out">
       {/* Decorative elements */}
       <div className="absolute top-20 right-20 w-32 h-32 opacity-20">
         <div className="grid grid-cols-8 gap-2">

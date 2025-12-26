@@ -11,7 +11,7 @@ const CoursesSection = () => {
   const { courses ,loading } = useAuth();
 
   return (
-    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24">
+    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24 transition-all duration-700 ease-in-out">
       <ToastContainer
         position="top-right"
         autoClose={5000}
