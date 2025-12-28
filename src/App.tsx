@@ -68,7 +68,8 @@ function App() {
                 <Route path="/faq" element={<FAQPage />} />
                 <Route path="/support" element={<SupportPage />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/dashboard" element={<EnhancedProfilePage />} />
+                <Route path="/dashboard/stats" element={<DashboardPage />} />
                 <Route path="/dashboard/cart" element={<CartPage />} />
                 <Route path="/dashboard/checkout" element={<CheckoutPage />} />
                 <Route path="/dashboard/my-learning" element={<MyLearningPage />} />
@@ -79,7 +80,6 @@ function App() {
                 <Route path="/auth/addCourses" element={<AddCoursesPage />} />
                 <Route path="/auth/update-profile" element={<UpdateProfilePage />} />
                 <Route path="/auth/update-password" element={<UpdatePasswordPage />} />
-                <Route path="/profile" element={<EnhancedProfilePage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>
