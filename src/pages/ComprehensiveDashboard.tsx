@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/authProvider";
 import { supabase } from "@/lib/supabase";
+import { DashboardSidebarFixed, MobileSheetSidebar } from "@/components/dashboard/dashboard-sidebar-fixed";
 import { DashboardHeader } from "@/components/dashboard/header copy";
 import { SearchCommandFixed } from "@/components/dashboard/search-command-fixed";
 import { InfoCard } from "@/components/dashboard/info-cards";
@@ -94,17 +95,24 @@ export default function ComprehensiveDashboard() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-950 dark:to-neutral-900 py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <DashboardHeader
-            heading="Dashboard Overview"
-            text="Welcome back! Here's what's happening with your learning journey."
-          />
-          <SearchCommandFixed links={dashboardConfig.sidebarNav} />
-        </div>
+    <div className="flex min-h-screen bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-950 dark:to-neutral-900">
+      <DashboardSidebarFixed links={dashboardConfig.sidebarNav} />
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="flex-1">
+        <div className="container max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <MobileSheetSidebar links={dashboardConfig.sidebarNav} />
+            <div className="flex-1 ml-4 md:ml-0">
+              <DashboardHeader
+                heading="Dashboard Overview"
+                text="Welcome back! Here's what's happening with your learning journey."
+              />
+            </div>
+            <SearchCommandFixed links={dashboardConfig.sidebarNav} />
+          </div>
+
+          <div className="space-y-8">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <InfoCard
             title="Total Courses"
             value={`${stats.total_courses}`}
@@ -224,6 +232,8 @@ export default function ComprehensiveDashboard() {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
           </div>
         </div>
       </div>

@@ -1,9 +1,6 @@
-"use client";
-
 import { Fragment, useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { NavItem, SidebarNavItem } from "@/types";
+import { Link, useLocation } from "react-router-dom";
+import { SidebarNavItem } from "@/types";
 import { Menu, PanelLeftClose, PanelRightClose } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
@@ -20,34 +17,16 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import ProjectSwitcher from "@/components/dashboard/project-switcher";
-import { UpgradeCard } from "@/components/dashboard/upgrade-card";
+import { UpgradeCard } from "@/components/dashboard/upgrade-card copy copy";
 import { Icons } from "@/components/shared/icons";
 
 interface DashboardSidebarProps {
   links: SidebarNavItem[];
 }
 
-export function DashboardSidebar({ links }: DashboardSidebarProps) {
-  const path = usePathname();
-
-  // NOTE: Use this if you want save in local storage -- Credits: Hosna Qasmei
-  //
-  // const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
-  //   if (typeof window !== "undefined") {
-  //     const saved = window.localStorage.getItem("sidebarExpanded");
-  //     return saved !== null ? JSON.parse(saved) : true;
-  //   }
-  //   return true;
-  // });
-
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     window.localStorage.setItem(
-  //       "sidebarExpanded",
-  //       JSON.stringify(isSidebarExpanded),
-  //     );
-  //   }
-  // }, [isSidebarExpanded]);
+export function DashboardSidebarFixed({ links }: DashboardSidebarProps) {
+  const location = useLocation();
+  const path = location.pathname;
 
   const { isTablet } = useMediaQuery();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(!isTablet);
@@ -108,7 +87,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                     ) : (
                       <div className="h-4" />
                     )}
-                    {section.items.map((item) => {
+                    {section.items?.map((item) => {
                       const Icon = Icons[item.icon || "arrowRight"];
                       return (
                         item.href && (
@@ -116,7 +95,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                             {isSidebarExpanded ? (
                               <Link
                                 key={`link-${item.title}`}
-                                href={item.disabled ? "#" : item.href}
+                                to={item.disabled ? "#" : item.href}
                                 className={cn(
                                   "flex items-center gap-3 rounded-md p-2 text-sm font-medium hover:bg-muted",
                                   path === item.href
@@ -139,7 +118,7 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
                                 <TooltipTrigger asChild>
                                   <Link
                                     key={`link-tooltip-${item.title}`}
-                                    href={item.disabled ? "#" : item.href}
+                                    to={item.disabled ? "#" : item.href}
                                     className={cn(
                                       "flex items-center gap-3 rounded-md py-2 text-sm font-medium hover:bg-muted",
                                       path === item.href
@@ -179,7 +158,8 @@ export function DashboardSidebar({ links }: DashboardSidebarProps) {
 }
 
 export function MobileSheetSidebar({ links }: DashboardSidebarProps) {
-  const path = usePathname();
+  const location = useLocation();
+  const path = location.pathname;
   const [open, setOpen] = useState(false);
   const { isSm, isMobile } = useMediaQuery();
 
@@ -201,7 +181,7 @@ export function MobileSheetSidebar({ links }: DashboardSidebarProps) {
             <div className="flex h-screen flex-col">
               <nav className="flex flex-1 flex-col gap-y-8 p-6 text-lg font-medium">
                 <Link
-                  href="#"
+                  to="/"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
                   <Icons.logo className="size-6" />
@@ -221,7 +201,7 @@ export function MobileSheetSidebar({ links }: DashboardSidebarProps) {
                       {section.title}
                     </p>
 
-                    {section.items.map((item) => {
+                    {section.items?.map((item) => {
                       const Icon = Icons[item.icon || "arrowRight"];
                       return (
                         item.href && (
@@ -231,7 +211,7 @@ export function MobileSheetSidebar({ links }: DashboardSidebarProps) {
                               onClick={() => {
                                 if (!item.disabled) setOpen(false);
                               }}
-                              href={item.disabled ? "#" : item.href}
+                              to={item.disabled ? "#" : item.href}
                               className={cn(
                                 "flex items-center gap-3 rounded-md p-2 text-sm font-medium hover:bg-muted",
                                 path === item.href
