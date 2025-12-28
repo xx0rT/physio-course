@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/authProvider";
 import { supabase } from "@/lib/supabase";
 import { DashboardSidebarFixed, MobileSheetSidebar } from "@/components/dashboard/dashboard-sidebar-fixed";
-import { DashboardHeader } from "@/components/dashboard/header copy";
+import { DashboardHeader } from "@/components/dashboard/header";
 import { SearchCommandFixed } from "@/components/dashboard/search-command-fixed";
 import { InfoCard } from "@/components/dashboard/info-cards";
-import { InteractiveBarChart } from "@/components/dashboard/interactive-bar-chart copy copy";
-import { RadialShapeChart } from "@/components/dashboard/radial-shape-chart copy";
+import { InteractiveBarChart } from "@/components/dashboard/interactive-bar-chart";
+import { RadialShapeChart } from "@/components/dashboard/radial-shape-chart";
 import { TransactionsListFixed } from "@/components/dashboard/transactions-list-fixed";
-import { UpgradeCard } from "@/components/dashboard/upgrade-card copy copy";
+import { UpgradeCard } from "@/components/dashboard/upgrade-card";
 import { dashboardConfig } from "@/config/dashboard";
 import { toast } from "react-toastify";
 
@@ -221,7 +221,7 @@ export default function ComprehensiveDashboard() {
                 { label: "Continue Learning", path: "/dashboard/my-learning" },
                 { label: "Browse Courses", path: "/courses" },
                 { label: "View Certificates", path: "/dashboard/stats#certificates" },
-                { label: "Update Profile", path: "/auth/update-profile" },
+                { label: "View Profile", path: "/dashboard/profile" },
               ].map((action) => (
                 <button
                   key={action.label}
