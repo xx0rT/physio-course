@@ -7,6 +7,8 @@ import { SearchCommandFixed } from "@/components/dashboard/search-command-fixed"
 import { InfoCard } from "@/components/dashboard/info-cards";
 import { InteractiveBarChart } from "@/components/dashboard/interactive-bar-chart copy copy";
 import { RadialShapeChart } from "@/components/dashboard/radial-shape-chart copy";
+import { TransactionsListFixed } from "@/components/dashboard/transactions-list-fixed";
+import { UpgradeCard } from "@/components/dashboard/upgrade-card copy copy";
 import { dashboardConfig } from "@/config/dashboard";
 import { toast } from "react-toastify";
 
@@ -138,6 +140,11 @@ export default function ComprehensiveDashboard() {
           </div>
         </div>
 
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+          <TransactionsListFixed />
+          <UpgradeCard />
+        </div>
+
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="bg-white dark:bg-neutral-900 rounded-xl p-6 shadow-md col-span-full lg:col-span-2">
             <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4">
@@ -159,6 +166,16 @@ export default function ComprehensiveDashboard() {
                   title: "Achievement Unlocked: Quick Learner",
                   time: "1 day ago",
                   type: "warning",
+                },
+                {
+                  title: "New Certificate Earned",
+                  time: "2 days ago",
+                  type: "success",
+                },
+                {
+                  title: "Joined Study Group: Web Development",
+                  time: "3 days ago",
+                  type: "info",
                 },
               ].map((activity, index) => (
                 <div

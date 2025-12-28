@@ -19,14 +19,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export default function TransactionsList() {
+export function TransactionsListFixed() {
   return (
     <Card className="xl:col-span-2">
       <CardHeader className="flex flex-row items-center">
         <div className="grid gap-2">
-          <CardTitle>Transactions</CardTitle>
+          <CardTitle>Recent Enrollments</CardTitle>
           <CardDescription className="text-balance">
-            Recent transactions from your store.
+            Latest course enrollments and purchases.
           </CardDescription>
         </div>
         <Button size="sm" className="ml-auto shrink-0 gap-1 px-4" asChild>
@@ -40,7 +40,7 @@ export default function TransactionsList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Customer</TableHead>
+              <TableHead>Course</TableHead>
               <TableHead className="hidden xl:table-column">Type</TableHead>
               <TableHead className="hidden xl:table-column">Status</TableHead>
               <TableHead className="hidden xl:table-column">Date</TableHead>
@@ -50,95 +50,95 @@ export default function TransactionsList() {
           <TableBody>
             <TableRow>
               <TableCell>
-                <div className="font-medium">Liam Johnson</div>
+                <div className="font-medium">React Advanced Patterns</div>
                 <div className="hidden text-sm text-muted-foreground md:inline">
-                  liam@example.com
+                  Advanced Development
                 </div>
               </TableCell>
-              <TableCell className="hidden xl:table-column">Sale</TableCell>
+              <TableCell className="hidden xl:table-column">Premium</TableCell>
               <TableCell className="hidden xl:table-column">
                 <Badge className="text-xs" variant="outline">
-                  Approved
+                  Completed
                 </Badge>
               </TableCell>
               <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-23
+                2024-12-23
               </TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
+              <TableCell className="text-right">$89.00</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <div className="font-medium">Olivia Smith</div>
+                <div className="font-medium">TypeScript Masterclass</div>
                 <div className="hidden text-sm text-muted-foreground md:inline">
-                  olivia@example.com
+                  Programming Fundamentals
                 </div>
               </TableCell>
-              <TableCell className="hidden xl:table-column">Refund</TableCell>
+              <TableCell className="hidden xl:table-column">Standard</TableCell>
               <TableCell className="hidden xl:table-column">
                 <Badge className="text-xs" variant="outline">
-                  Declined
+                  In Progress
                 </Badge>
               </TableCell>
               <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-24
+                2024-12-24
               </TableCell>
-              <TableCell className="text-right">$150.00</TableCell>
+              <TableCell className="text-right">$59.00</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <div className="font-medium">Noah Williams</div>
+                <div className="font-medium">Full Stack Development</div>
                 <div className="hidden text-sm text-muted-foreground md:inline">
-                  noah@example.com
+                  Web Development
                 </div>
               </TableCell>
               <TableCell className="hidden xl:table-column">
-                Subscription
+                Premium
               </TableCell>
               <TableCell className="hidden xl:table-column">
                 <Badge className="text-xs" variant="outline">
-                  Approved
+                  Enrolled
                 </Badge>
               </TableCell>
               <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-25
+                2024-12-25
               </TableCell>
-              <TableCell className="text-right">$350.00</TableCell>
+              <TableCell className="text-right">$129.00</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <div className="font-medium">Emma Brown</div>
+                <div className="font-medium">UI/UX Design Principles</div>
                 <div className="hidden text-sm text-muted-foreground md:inline">
-                  emma@example.com
+                  Design & Creative
                 </div>
               </TableCell>
-              <TableCell className="hidden xl:table-column">Sale</TableCell>
+              <TableCell className="hidden xl:table-column">Standard</TableCell>
               <TableCell className="hidden xl:table-column">
                 <Badge className="text-xs" variant="outline">
-                  Approved
+                  Completed
                 </Badge>
               </TableCell>
               <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-26
+                2024-12-26
               </TableCell>
-              <TableCell className="text-right">$450.00</TableCell>
+              <TableCell className="text-right">$75.00</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>
-                <div className="font-medium">Liam Johnson</div>
+                <div className="font-medium">Python for Data Science</div>
                 <div className="hidden text-sm text-muted-foreground md:inline">
-                  liam@example.com
+                  Data & Analytics
                 </div>
               </TableCell>
-              <TableCell className="hidden xl:table-column">Sale</TableCell>
+              <TableCell className="hidden xl:table-column">Premium</TableCell>
               <TableCell className="hidden xl:table-column">
                 <Badge className="text-xs" variant="outline">
-                  Approved
+                  In Progress
                 </Badge>
               </TableCell>
               <TableCell className="hidden md:table-cell lg:hidden xl:table-column">
-                2023-06-27
+                2024-12-27
               </TableCell>
-              <TableCell className="text-right">$550.00</TableCell>
+              <TableCell className="text-right">$99.00</TableCell>
             </TableRow>
           </TableBody>
         </Table>

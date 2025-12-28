@@ -1,20 +1,19 @@
-"use client";
-
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
-import { SectionColumns } from "@/components/dashboard/section-columns";
-import { useDeleteAccountModal } from "@/components/modals/delete-account-modal";
+import { SectionColumns } from "@/components/shared/section-columns";
 import { Icons } from "@/components/shared/icons";
 
 export function DeleteAccountSection() {
-  const { setShowDeleteAccountModal, DeleteAccountModal } =
-    useDeleteAccountModal();
-
   const userPaidPlan = true;
+
+  const handleDeleteClick = () => {
+    if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+      console.log('Delete account requested');
+    }
+  };
 
   return (
     <>
-      <DeleteAccountModal />
       <SectionColumns
         title="Delete Account"
         description="This is a danger zone - Be careful !"
@@ -43,7 +42,7 @@ export function DeleteAccountSection() {
             <Button
               type="submit"
               variant="destructive"
-              onClick={() => setShowDeleteAccountModal(true)}
+              onClick={handleDeleteClick}
             >
               <Icons.trash className="mr-2 size-4" />
               <span>Delete Account</span>
