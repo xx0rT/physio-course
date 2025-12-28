@@ -57,7 +57,7 @@ export default function ProfileOverview() {
         </div>
 
         <button
-          onClick={() => navigate('/dashboard/settings')}
+          onClick={() => navigate('/auth/update-profile')}
           className="bg-white/20 hover:bg-white/30 backdrop-blur-sm px-6 py-3 rounded-xl flex items-center gap-2 transition-all"
         >
           <FaEdit />
