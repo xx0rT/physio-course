@@ -31,3 +31,21 @@ export function useMediaQuery() {
 
   return { isMobile, isSm, isTablet };
 }
+
+export function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mobileQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mobileQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mobileQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  return isMobile;
+}
