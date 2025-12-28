@@ -99,7 +99,7 @@ export default function ComprehensiveDashboard() {
       <DashboardSidebarFixed links={dashboardConfig.sidebarNav} />
 
       <div className="flex-1">
-        <div className="container max-w-7xl pt-24 pb-8 px-4 sm:px-6 lg:px-8">
+        <div className="container max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <MobileSheetSidebar links={dashboardConfig.sidebarNav} />
             <div className="flex-1 ml-4 md:ml-0">
