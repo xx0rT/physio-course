@@ -27,7 +27,7 @@ export const dashboardConfig: DashboardConfig = {
       items: [
         {
           title: "Profile Settings",
-          href: "/auth/update-profile",
+          href: "/dashboard/settings",
           icon: "users",
         },
         {

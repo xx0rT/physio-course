@@ -647,7 +647,7 @@ export default function Dashboard() {
                     <p className="text-neutral-800 dark:text-white">{user?.email}</p>
                   </div>
                   <button
-                    onClick={() => navigate('/auth/update-profile')}
+                    onClick={() => navigate('/dashboard/settings')}
                     className="button1 px-6 py-2 rounded-lg"
                   >
                     Upravit profil

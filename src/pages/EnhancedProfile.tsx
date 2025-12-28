@@ -327,7 +327,7 @@ export default function EnhancedProfile() {
                     { label: "Browse Courses", path: "/courses" },
                     { label: "My Learning", path: "/my-learning" },
                     { label: "Dashboard", path: "/dashboard" },
-                    { label: "Settings", path: "/auth/update-profile" }
+                    { label: "Settings", path: "/dashboard/settings" }
                   ].map((action, index) => (
                     <motion.button
                       key={action.label}

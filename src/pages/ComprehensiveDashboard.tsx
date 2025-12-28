@@ -221,7 +221,7 @@ export default function ComprehensiveDashboard() {
                 { label: "Continue Learning", path: "/dashboard/my-learning" },
                 { label: "Browse Courses", path: "/courses" },
                 { label: "View Certificates", path: "/dashboard/stats#certificates" },
-                { label: "Update Profile", path: "/auth/update-profile" },
+                { label: "Update Profile", path: "/dashboard/settings" },
               ].map((action) => (
                 <button
                   key={action.label}
