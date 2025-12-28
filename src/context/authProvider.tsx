@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
 
-  const api = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const api = import.meta.env.VITE_API_BASE_URL || '';
 
   const apiClient = axios.create({
     baseURL: api,
