@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
@@ -200,7 +198,7 @@ export function InteractiveBarChart() {
                 <ChartTooltipContent
                   className="w-[150px]"
                   nameKey="views"
-                  labelFormatter={(value) => {
+                  labelFormatter={(value: string) => {
                     return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",

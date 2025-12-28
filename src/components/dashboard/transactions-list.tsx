@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -30,10 +29,10 @@ export default function TransactionsList() {
           </CardDescription>
         </div>
         <Button size="sm" className="ml-auto shrink-0 gap-1 px-4">
-          <Link href="#" className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <span>View All</span>
             <ArrowUpRight className="hidden size-4 sm:block" />
-          </Link>
+          </div>
         </Button>
       </CardHeader>
       <CardContent>

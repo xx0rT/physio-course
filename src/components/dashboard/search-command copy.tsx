@@ -1,8 +1,6 @@
-"use client";
-
 import React from "react";
-import { useRouter } from "next/navigation";
-import { SidebarNavItem } from "@/types";
+import { useNavigate } from "react-router-dom";
+import { FaBook, FaChartLine, FaCalendarAlt, FaCertificate, FaArrowRight } from "react-icons/fa";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -14,11 +12,29 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Icons } from "@/components/shared/icons";
+
+type NavItem = {
+  title: string;
+  href: string;
+  icon?: string;
+};
+
+type SidebarNavItem = {
+  title: string;
+  items: NavItem[];
+};
+
+const iconMap: Record<string, React.ElementType> = {
+  book: FaBook,
+  chart: FaChartLine,
+  calendar: FaCalendarAlt,
+  certificate: FaCertificate,
+  arrowRight: FaArrowRight,
+};
 
 export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
   const [open, setOpen] = React.useState(false);
-  const router = useRouter();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -61,12 +77,12 @@ export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
           {links.map((section) => (
             <CommandGroup key={section.title} heading={section.title}>
               {section.items.map((item) => {
-                const Icon = Icons[item.icon || "arrowRight"];
+                const Icon = iconMap[item.icon || "arrowRight"] || FaArrowRight;
                 return (
                   <CommandItem
                     key={item.title}
                     onSelect={() => {
-                      runCommand(() => router.push(item.href as string));
+                      runCommand(() => navigate(item.href as string));
                     }}
                   >
                     <Icon className="mr-2 size-5" />
