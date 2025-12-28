@@ -820,7 +820,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="mt-50px min-h-screen bg-neutral-100 dark:bg-neutral-900 pt-16">
+    <div className="min-h-screen bg-neutral-100 dark:bg-neutral-900 pt-16">
       <ToastContainer position="top-right" autoClose={3000} />
 
       <div style={{ background: 'linear-gradient(135deg, #704FE6 0%, #1e2a47 100%)' }} className="text-white py-8">
