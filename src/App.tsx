@@ -22,6 +22,7 @@ import FAQPage from '@/pages/FAQ';
 import SupportPage from '@/pages/Support';
 import SearchPage from '@/pages/Search';
 import DashboardPage from '@/pages/Dashboard';
+import ComprehensiveDashboard from '@/pages/ComprehensiveDashboard';
 import CartPage from '@/pages/Cart';
 import CheckoutPage from '@/pages/Checkout';
 import MyLearningPage from '@/pages/MyLearning';
@@ -68,7 +69,8 @@ function App() {
                 <Route path="/faq" element={<FAQPage />} />
                 <Route path="/support" element={<SupportPage />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/dashboard" element={<EnhancedProfilePage />} />
+                <Route path="/dashboard" element={<ComprehensiveDashboard />} />
+                <Route path="/dashboard/profile" element={<EnhancedProfilePage />} />
                 <Route path="/dashboard/stats" element={<DashboardPage />} />
                 <Route path="/dashboard/cart" element={<CartPage />} />
                 <Route path="/dashboard/checkout" element={<CheckoutPage />} />

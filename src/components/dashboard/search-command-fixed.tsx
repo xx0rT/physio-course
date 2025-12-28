@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/command";
 import { Icons } from "@/components/shared/icons";
 
-export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
+export function SearchCommandFixed({ links }: { links: SidebarNavItem[] }) {
   const [open, setOpen] = React.useState(false);
-  const router = useNavigate();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -64,7 +64,7 @@ export function SearchCommand({ links }: { links: SidebarNavItem[] }) {
                   <CommandItem
                     key={item.title}
                     onSelect={() => {
-                      runCommand(() => router(item.href as string));
+                      runCommand(() => navigate(item.href as string));
                     }}
                   >
                     <Icon className="mr-2 size-5" />
