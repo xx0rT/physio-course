@@ -18,9 +18,6 @@ const CoursesSection = () => {
         hideProgressBar={false}
       />
 
-      {/* Decorative background blob */}
-      <div className="absolute top-20 left-0 w-96 h-96 bg-teal-100/20 dark:bg-teal-900/10 rounded-full blur-3xl -z-10"></div>
-
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

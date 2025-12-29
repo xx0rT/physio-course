@@ -31,10 +31,7 @@ const InstructorsSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24 overflow-x-hidden bg-gradient-to-br from-purple-50/30 via-white to-teal-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800 rounded-3xl my-20 transition-all duration-700 ease-in-out">
-      {/* Decorative elements */}
-      <div className="absolute top-10 left-10 w-64 h-64 bg-purple-100/30 dark:bg-purple-900/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-teal-100/30 dark:bg-teal-900/10 rounded-full blur-3xl"></div>
+    <section className="relative max-w-7xl mx-auto px-5 md:px-10 py-24 overflow-x-hidden bg-white dark:bg-neutral-900 rounded-3xl my-20 transition-all duration-700 ease-in-out">
 
       <motion.div
       initial={{ opacity: 0, x: -50 }}

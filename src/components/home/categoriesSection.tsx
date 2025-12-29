@@ -90,10 +90,8 @@ const CategoriesSection: React.FC = () => {
     <section
       id="service"
       ref={sectionRef}
-      className="relative max-w-7xl mx-auto text-center px-5 md:px-10 py-24 flex flex-col items-center bg-gradient-to-b from-white via-gray-50/50 to-white dark:from-neutral-900 dark:via-neutral-800/50 dark:to-neutral-900"
+      className="relative max-w-7xl mx-auto text-center px-5 md:px-10 py-24 flex flex-col items-center bg-white dark:bg-neutral-900"
     >
-      {/* Section divider top */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent"></div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -162,9 +160,6 @@ const CategoriesSection: React.FC = () => {
           </motion.div>
         ))}
       </motion.div>
-
-      {/* Section divider bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent"></div>
     </section>
   );
 };

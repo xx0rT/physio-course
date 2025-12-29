@@ -31,19 +31,8 @@ const CertificatesSection = () => {
 
   return (
     <section className="relative w-full py-20 overflow-hidden transition-all duration-700 ease-in-out">
-      {/* Solid white background with minimal grid touches */}
-      <div className="absolute inset-0 bg-white dark:bg-neutral-900">
-        <div
-          className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(to right, rgb(148 163 184 / 0.3) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgb(148 163 184 / 0.3) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-            maskImage: 'radial-gradient(circle at 85% 15%, black 0%, transparent 50%)',
-            WebkitMaskImage: 'radial-gradient(circle at 85% 15%, black 0%, transparent 50%)'
-          }}
-        />
-      </div>
+      {/* Solid white background */}
+      <div className="absolute inset-0 bg-white dark:bg-neutral-900" />
 
       <div className="relative max-w-7xl mx-auto px-5 md:px-10">
         <motion.div

@@ -26,7 +26,7 @@ export default function InfoLanding({
   reverse = false,
 }: InfoLandingProps) {
   return (
-    <div className="py-10 sm:py-20 bg-gradient-to-br from-white via-teal-50/20 to-white dark:from-neutral-900 dark:via-neutral-800 dark:to-neutral-900">
+    <div className="py-10 sm:py-20 bg-white dark:bg-neutral-900">
       <MaxWidthWrapper className="grid gap-10 px-2.5 lg:grid-cols-2 lg:items-center lg:px-7">
         <motion.div
           initial={{ opacity: 0, x: reverse ? 50 : -50 }}

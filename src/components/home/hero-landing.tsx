@@ -9,19 +9,7 @@ export default function HeroLanding() {
   const { courses } = useAuth();
 
   return (
-    <section className="relative space-y-6 py-12 sm:py-20 lg:py-24 overflow-hidden bg-gradient-to-br from-teal-50/30 via-white to-purple-50/20 dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-800">
-      <motion.div
-        className="absolute top-20 right-10 w-72 h-72 bg-teal-100/30 dark:bg-teal-900/10 rounded-full blur-3xl"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-      />
-      <motion.div
-        className="absolute bottom-20 left-10 w-96 h-96 bg-purple-100/30 dark:bg-purple-900/10 rounded-full blur-3xl"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-      />
+    <section className="relative space-y-6 py-12 sm:py-20 lg:py-24 overflow-hidden bg-white dark:bg-neutral-900">
 
       <div className="container flex max-w-5xl flex-col items-center gap-5 text-center relative z-10">
         <motion.div

@@ -12,14 +12,6 @@ const AboutUsSection = () => {
       ref={ref}
       className="relative max-w-7xl mx-auto px-5 md:px-10 md:py-20 pt-32 mt-3 flex flex-col lg:flex-row justify-center items-center gap-20 min-h-screen transition-all duration-700 ease-in-out"
     >
-      {/* Decorative dots pattern */}
-      <div className="absolute top-10 right-20 w-32 h-32 opacity-20">
-        <div className="grid grid-cols-8 gap-2">
-          {[...Array(64)].map((_, i) => (
-            <div key={i} className="w-1 h-1 bg-purple-500 rounded-full"></div>
-          ))}
-        </div>
-      </div>
 
       <motion.div
         initial={{ opacity: 0, x: -50 }}
