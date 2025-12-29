@@ -31,16 +31,16 @@ const CertificatesSection = () => {
 
   return (
     <section className="relative w-full py-20 overflow-hidden transition-all duration-700 ease-in-out">
-      {/* Grid background with gradient - solid white bottom left, grid pattern top right */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white via-white/80 to-transparent dark:from-neutral-900 dark:via-neutral-900/80 dark:to-transparent">
+      {/* Solid white background with minimal grid touches */}
+      <div className="absolute inset-0 bg-white dark:bg-neutral-900">
         <div
-          className="absolute inset-0 opacity-[0.15] dark:opacity-[0.08]"
+          className="absolute inset-0 opacity-[0.05] dark:opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(to right, rgb(148 163 184 / 0.3) 1px, transparent 1px),
                               linear-gradient(to bottom, rgb(148 163 184 / 0.3) 1px, transparent 1px)`,
             backgroundSize: '40px 40px',
-            maskImage: 'radial-gradient(ellipse at top right, black 0%, transparent 70%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at top right, black 0%, transparent 70%)'
+            maskImage: 'radial-gradient(circle at 85% 15%, black 0%, transparent 50%)',
+            WebkitMaskImage: 'radial-gradient(circle at 85% 15%, black 0%, transparent 50%)'
           }}
         />
       </div>
