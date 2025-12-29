@@ -51,10 +51,6 @@ export default function HomePage() {
         <TestimonialSection />
       </StickySection>
 
-      <StickySection id="partners" stickyLabel="Naši partneři">
-        <AsSeenOnSection />
-      </StickySection>
-
       <StickySection id="stats" stickyLabel="Statistiky">
         <SkillsSection />
       </StickySection>
