@@ -7,40 +7,7 @@
 }
 body {
     @apply overflow-x-hidden duration-150 scroll-smooth bg-neutral-50 dark:bg-neutral-900;
-    background-image:
-        linear-gradient(to right, rgb(0 0 0 / 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgb(0 0 0 / 0.05) 1px, transparent 1px),
-        radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.03) 1px, transparent 0);
-    background-size: 60px 60px, 60px 60px, 40px 40px;
     position: relative;
-}
-
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-        radial-gradient(circle at 20% 50%, rgba(20, 184, 166, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(251, 113, 133, 0.08) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-body.dark {
-    background-image:
-        linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px),
-        radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.03) 1px, transparent 0);
-    background-size: 60px 60px, 60px 60px, 40px 40px;
-}
-
-body.dark::before {
-    background:
-        radial-gradient(circle at 20% 50%, rgba(20, 184, 166, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(251, 113, 133, 0.1) 0%, transparent 50%);
 }
 
 h1 {
