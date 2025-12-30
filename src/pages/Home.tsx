@@ -1,4 +1,6 @@
 import HeroSection from "@/components/home/heroSection";
+import CategoriesSection from "@/components/home/categoriesSection";
+import CoursesSection from "@/components/home/CoursesSection";
 import Features from "@/components/home/features";
 import WhyChooseUsSection from "@/components/home/chooseUsSection";
 import CertificatesSection from "@/components/home/certificatesSection";
@@ -20,6 +22,14 @@ export default function HomePage() {
 
       <StickySection id="hero">
         <HeroSection />
+      </StickySection>
+
+      <StickySection id="categories" stickyLabel="Kategorie">
+        <CategoriesSection />
+      </StickySection>
+
+      <StickySection id="courses" stickyLabel="Kurzy">
+        <CoursesSection />
       </StickySection>
 
       <StickySection id="features" stickyLabel="Naše funkce">
