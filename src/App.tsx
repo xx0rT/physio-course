@@ -33,6 +33,7 @@ import BecomeInstructorPage from '@/pages/BecomeInstructor';
 import AddCoursesPage from '@/pages/AddCourses';
 import UpdatePasswordPage from '@/pages/UpdatePassword';
 import EnhancedProfilePage from '@/pages/EnhancedProfile';
+import ProfilePage from '@/pages/Profile';
 import NotFoundPage from '@/pages/NotFound';
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/dashboard" element={<ComprehensiveDashboard />} />
                 <Route path="/dashboard/profile" element={<EnhancedProfilePage />} />
+                <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/dashboard/stats" element={<DashboardPage />} />
                 <Route path="/dashboard/cart" element={<CartPage />} />
                 <Route path="/dashboard/checkout" element={<CheckoutPage />} />
